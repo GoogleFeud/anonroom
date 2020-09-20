@@ -25,7 +25,7 @@ export class Room {
    }
 
    paginateMessages(currentPage: number) : Cursor {
-       return this.messagesCursor.skip(messagesPerPage * currentPage).limit(messagesPerPage);
+       return this.messagesCursor.skip(messagesPerPage * currentPage - 1).limit(messagesPerPage);
    }
 
    async delete() : Promise<void> {
