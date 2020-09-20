@@ -1,6 +1,6 @@
 import { Collection, DeleteWriteOpResultObject, UpdateWriteOpResult } from "mongodb";
 import { IObject } from "../../util/interfaces";
-import Database from "../Database";
+import Database from "..";
 import CustomCollection from "./CustomCollection";
 
 export default class CacheCollection<V> extends CustomCollection<V> {
