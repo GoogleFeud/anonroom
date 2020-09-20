@@ -1,4 +1,5 @@
 import { Collection, DeleteWriteOpResultObject, UpdateWriteOpResult } from "mongodb";
+import { IObject } from "../../util/interfaces";
 import Database from "../Database";
 
 

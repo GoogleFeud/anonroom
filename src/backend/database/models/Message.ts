@@ -1,5 +1,6 @@
 
 import { Collection } from "mongodb";
+import { ICollectable } from "../../util/interfaces";
 import { Participant } from "./Participant";
 import {Room} from "./Room";
 
@@ -8,8 +9,8 @@ export class Message {
     room: Room
     content: string
     sentAt: number
-    constructor(room: Room, data: ICollectable) {
-        this.author = room.participants.get(data.author);
+    constructor(room: Room, data: IMessage) {
+        if (data.authorId) this.author = room.participants.get(data.authorId);
         this.room = room;
         this.content = data.content;
         this.sentAt = data.sentAt;

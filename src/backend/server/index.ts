@@ -2,6 +2,7 @@
 
 import Express from "express";
 import http from "http";
+import { IExpressRoute } from "../util/interfaces";
 import {getFilesFromDir} from "../util/utils";
 
 const app = Express();

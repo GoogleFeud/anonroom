@@ -9,4 +9,12 @@
     <body>
         Hello world!
     </body>
+
+    <script defer>
+        const s = new WebSocket("ws://localhost:4000/");
+        s.onopen = () => {
+            s.send(JSON.stringify({e: "hello"}));
+        }
+    </script>
+
 </html>

@@ -3,6 +3,7 @@ import { Cursor } from "mongodb";
 
 import { IParticipant, PartialParticipant, Participant } from "./Participant";
 import CustomCollection from "../collections/CustomCollection";
+import { ICollectable } from "../../util/interfaces";
 
 export const messagesPerPage = 20;
 
