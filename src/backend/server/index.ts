@@ -1,6 +1,7 @@
 
 
 import Express from "express";
+import http from "http";
 import {getFilesFromDir} from "../util/utils";
 
 const app = Express();
@@ -15,5 +16,7 @@ export default (port: number = 4000, callback?: () => void) => {
       app[routeObj.method](routeObj.path, routeObj.callback);
   }
 
-  app.listen(port, callback);
+  const server = http.createServer(app);
+  server.listen(port, callback);
+  return server;
 }
