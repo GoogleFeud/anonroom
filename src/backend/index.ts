@@ -1,10 +1,18 @@
 
 
 // This should start up the server
+import { Config } from "./util/interfaces";
+const config = require("../../config.json") as Config;
 
 import startServer from "./server/index";
 import startWebSocket from "./websocket/index";
+import Database from "./database/index";
 
-const server = startServer(4000, () => console.log("Server ready!"));
 
-const ws = startWebSocket(server);
+const db = new Database(config.dbUsername, config.dbPassword);
+
+db.connect().then(() => {
+    const server = startServer(4000, db, () => console.log("Server ready!"));
+    startWebSocket(server, db);
+});
+

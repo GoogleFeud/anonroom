@@ -1,9 +1,10 @@
 
 import WebSocket from "ws";
+import Database from "../../database";
 
 export default {
     name: "hello",
-    callback: (socket: WebSocket) => {
+    callback: (database: Database, socket: WebSocket) => {
         console.log("HELLO!");
     }
 }
