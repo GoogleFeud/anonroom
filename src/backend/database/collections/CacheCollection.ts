@@ -6,8 +6,8 @@ import CustomCollection from "./CustomCollection";
 export default class CacheCollection<V> extends CustomCollection<V> {
     collection: Collection
     cache: Map<string, V>
-    constructor(col: Collection, database: Database, cache: Map<string, V>) {
-        super(col, database);
+    constructor(col: Collection, database: Database, objectType: any, cache: Map<string, V>) {
+        super(col, objectType, database);
         this.collection = col;
         this.cache = cache;
     }
@@ -16,20 +16,21 @@ export default class CacheCollection<V> extends CustomCollection<V> {
         if (this.cache.has(id)) return this.cache.get(id) as V;
         const item = await this.collection.findOne({id});
         if (!item) return null;
-        this.cache.set(id, item);
-        return item;
-    }
-
-    async getOrCreate(id: string, data?: IObject) : Promise<V> {
-        if (this.cache.has(id)) return this.cache.get(id) as V;
-        const item = await this.collection.findOneAndUpdate({id}, data) as V;
-        this.cache.set(id, item);
-        return item;
+        const itemClass = new this.objectType(this, item);
+        this.cache.set(id, itemClass);
+        return itemClass;
     }
 
     async update(id: string, edit: IObject) : Promise<UpdateWriteOpResult> {
         this.cache.delete(id);
         return this.collection.updateOne({id}, {$set: edit});
+    }
+
+    async create(obj: IObject) : Promise<V> {
+        const v = await this.collection.insertOne(obj);
+        const classObj = new this.objectType(this, v);
+        this.cache.set(obj.id, classObj);
+        return classObj;
     }
 
     async delete(id: string) : Promise<DeleteWriteOpResultObject> {

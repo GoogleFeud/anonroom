@@ -27,8 +27,8 @@ export default class Database extends MongoClient {
      async connect() : Promise<MongoClient> {
         await super.connect();
         this._db = this.db(this._dbname);
-        this.messages = new CustomCollection(this._db.collection("messages"), this);
-        this.rooms = new CacheCollection(this._db.collection("rooms"), this, new Map<string, Room>());
+        this.messages = new CustomCollection(this._db.collection("messages"), Message, this);
+        this.rooms = new CacheCollection(this._db.collection("rooms"), this, Room, new Map<string, Room>());
         return this;
      }
 
