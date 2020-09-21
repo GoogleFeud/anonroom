@@ -8,13 +8,13 @@ export class Participant {
     id: string
     color?: string
     admin: boolean
-    ip: string
+    ips: Array<string>
     constructor(collection: CustomCollection<Room>, data: IParticipant) {
         this.name = data.name;
         this.id = data.id;
         this.color = data.color;
         this.admin = data.admin;
-        this.ip = data.ip;
+        this.ips = data.ips;
     }
 
 }
@@ -24,11 +24,11 @@ export interface IParticipant {
     name: string,
     color?: string,
     admin: boolean,
-    ip: string
+    ips: Array<string>
 }
 
 export interface PartialParticipant {
     id: string,
     name: string,
-    ip: string
+    ips: Array<string>
 }
