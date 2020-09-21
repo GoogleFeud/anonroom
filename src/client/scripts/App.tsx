@@ -6,14 +6,6 @@ import { Route, Switch, Link } from 'react-router-dom';
 import Home from "./pages/Home";
 
 
-function About() {
-    return <p>About</p>
-}
-
-function Shop() {
-    return <p>Shop</p>
-}
-
 function Error() {
     return <p>Error!</p>
 }
@@ -28,8 +20,7 @@ export default class App extends Component {
         <div>
             <Switch>
                 <Route path="/" component={Home} exact />
-                <Route path="/about" component={About} />
-                <Route path="/shop" component={Shop} />
+                <Route path="/room/:roomId" component={Home} />
                 <Route component={Error} />
             </Switch>
          {/**   <nav>
