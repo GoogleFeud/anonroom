@@ -1,7 +1,7 @@
 
 
 import React, { Component} from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 
 
 function Home() {
@@ -26,13 +26,18 @@ export default class App extends Component {
     }
 
     render() {
-        return (<div>
+        return (
+        <div>
             <Switch>
                 <Route path="/" component={Home} exact />
                 <Route path="/about" component={About} />
                 <Route path="/shop" component={Shop} />
                 <Route component={Error} />
             </Switch>
+            <nav>
+                <Link to="/about">About</Link>
+                <Link to="/shop">Shop</Link>
+            </nav>
         </div>)
     }
 }
