@@ -3,10 +3,8 @@
 import React, { Component} from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 
+import Home from "./pages/Home";
 
-function Home() {
-    return <p>Home!</p>
-}
 
 function About() {
     return <p>About</p>
@@ -34,10 +32,10 @@ export default class App extends Component {
                 <Route path="/shop" component={Shop} />
                 <Route component={Error} />
             </Switch>
-            <nav>
+         {/**   <nav>
                 <Link to="/about">About</Link>
                 <Link to="/shop">Shop</Link>
-            </nav>
+         </nav> */}
         </div>)
     }
 }
