@@ -12,3 +12,11 @@ body {
 margin-top: auto;
 margin-bottom: auto;
 }
+
+.joinBtn {
+    margin-left: 15px;
+    border-width: 1px;
+    border-color: black;
+    outline: none;
+    background-color: none;
+}

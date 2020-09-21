@@ -3,7 +3,7 @@ import { Cursor } from "mongodb";
 
 import { IParticipant, PartialParticipant, Participant } from "./Participant";
 import CustomCollection from "../collections/CustomCollection";
-import { ICollectable } from "../../util/interfaces";
+import { ICollectable, IObject } from "../../util/interfaces";
 
 export const messagesPerPage = 20;
 
@@ -15,6 +15,7 @@ export class Room {
    participants: Map<string, Participant>
    banned: Array<PartialParticipant>
    messagesCursor: Cursor
+   maxParticipants?: number
    constructor(collection: CustomCollection<Room>, data: ICollectable) {
        this.collection = collection;
        this.id = data.id;
@@ -23,6 +24,7 @@ export class Room {
        this.participants = new Map(data.participants.map((obj: IParticipant) => [obj.id, new Participant(collection, obj)]));
        this.banned = data.banned;
        this.messagesCursor = collection.database.messages.collection.find({roomId: this.id});
+       this.maxParticipants = data.maxParticipants;
    }
 
    paginateMessages(currentPage: number) : Cursor {
@@ -46,4 +48,15 @@ export class Room {
        await this.collection.collection.updateOne({id: this.id}, {$pull: { participants: {id: id} } })
    }
 
+   update(newData: IObject) {
+       Object.assign(this, newData);
+       return this.collection.collection.updateOne({id: this.id}, {$set: newData});
+   }
+
+   updateParticipant(pId: string, newData: IObject) {
+       const participant = this.participants.get(pId);
+       Object.assign(participant, newData);
+       return this.collection.collection.updateOne({id: this.id, "participants.id": pId}, {$set: newData });
+   }
+ 
 }
