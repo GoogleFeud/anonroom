@@ -14,7 +14,7 @@ A website for creating anonymous chat rooms. Written entirely in typescript.
   - Typescript is used to compile JSX to normal JS
   - React is used to make the user interface
   - React-Router is used to make the website a SPA
-  - Boostrap is used to make the page responsive
+  - Bootstrap is used to make the page responsive
 - The MongoDB database is used
 
 
