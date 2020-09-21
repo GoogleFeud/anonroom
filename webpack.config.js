@@ -18,12 +18,13 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist/client'),
+    path: path.resolve(__dirname, 'dist/client/scripts'),
   },
   plugins: [
     new CopyPlugin({
       patterns: [
-        {from: path.resolve(__dirname, "src/client/public"), to: path.resolve(__dirname, "dist/client/public")},
+      //  {from: path.resolve(__dirname, "src/client/css"), to: path.resolve(__dirname, "dist/client/css")},
+        {from: path.resolve(__dirname, "src/client/html"), to: path.resolve(__dirname, "dist/client/html")},
         {from: path.resolve(__dirname, "package.json"), to: path.resolve(__dirname, "dist")}
       ]
     })
