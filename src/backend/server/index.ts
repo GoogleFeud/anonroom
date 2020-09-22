@@ -9,6 +9,8 @@ import {getFilesFromDir} from "../util/utils";
 const app = Express();
 
 app.use(Express.static(__dirname + "../../../client"));
+app.use(Express.urlencoded({extended: false}));
+app.use(Express.json());
 
 export default (port: number = 4000, db: Database, callback?: () => void) => {
 

@@ -32,3 +32,7 @@ interface Config {
     dbUsername: string,
     dbPassword: string
 }
+
+interface IRequestWithBody extends Express.Request {
+    body: IObject
+}
