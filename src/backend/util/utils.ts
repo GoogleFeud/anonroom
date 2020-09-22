@@ -13,3 +13,7 @@ export function getFilesFromDir(dir: string, folderName?: string) : Array<string
     }
     return files;
 }
+
+export function generateRoomID(length: number = 12) : string {
+    return '_' + Math.random().toString(36).substr(2, length);
+}

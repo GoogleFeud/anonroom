@@ -50,7 +50,7 @@ export default class Home extends React.Component {
                   <button className="joinBtn" onClick={async () => {
                       if (!this.state.adminPassword.length) return this.setState({error: "You must provide an admin password!"});
                       if (this.state.adminPassword.length < 6) return this.setState({error: "Password must be at least 6 characters long!"});
-                      post("/rooms", {test: 1});
+                      const res = await post("/rooms", {adminPassword: this.state.adminPassword, maxParticipants: this.state.maxParticipants});
                   }}>Create</button>
                   <p style={{color: "red", fontWeight: "bold"}}>{this.state.error}</p>
                  </Col>
