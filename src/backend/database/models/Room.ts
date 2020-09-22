@@ -17,6 +17,7 @@ export class Room {
    messagesCursor: Cursor
    maxParticipants?: number
    adminPassword: string
+   discordWebhook?: string
    constructor(collection: CustomCollection<Room>, data: ICollectable) {
        this.collection = collection;
        this.id = data.id;
@@ -27,6 +28,7 @@ export class Room {
        this.messagesCursor = collection.database.messages.collection.find({roomId: this.id});
        this.maxParticipants = data.maxParticipants;
        this.adminPassword = data.adminPassword;
+       this.discordWebhook = data.discordWebhook;
    }
 
    paginateMessages(currentPage: number) : Cursor {
