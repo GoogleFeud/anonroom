@@ -23,7 +23,7 @@ export default {
             roomLocked: false,
             banned: []
         });
-        res.send({link: config.websiteURL + roomId});
+        res.send({link: `${config.websiteURL}/room/${roomId}/join`});
     }
 }
 

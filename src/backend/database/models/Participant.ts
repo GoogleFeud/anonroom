@@ -21,10 +21,6 @@ export class Participant {
         this.collection = collection;
     }
 
-    update(newData: IObject) {
-        return this.collection.collection.updateOne({id: this.id}, {})
-    }
-
 }
 
 export interface IParticipant {

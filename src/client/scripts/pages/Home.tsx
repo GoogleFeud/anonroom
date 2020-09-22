@@ -6,7 +6,8 @@ import {post} from "../util/fetch";
 interface IHomeState {
  adminPassword: string,
  maxParticipants: number,
- error: string
+ error: string,
+ message: string
 }
 
 export default class Home extends React.Component {
@@ -16,7 +17,8 @@ export default class Home extends React.Component {
         this.state = {
             adminPassword: "",
             maxParticipants: 0,
-            error: ""
+            error: "",
+            message: ""
         }
     }
 
@@ -51,10 +53,11 @@ export default class Home extends React.Component {
                       if (!this.state.adminPassword.length) return this.setState({error: "You must provide an admin password!"});
                       if (this.state.adminPassword.length < 6) return this.setState({error: "Password must be at least 6 characters long!"});
                       const res = await post<ICreateRoomResponse>("/rooms", {adminPassword: this.state.adminPassword, maxParticipants: this.state.maxParticipants});
-                      if (res.error) return this.setState({error: res.error});
-                      console.log(res);
+                      if ("error" in res) return this.setState({error: res.error});
+                      this.setState({message: res.link});
                   }}>Create</button>
                   <p style={{color: "red", fontWeight: "bold"}}>{this.state.error}</p>
+                  <p style={{fontWeight: "bold"}}>{this.state.message}</p>
                  </Col>
             </Row>
         </Container>
@@ -63,6 +66,5 @@ export default class Home extends React.Component {
 }
 
 interface ICreateRoomResponse {
-    link: string,
-    error?: string
+    link: string
 }
