@@ -20,7 +20,7 @@ export default {
             admin: false,
             ips: [getIP(req)]
         });
-        res.cookie(room.id, id, {maxAge: 2147483647});
+        res.cookie(room.id, id, {maxAge: 2147483647, httpOnly: true});
         res.status(204).end();
     }
 }

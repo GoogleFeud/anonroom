@@ -14,7 +14,7 @@ export default {
         let participant = room.findParicipant(req.cookies[room.id] || visitorIp);
         if (!participant) return res.send({id: room.id, in: false});
         if (!participant.ips.includes(visitorIp)) room.updateParticipant(participant.id, {ips: [...participant.ips, visitorIp]});
-        if (!req.cookies[room.id]) res.cookie(room.id, participant.id, {maxAge: 2147483647});
+        if (!req.cookies[room.id]) res.cookie(room.id, participant.id, {maxAge: 2147483647, httpOnly: true});
         return res.send({id: room.id, in: true});
     }
 }
