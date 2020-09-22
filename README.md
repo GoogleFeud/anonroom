@@ -30,4 +30,5 @@ A website for creating anonymous chat rooms. Written entirely in typescript.
 - Rooms automatically get deleted after 72 hours of inactivity (no messages).
 - Message history
 - If a discord webhook link is provided, all messages will also be sent via the webhook
+- Ability to download message history
 - Completely free and open source

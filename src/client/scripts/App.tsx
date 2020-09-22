@@ -23,10 +23,6 @@ export default class App extends Component {
                 <Route path="/room/:roomId/" component={JoinRoom} exact />
                 <Route component={Error} />
             </Switch>
-         {/**   <nav>
-                <Link to="/about">About</Link>
-                <Link to="/shop">Shop</Link>
-         </nav> */}
         </div>)
     }
 }

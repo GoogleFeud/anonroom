@@ -10,6 +10,7 @@ export class Participant {
     color?: string
     admin: boolean
     ips: Array<string>
+    /** If the participant has a socket property, then they are online! */
     socket?: WebSocket
     collection: CustomCollection<Room>
     constructor(collection: CustomCollection<Room>, data: IParticipant) {
