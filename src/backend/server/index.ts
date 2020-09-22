@@ -1,6 +1,7 @@
 
 
 import Express from "express";
+import cookieParser from "cookie-parser";
 import http from "http";
 import Database from "../database";
 import { IExpressRoute } from "../util/interfaces";
@@ -11,6 +12,7 @@ const app = Express();
 app.use(Express.static(__dirname + "../../../client"));
 app.use(Express.urlencoded({extended: false}));
 app.use(Express.json());
+app.use(cookieParser());
 
 export default (port: number = 4000, db: Database, callback?: () => void) => {
 

@@ -3,14 +3,6 @@ import React, { ChangeEvent } from "react";
 import {Container, Row, Col} from "react-bootstrap";
 import {post} from "../util/fetch";
 
-interface IHomeState {
- adminPassword: string,
- maxParticipants: number,
- error: string,
- message: string,
- discordWebhookLink: string,
- lockChat: boolean,
-}
 
 export default class Home extends React.Component {
     state: IHomeState
@@ -74,13 +66,14 @@ export default class Home extends React.Component {
                       if (this.created) return this.setState({error: this.created});
                       if (!this.state.adminPassword.length) return this.setState({error: "You must provide an admin password!"});
                       if (this.state.adminPassword.length < 6) return this.setState({error: "Password must be at least 6 characters long!"});
-                      const res = await post<ICreateRoomResponse>("/rooms", 
+                      const res = await post<ICreateRoomResponse>("/room", 
                       {
                         adminPassword: this.state.adminPassword, 
                         maxParticipants: this.state.maxParticipants,
                         discordWebhookLink: this.state.discordWebhookLink,
                         lockChat: this.state.lockChat
                     });
+                      if (!res) return this.setState({error: "Something went wrong!"});
                       if ("error" in res) return this.setState({error: res.error});
                       this.created = res.link;
                       this.setState({message: res.link});
@@ -97,3 +90,12 @@ export default class Home extends React.Component {
 interface ICreateRoomResponse {
     link: string
 }
+
+interface IHomeState {
+    adminPassword: string,
+    maxParticipants: number,
+    error: string,
+    message: string,
+    discordWebhookLink: string,
+    lockChat: boolean,
+   }

@@ -62,5 +62,12 @@ export class Room {
        Object.assign(participant, newData);
        return this.collection.collection.updateOne({id: this.id, "participants.id": pId}, {$set: newData });
    }
+
+   findParicipant(pIdOrIP: string) : Participant|undefined {
+        if (this.participants.has(pIdOrIP)) return this.participants.get(pIdOrIP);
+        for (let [, p] of this.participants) {
+            if (p.ips.includes(pIdOrIP)) return p;
+        }
+   }
  
 }

@@ -7,7 +7,7 @@ const config = require("../../../../config.json") as IConfig;
 
 export default {
     method: "post",
-    path: "/rooms",
+    path: "/room",
     callback: async (database: Database, req: IRequestWithBody, res: Express.Response) => {
         const body = req.body as IRoomCreationBody;
         if (!body.adminPassword) return sendStatus(res, "You must provide an admin password!", 400);
@@ -26,7 +26,7 @@ export default {
             banned: [],
             discordWebhookLink: body.discordWebhookLink
         });
-        res.send({link: `${config.websiteURL}/room/${roomId}/join`});
+        res.send({link: `${config.websiteURL}/room/${roomId}/`});
     }
 }
 

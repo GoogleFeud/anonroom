@@ -23,3 +23,13 @@ export function sendStatus(res: Express.Response, statusMsg: string, statusCode:
     res.statusMessage = statusMsg;
     return res.sendStatus(statusCode);
 }
+
+export function getIP(req: Express.Request) : string {
+    const forwarded = req.headers['x-forwarded-for'];
+    let ip = req.headers["x-real-ip"];
+    if (!ip && forwarded) {
+        if (Array.isArray(forwarded) && forwarded[0] != undefined) ip = forwarded[0];
+        else ip = forwarded.toString();
+    } else ip = req.connection.remoteAddress;
+    return ip as string;
+}
