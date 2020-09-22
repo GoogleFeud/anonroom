@@ -1,8 +1,8 @@
 
 
 // This should start up the server
-import { Config } from "./util/interfaces";
-const config = require("../../config.json") as Config;
+import { IConfig } from "./util/interfaces";
+const config = require("../../config.json") as IConfig;
 
 import startServer from "./server/index";
 import startWebSocketServer from "./websocket/index";

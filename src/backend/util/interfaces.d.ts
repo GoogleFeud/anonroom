@@ -28,9 +28,10 @@ interface IWebsocketPacketData {
     d: IObject
 }
 
-interface Config {
+interface IConfig {
     dbUsername: string,
-    dbPassword: string
+    dbPassword: string,
+    websiteURL: string
 }
 
 interface IRequestWithBody extends Express.Request {

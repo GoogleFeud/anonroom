@@ -1,8 +1,8 @@
 import Database from "../../database";
-import { IRequestWithBody } from "../../util/interfaces";
+import { IConfig, IRequestWithBody } from "../../util/interfaces";
 import {generateRoomID} from "../../util/utils";
 
-const config = require("../../../../config.json");
+const config = require("../../../../config.json") as IConfig;
 
 export default {
     method: "post",
