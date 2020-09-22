@@ -27,8 +27,8 @@ export default class CacheCollection<V> extends CustomCollection<V> {
     }
 
     async create(obj: IObject) : Promise<V> {
-        const v = await this.collection.insertOne(obj);
-        const classObj = new this.objectType(this, v);
+        await this.collection.insertOne(obj);
+        const classObj = new this.objectType(this, obj);
         this.cache.set(obj.id, classObj);
         return classObj;
     }

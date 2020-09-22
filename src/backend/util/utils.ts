@@ -1,4 +1,5 @@
 
+import Express from "express";
 
 import fs from "fs";
 
@@ -16,4 +17,9 @@ export function getFilesFromDir(dir: string, folderName?: string) : Array<string
 
 export function generateRoomID(length: number = 12) : string {
     return '_' + Math.random().toString(36).substr(2, length);
+}
+
+export function sendStatus(res: Express.Response, statusMsg: string, statusCode: number) {
+    res.statusMessage = statusMsg;
+    return res.sendStatus(statusCode);
 }

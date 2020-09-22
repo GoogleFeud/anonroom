@@ -50,7 +50,9 @@ export default class Home extends React.Component {
                   <button className="joinBtn" onClick={async () => {
                       if (!this.state.adminPassword.length) return this.setState({error: "You must provide an admin password!"});
                       if (this.state.adminPassword.length < 6) return this.setState({error: "Password must be at least 6 characters long!"});
-                      const res = await post("/rooms", {adminPassword: this.state.adminPassword, maxParticipants: this.state.maxParticipants});
+                      const res = await post<ICreateRoomResponse>("/rooms", {adminPassword: this.state.adminPassword, maxParticipants: this.state.maxParticipants});
+                      if (res.error) return this.setState({error: res.error});
+                      console.log(res);
                   }}>Create</button>
                   <p style={{color: "red", fontWeight: "bold"}}>{this.state.error}</p>
                  </Col>
@@ -58,4 +60,9 @@ export default class Home extends React.Component {
         </Container>
     )
     }
+}
+
+interface ICreateRoomResponse {
+    link: string,
+    error?: string
 }
