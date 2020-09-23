@@ -15,7 +15,7 @@ export default class Database extends MongoClient {
      rooms: CacheCollection<Room>
      messages: CustomCollection<Message>
      constructor(username: string, password: string, dbName: string = "anonroom") {
-         super(`mongodb+srv://${username}:${password}@cluster0.grxvc.mongodb.net/${dbName}?retryWrites=true&w=majority`);
+         super(`mongodb+srv://${username}:${password}@cluster0.grxvc.mongodb.net/${dbName}?retryWrites=true&w=majority`, { useUnifiedTopology: true });
          this._dbname = dbName;
          
          /**To satisfy the typescript gods */

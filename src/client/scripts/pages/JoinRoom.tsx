@@ -3,6 +3,8 @@ import {RouteComponentProps} from "react-router";
 import {Container, Row, Col, Spinner} from "react-bootstrap";
 import {get, post} from "../util/fetch";
 
+import Room from "./Room";
+
 export default class JoinRoom extends React.Component {
     state: IJoinRoomState
     props: RouteComponentProps
@@ -63,8 +65,7 @@ export default class JoinRoom extends React.Component {
                 </Container>
             )
         } else {
-            console.log("You are in!");
-            return <h1>Hello room!</h1>
+            return <Room></Room>
         }
     }
 }
