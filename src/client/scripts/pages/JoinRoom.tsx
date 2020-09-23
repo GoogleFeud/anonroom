@@ -28,7 +28,7 @@ export default class JoinRoom extends React.Component {
     handleUsernameChange(event: ChangeEvent<HTMLInputElement>) {
         if (!event.target) return;
         const value = event.target.value;
-        if (value.length > 14) return this.setState({error: "Username cannot exceed 14 characters!"});
+        if (value.length > 12) return this.setState({error: "Username cannot exceed 12 characters!"});
         this.setState({username: value, error: ""});
     }
 
