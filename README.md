@@ -32,3 +32,7 @@ A website for creating anonymous chat rooms. Written entirely in typescript.
 - If a discord webhook link is provided, all messages will also be sent via the webhook
 - Ability to download message history
 - Completely free and open source
+
+## Future plans
+
+- Make a non SPA version (SPA is very overkill here)

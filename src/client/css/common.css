@@ -30,5 +30,29 @@ margin-bottom: auto;
     overflow-y: scroll;
     width: 20%;
     height: 100%;
+    resize: horizontal; 
 }
 
+.room-chatbox {
+    width: 50%;
+    height: 40px;
+    outline: none;
+    border-width: 2px;
+    border-color: black;
+    position: fixed;
+    bottom: 0;
+}
+
+.room-messageList {
+    height: 100%;
+    width: 50%;
+    border-width: 3px;
+    border-color: black;
+    position: fixed;
+    bottom: 43px;
+    margin-left: 5px;
+    overflow-y: scroll;
+    word-break: break-all;
+    display: flex;
+    flex-direction: column-reverse;
+}
