@@ -23,3 +23,12 @@ margin-bottom: auto;
 .formField {
   margin-bottom: 20px;
 }
+
+.room-ParticipantList {
+    position: absolute;
+    left: 0px;
+    overflow-y: scroll;
+    width: 20%;
+    height: 100%;
+}
+

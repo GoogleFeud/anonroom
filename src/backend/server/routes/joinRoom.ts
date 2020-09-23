@@ -19,7 +19,8 @@ export default {
             name: body.name,
             id: id,
             admin: false,
-            ips: [getIP(req)]
+            ips: [getIP(req)],
+            muted: false
         });
         res.cookie(room.id, id, {maxAge: 2147483647, httpOnly: true});
         res.status(204).end();
