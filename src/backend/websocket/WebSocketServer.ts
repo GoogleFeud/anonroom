@@ -1,7 +1,7 @@
 
 
 import ws from "ws";
-import {EventEmitter} from "events";
+import {EventEmitter} from "eventemitter3";
 import { IWebsocketPacketData } from "../util/interfaces";
 
 export default class WebSocketServer extends EventEmitter {
