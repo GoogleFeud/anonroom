@@ -13,7 +13,6 @@ export class Room {
    chatLocked: boolean
    roomLocked: boolean
    participants: Map<string, Participant>
-   messagesCursor: Cursor
    maxParticipants?: number
    adminPassword: string
    discordWebhook?: string
@@ -23,14 +22,14 @@ export class Room {
        this.chatLocked = data.chatLocked;
        this.roomLocked = data.roomLocked;
        this.participants = new Map(data.participants.map((obj: IParticipant) => [obj.id, new Participant(collection, obj)]));
-       this.messagesCursor = collection.database.messages.collection.find({roomId: this.id});
        this.maxParticipants = data.maxParticipants;
        this.adminPassword = data.adminPassword;
        this.discordWebhook = data.discordWebhook;
    }
 
    paginateMessages(currentPage: number) : Cursor {
-       return this.messagesCursor.skip(messagesPerPage * currentPage - 1).limit(messagesPerPage);
+      if (currentPage === 1) return this.collection.database.messages.collection.find({roomId: this.id}).limit(messagesPerPage);
+      else return this.collection.database.messages.collection.find({roomId: this.id}).skip((messagesPerPage * currentPage - 1)).limit(messagesPerPage);
    }
 
    async delete() : Promise<void> {
@@ -66,6 +65,14 @@ export class Room {
         for (let [, p] of this.participants) {
             if (p.ips.includes(pIdOrIP)) return p;
         }
+   }
+
+   mapParticipants(mapFn: (participant: Participant) => any) : Array<any> {
+        const res = [];
+        for (let [, p] of this.participants) {
+            res.push(mapFn(p));
+        }
+        return res;
    }
  
 }

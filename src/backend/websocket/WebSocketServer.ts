@@ -10,9 +10,10 @@ export default class WebSocketServer extends EventEmitter {
         super();
         this.server = new ws.Server(options);
         this.server.on("connection", (socket) => {
+            this.emit("_connect", socket);
             socket.on("message", (data: string) => {
                 const msg = JSON.parse(data) as IWebsocketPacketData;
-                this.emit(msg.e, msg.d);
+                this.emit(msg.e, socket, msg.d);
             });
         });
     }

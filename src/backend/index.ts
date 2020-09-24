@@ -13,6 +13,6 @@ const db = new Database(config.dbUsername, config.dbPassword);
 
 db.connect().then(() => {
     const server = startServer(4000, db, () => console.log("Server ready!"));
-    startWebSocketServer(server, db);
+    startWebSocketServer(server, db, config.websocketPath);
 });
 

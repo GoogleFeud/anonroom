@@ -1,15 +1,38 @@
 
-import {Container, Row, Col, ListGroup, ListGroupItem, Badge} from "react-bootstrap";
+import {Container, Row, Col, ListGroup, ListGroupItem, Badge, Spinner} from "react-bootstrap";
 import React from "react";
+import {WebSocketClient} from "../util/WebSocketClient";
+import {get} from "../util/fetch";
 
 import {SettingsButton} from "../components/SettingsButton";
 
-export default class Room extends React.Component {
-    constructor(props: Readonly<{}>) {
+export class Room extends React.Component {
+    state: RoomState
+    ws?: WebSocketClient
+    props: RoomProps
+    constructor(props: RoomProps) {
         super(props);
+        this.props = props;
+        this.state = {
+            roomData: undefined
+        }
+    }
+
+    componentDidMount() {
+        this.ws = new WebSocketClient("ws://localhost:4000/gateway");
+        this.ws.on("open", async () => {
+            const room = await get<RoomData>(`/room/${this.props.roomId}/details`);
+            if ("error" in room) return;
+            this.setState({roomData: room});
+        });
     }
 
     render() {
+        if (!this.state.roomData || !this.ws) return(
+        <Spinner animation="border" role="status">
+         <span className="sr-only">Loading...</span>
+        </Spinner>
+        )
         return(
             <Container fluid>
                 <Row>
@@ -41,40 +64,6 @@ export default class Room extends React.Component {
                         <p>This is a chat message!</p>
                         <p>This is a chat message!</p>
                         <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a long-ass chat message that you will have to scroll to see or I dunno this message is fummary!</p>
-                        <p>This is a chat message!</p>
-                        <p>This is a chat message!</p>
                     </div>
                     <input type="text" className="room-chatbox"></input>
                     </div>
@@ -87,4 +76,37 @@ export default class Room extends React.Component {
         )
     }
     
+}
+
+export interface ParticipantData {
+    id: string,
+    muted: boolean,
+    banned: boolean,
+    admin: boolean,
+    color?: string
+}
+
+export interface MessageData {
+    authorName?: string,
+    content: string,
+    sentAt: number
+}
+
+export interface RoomData {
+   id: string,
+   participants: Array<ParticipantData>,
+   messages: Array<MessageData>,
+   chatLocked: boolean,
+   roomLocked: boolean,
+   maxParticipants?: number,
+   discordWebhook?: string,
+   messagesPage: number
+}
+
+interface RoomState {
+    roomData?: RoomData,
+}
+
+interface RoomProps {
+    roomId: string
 }

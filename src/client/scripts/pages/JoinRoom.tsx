@@ -3,7 +3,7 @@ import {RouteComponentProps} from "react-router";
 import {Container, Row, Col, Spinner} from "react-bootstrap";
 import {get, post} from "../util/fetch";
 
-import Room from "./Room";
+import {Room} from "./Room";
 
 export default class JoinRoom extends React.Component {
     state: IJoinRoomState
@@ -65,7 +65,7 @@ export default class JoinRoom extends React.Component {
                 </Container>
             )
         } else {
-            return <Room></Room>
+            return <Room roomId={(this.props.match.params as IJoinRoomParams).roomId}></Room>
         }
     }
 }
