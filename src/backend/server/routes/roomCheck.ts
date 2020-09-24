@@ -11,9 +11,9 @@ export default {
         const room = await database.rooms.get(req.params.roomId);
         if (!room) return sendStatus(res, "This room doesn't exist!", 400);
         const visitorIp = getIP(req);
-        if (room.banned.some(p => p.id === req.cookies[room.id] || p.ips.includes(visitorIp) )) return sendStatus(res, "You are banned from this room!", 401);
         let participant = room.findParicipant(req.cookies[room.id] || visitorIp);
         if (!participant) return res.send({id: room.id, in: false});
+        if (participant.banned) return sendStatus(res, "You are banned from this room!", 401);
         if (!participant.ips.includes(visitorIp)) room.updateParticipant(participant.id, {ips: [...participant.ips, visitorIp]});
         if (!req.cookies[room.id]) res.cookie(room.id, participant.id, {maxAge: 2147483647, httpOnly: true});
         return res.send({id: room.id, in: true});

@@ -1,7 +1,7 @@
 
 import { Cursor } from "mongodb";
 
-import { IParticipant, PartialParticipant, Participant } from "./Participant";
+import { IParticipant, Participant } from "./Participant";
 import CustomCollection from "../collections/CustomCollection";
 import { ICollectable, IObject } from "../../util/interfaces";
 
@@ -13,7 +13,6 @@ export class Room {
    chatLocked: boolean
    roomLocked: boolean
    participants: Map<string, Participant>
-   banned: Array<PartialParticipant>
    messagesCursor: Cursor
    maxParticipants?: number
    adminPassword: string
@@ -24,7 +23,6 @@ export class Room {
        this.chatLocked = data.chatLocked;
        this.roomLocked = data.roomLocked;
        this.participants = new Map(data.participants.map((obj: IParticipant) => [obj.id, new Participant(collection, obj)]));
-       this.banned = data.banned;
        this.messagesCursor = collection.database.messages.collection.find({roomId: this.id});
        this.maxParticipants = data.maxParticipants;
        this.adminPassword = data.adminPassword;

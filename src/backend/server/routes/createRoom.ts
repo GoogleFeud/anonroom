@@ -23,7 +23,6 @@ export default {
             participants: [],
             chatLocked: body.lockChat,
             roomLocked: false,
-            banned: [],
             discordWebhookLink: body.discordWebhookLink
         });
         res.send({link: `${config.websiteURL}/room/${roomId}/`});

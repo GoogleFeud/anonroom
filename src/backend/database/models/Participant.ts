@@ -11,6 +11,7 @@ export class Participant {
     admin: boolean
     ips: Array<string>
     muted: boolean
+    banned: boolean
     /** If the participant has a socket property, then they are online! */
     socket?: WebSocket
     collection: CustomCollection<Room>
@@ -22,6 +23,7 @@ export class Participant {
         this.ips = data.ips;
         this.collection = collection;
         this.muted = data.muted;
+        this.banned = data.banned;
     }
 
 }
@@ -32,11 +34,6 @@ export interface IParticipant {
     color?: string,
     admin: boolean,
     ips: Array<string>
-    muted: boolean
-}
-
-export interface PartialParticipant {
-    id: string,
-    name: string,
-    ips: Array<string>
+    muted: boolean,
+    banned: boolean
 }
