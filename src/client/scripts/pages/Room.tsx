@@ -2,7 +2,7 @@
 import {Container, Row, Col, ListGroup, ListGroupItem, Badge} from "react-bootstrap";
 import React from "react";
 
-
+import {SettingsButton} from "../components/SettingsButton";
 
 export default class Room extends React.Component {
     constructor(props: Readonly<{}>) {
@@ -32,7 +32,7 @@ export default class Room extends React.Component {
                   </ListGroup>
                   </div> 
                   </Col>
-                  <Col sm="4">
+                  <Col sm="3">
                   <div>
                     <div className="room-messageList">
                         <p>This is a long-ass chat message that you will have to scroll to see or I dunno this message is fummary!!</p>
@@ -79,12 +79,8 @@ export default class Room extends React.Component {
                     <input type="text" className="room-chatbox"></input>
                     </div>
                     </Col>
-                    <Col sm="3">
-                        <button>Lock Chat</button>
-                        <button>Lock Room</button>
-                        <div className="formField">
-                        <span>Max participants:</span> <input type="number"></input>
-                       </div>
+                    <Col sm="2">
+                       <SettingsButton></SettingsButton>
                     </Col>
                 </Row>
             </Container>

@@ -59,7 +59,7 @@ export default class Home extends React.Component {
                   <div className="formField">
                       <span>Discord webhook link:</span> <input type="text" value={this.state.discordWebhookLink} onChange={this.handleDiscordWebhookLink.bind(this)}></input>
                   </div>
-                  <div className="formField">
+                  <div className="formField" style={{marginBottom: "15px"}}>
                       <span>Lock chat?:</span> <input type="checkbox" checked={this.state.lockChat} onChange={this.handleLockChat.bind(this)}></input>
                   </div>
                   <button className="joinBtn" onClick={async () => {

@@ -4,6 +4,10 @@ body {
     padding: 0;
 }
 
+input:focus {
+    outline: none;
+}
+
 .center {
     text-align: center;
 }
@@ -21,7 +25,7 @@ margin-bottom: auto;
 }
 
 .formField {
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .room-ParticipantList {
@@ -35,7 +39,7 @@ margin-bottom: auto;
 
 .room-chatbox {
     display: inline-block;
-    width: 35%;
+    width: 40%;
     height: 40px;
     outline: none;
     border-width: 2px;
@@ -47,7 +51,7 @@ margin-bottom: auto;
 .room-messageList {
     display: block;
     height: 100%;
-    width: 35%;
+    width: 40%;
     border-width: 3px;
     border-color: black;
     position: fixed;
@@ -57,4 +61,36 @@ margin-bottom: auto;
     word-break: break-all;
     display: flex;
     flex-direction: column-reverse;
+}
+
+.room-controls-modal {
+    background-color: grey;
+    position: fixed;
+    z-index: 100;
+    bottom: 50px;
+    border-radius: 5px;
+    padding: 3px 3px 3px 3px;
+}
+
+.room-controls {
+    position: fixed;
+    bottom: 5px;
+    margin-left: 17%;
+}
+
+.room-controls-button {
+    background-color: lightgrey;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    border-radius: 2px;
+    border-color: none;
+    outline: none;
+}
+
+.room-controls-input {
+    width: 150px;
+    background-color: grey;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
 }
