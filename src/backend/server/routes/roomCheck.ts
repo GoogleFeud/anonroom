@@ -10,6 +10,8 @@ export default {
     callback: async (database: Database, req: Express.Request, res: Express.Response) => {
         const room = await database.rooms.get(req.params.roomId);
         if (!room) return sendStatus(res, "This room doesn't exist!", 400);
+        if (room.roomLocked) return sendStatus(res, "This room is locked!", 401);
+        if (room.maxParticipants === room.participants.size) return sendStatus(res, "Room is full!", 401);
         const visitorIp = getIP(req);
         let participant = room.findParicipant(req.cookies[room.id] || visitorIp);
         if (!participant) return res.send({id: room.id, in: false});
