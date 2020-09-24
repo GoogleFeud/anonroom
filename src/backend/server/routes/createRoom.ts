@@ -15,7 +15,7 @@ export default {
         if (body.maxParticipants != undefined && body.maxParticipants < 1) body.maxParticipants = undefined; 
         if (body.lockChat != undefined && typeof body.lockChat !== "boolean") return sendStatus(res, "lockChat property must be a boolean!", 400);
         if (body.discordWebhookLink != undefined && body.discordWebhookLink === "") body.discordWebhookLink = undefined;
-        const roomId = generateRoomID();
+        const roomId = generateRoomID(18);
         await database.rooms.create({
             id: roomId,
             adminPassword: body.adminPassword,
