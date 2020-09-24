@@ -25,27 +25,29 @@ margin-bottom: auto;
 }
 
 .room-ParticipantList {
-    position: absolute;
-    left: 0px;
     overflow-y: scroll;
-    width: 20%;
+   /* position: absolute;
+   // left: 0px;
+  /*  width: 20%;
     height: 100%;
-    resize: horizontal; 
+    /* resize: horizontal; */
 }
 
 .room-chatbox {
-    width: 50%;
+    display: inline-block;
+    width: 35%;
     height: 40px;
     outline: none;
     border-width: 2px;
     border-color: black;
     position: fixed;
-    bottom: 0;
+    bottom: 0; 
 }
 
 .room-messageList {
+    display: block;
     height: 100%;
-    width: 50%;
+    width: 35%;
     border-width: 3px;
     border-color: black;
     position: fixed;
