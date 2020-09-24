@@ -10,6 +10,7 @@ export class Room extends React.Component {
     state: RoomState
     ws?: WebSocketClient
     props: RoomProps
+    thisParticipant?: ParticipantData
     constructor(props: RoomProps) {
         super(props);
         this.props = props;
@@ -21,8 +22,10 @@ export class Room extends React.Component {
     componentDidMount() {
         this.ws = new WebSocketClient("ws://localhost:4000/gateway");
         this.ws.on("open", async () => {
-            const room = await get<RoomData>(`/room/${this.props.roomId}/details`);
-            if ("error" in room) return;
+            const roomData = await get<RoomDetailsRes>(`/room/${this.props.roomId}/details`);
+            if ("error" in roomData) return;
+            const room = roomData.room;
+            this.thisParticipant = room.participants.find(p => p.id === roomData.requesterId);
             this.setState({roomData: room});
         });
     }
@@ -68,9 +71,13 @@ export class Room extends React.Component {
                     <input type="text" className="room-chatbox"></input>
                     </div>
                     </Col>
-                    <Col sm="2">
-                       <SettingsButton></SettingsButton>
-                    </Col>
+                    {
+                        this.thisParticipant && this.thisParticipant.admin && (
+                            <Col sm="2">
+                            <SettingsButton></SettingsButton>
+                         </Col>
+                        )
+                    }
                 </Row>
             </Container>
         )
@@ -100,8 +107,14 @@ export interface RoomData {
    roomLocked: boolean,
    maxParticipants?: number,
    discordWebhook?: string,
-   messagesPage: number
+   messagesPage: number,
 }
+
+export interface RoomDetailsRes {
+    room: RoomData,
+    requesterId: string
+}
+
 
 interface RoomState {
     roomData?: RoomData,

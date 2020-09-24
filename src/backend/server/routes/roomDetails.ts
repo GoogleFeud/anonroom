@@ -17,6 +17,7 @@ export default {
         if (participant.banned) return sendStatus(res, "You are banned from this room!", 401);
         return res.send({
             requesterId: participant.id,
+            room: {
             id: room.id,
             chatLocked: room.chatLocked,
             roomLocked: room.roomLocked,
@@ -25,6 +26,7 @@ export default {
             participants: room.mapParticipants(p => ({id: p.id, muted: p.muted, banned: p.banned, admin: p.admin, color: p.color})),
             messagesPage: 1,
             messages: await room.paginateMessages(1).toArray()
+            }
         });
     }
 }
