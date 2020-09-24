@@ -2,7 +2,7 @@
 import {EventEmitter} from "eventemitter3";
 
 
-export class WebSocketWrapper extends EventEmitter {
+export class WebSocketClient extends EventEmitter {
     _ws: WebSocket
     constructor(url: string) {
         super();
@@ -20,7 +20,7 @@ export class WebSocketWrapper extends EventEmitter {
         this._ws.send(JSON.stringify({e: packetName, d: data}));
     }
 
-    
+
 }
 
 
