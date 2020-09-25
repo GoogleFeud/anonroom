@@ -15,10 +15,13 @@ export enum EVENT_CODES {
 
 export function handleSocketState(socket: WebSocketClient) {
     let heartbeatInterval: number;
+
     socket.on<any>(EVENT_CODES.HELLO, (data: HelloEventData) => {
          socket.isAlive = true;
          heartbeatInterval = data.heartbeatInterval;
     });
+
+    
 
 }
 

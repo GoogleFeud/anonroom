@@ -1,9 +1,9 @@
 
 import {Container, Row, Col, ListGroup, ListGroupItem, Badge, Spinner} from "react-bootstrap";
 import React from "react";
-import {WebSocketClient} from "../util/WebSocketClient";
+import {WebSocketClient} from "../websocket/WebSocketClient";
 import {get} from "../util/fetch";
-import {handleSocketState} from "../util/handleSocketState";
+import {handleSocketState} from "../websocket/handleSocketState";
 
 import {SettingsButton} from "../components/SettingsButton";
 
