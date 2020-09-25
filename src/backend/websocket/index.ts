@@ -12,7 +12,7 @@ export default (server: http.Server, db: Database, path?: string) => {
     const packets = getFilesFromDir(__dirname + "/packets");
     for (let packet of packets) {
         const packetObj = require(`./packets/${packet}`).default as IWebsocketPacket;
-        Ws.on(packetObj.name, packetObj.callback.bind(null, db));
+        Ws.on(packetObj.name, packetObj.callback.bind(null, db, Ws));
     }
 
     return Ws;

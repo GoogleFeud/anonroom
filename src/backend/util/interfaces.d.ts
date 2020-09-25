@@ -1,6 +1,8 @@
 
 import WebSocket from "ws";
 import Database from "../database/index";
+import WebSocketServer from "../websocket/WebSocketServer";
+import Participant from "../database/models/Participant";
 
 /** ICollectable is any object which has an id property*/
 interface ICollectable {
@@ -20,7 +22,7 @@ interface IExpressRoute {
 
 interface IWebsocketPacket {
     name: string,
-    callback: (db: Database, socket: WebSocket) => void
+    callback: (db: Database, WebsocketServer: WebSocketServer, socket: WebSocket) => void
 }
 
 interface IWebsocketPacketData {
@@ -32,7 +34,8 @@ interface IConfig {
     dbUsername: string,
     dbPassword: string,
     websiteURL: string,
-    websocketPath: string
+    websocketPath: string,
+    heartbeatInterval: number
 }
 
 interface IRequestWithBody extends Express.Request {
@@ -42,4 +45,9 @@ interface IRequestWithBody extends Express.Request {
 interface ConnectEventQuery {
     roomId?: string,
     participantId?: string
+}
+
+interface ExtendedSocket extends WebSocket {
+    participant?: Participant,
+    isAlive?: boolean
 }

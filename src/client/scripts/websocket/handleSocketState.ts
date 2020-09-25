@@ -12,16 +12,23 @@ export enum EVENT_CODES {
     ROOM_CLOSE
 }
 
-
 export function handleSocketState(socket: WebSocketClient) {
     let heartbeatInterval: number;
+    let heartbeatTimeout: NodeJS.Timeout;
 
     socket.on<any>(EVENT_CODES.HELLO, (data: HelloEventData) => {
          socket.isAlive = true;
          heartbeatInterval = data.heartbeatInterval;
     });
 
-    
+    socket.on<any>(EVENT_CODES.HEARTBEAT, () => {
+        clearTimeout(heartbeatTimeout);
+        socket.send(EVENT_CODES.HEARTBEAT, {});
+
+        heartbeatTimeout = setTimeout(() => {
+            socket._ws.close();
+        }, heartbeatInterval);
+    });
 
 }
 

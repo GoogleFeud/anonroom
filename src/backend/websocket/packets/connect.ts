@@ -1,21 +1,24 @@
-import Database from "../../database";
 
 import CustomDatabase from "../../database";
-import WebSocket from "ws";
 import http from "http";
 import url from "url";
-import { ConnectEventQuery } from "../../util/interfaces";
+import { ConnectEventQuery, ExtendedSocket, IConfig } from "../../util/interfaces";
+import WebSocketServer from "../WebSocketServer";
 
-const HEARTBEAT_INTERVAL = 450000;
+const config = require("../../../config.json") as IConfig;
 
 export default {
     name: "_connect",
-    callback: async (db: CustomDatabase, socket: WebSocket, req: http.IncomingMessage) => {
+    callback: async (db: CustomDatabase, WsServer: WebSocketServer, socket: ExtendedSocket, req: http.IncomingMessage) => {
         const query = url.parse(req.url || "", true).query as ConnectEventQuery;
-        if (!query.participantId || !query.roomId) return socket.close(1007);
+        if (!query.participantId || !query.roomId) return socket.close(1014);
         const room = await db.rooms.get(query.roomId);
-        if (!room) return socket.close(1007);
-        if (!room.participants.has(query.participantId)) return socket.close(1007);
-        socket.send(JSON.stringify({e: 0, d: {heartbeatInterval: HEARTBEAT_INTERVAL}}))
+        if (!room) return socket.close(1014);
+        const participant = room.participants.get(query.participantId);
+        if (!participant) return socket.close(1014);
+        participant.socket = socket;
+        socket.isAlive = true;
+        socket.participant = participant;
+        socket.send(JSON.stringify({e: 0, d: {heartbeatInterval: config.heartbeatInterval}}))
     }
 }
