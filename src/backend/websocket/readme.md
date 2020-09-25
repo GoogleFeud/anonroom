@@ -26,7 +26,7 @@ All events send out **packets**, or an object with data, in other words. Here's 
 | 3        | `{ authorId: string, content: string, sentAt: number }`                                                 | message_create     | Sent to all clients when a message is created.                | server        |
 | 4        | `{ chatLocked?: boolean, roomLocked?: boolean, maxParticipants?: number, discordWebhookLink?: string }` | room_update        | Sent to all clients when the room they are in is updated.     | server        |
 | 5        | `{ userId: string }`                                                                                    | participant_kick   | Sent to all clients when a participant gets kicked.           | server        |
-| 6        | `{ userId: string, banned?: boolean, color?: boolean, admin?: boolean, online?: boolean }`                                | participant_update | Sent to all clients when a participant has chaned a property. | server        |
+| 6        | `{ userId: string, banned?: boolean, color?: boolean, admin?: boolean, online?: boolean, muted?: boolean }`                                | participant_update | Sent to all clients when a participant has chaned a property. | server        |
 | 7        | `{}`                                                                                                    | room_close         | Sent to all clients when a room gets closed.                  | server        |
 
 
