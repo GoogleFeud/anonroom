@@ -47,3 +47,6 @@ Sometimes, when the server wants to know if the client is alive, it will send th
 
 List of default error codes: (Those ARE used!): https://github.com/Luka967/websocket-close-codes
 
+**Custom error codes:** 
+
+TBD

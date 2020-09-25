@@ -13,7 +13,6 @@ export class Participant {
     muted: boolean
     banned: boolean
     /** If the participant has a socket property, then they are online! */
-    socket?: WebSocket
     collection: CustomCollection<Room>
     room: Room
     constructor(collection: CustomCollection<Room>, data: IParticipant, room: Room) {

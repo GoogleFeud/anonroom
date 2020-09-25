@@ -2,6 +2,7 @@
 import Express from "express";
 
 import fs from "fs";
+import WebSocket from "ws";
 
 export function getFilesFromDir(dir: string, folderName?: string) : Array<string> {
     const things = fs.readdirSync(dir);
@@ -32,4 +33,8 @@ export function getIP(req: Express.Request) : string {
         else ip = forwarded.toString();
     } else ip = req.connection.remoteAddress;
     return ip as string;
+}
+
+export function sendToSocket(socket: WebSocket, event: string|number, data: any) {
+    return socket.send(JSON.stringify({e: event, d: data}));
 }

@@ -9,6 +9,7 @@ enum WebSocketEvents {
     ROOM_UPDATE,
     PARTICIPANT_KICK,
     PARTICIPANT_UPDATE,
+    PARTICIPANT_JOIN,
     ROOM_CLOSE
 }
 

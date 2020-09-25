@@ -3,7 +3,7 @@ import { Cursor } from "mongodb";
 
 import { IParticipant, Participant } from "./Participant";
 import CustomCollection from "../collections/CustomCollection";
-import { ICollectable, IObject } from "../../util/interfaces";
+import { ExtendedSocket, ICollectable, IObject } from "../../util/interfaces";
 
 export const messagesPerPage = 20;
 
@@ -16,6 +16,7 @@ export class Room {
    maxParticipants?: number
    adminPassword: string
    discordWebhook?: string
+   sockets: Array<ExtendedSocket>
    constructor(collection: CustomCollection<Room>, data: ICollectable) {
        this.collection = collection;
        this.id = data.id;
@@ -25,6 +26,7 @@ export class Room {
        this.maxParticipants = data.maxParticipants;
        this.adminPassword = data.adminPassword;
        this.discordWebhook = data.discordWebhook;
+       this.sockets = [];
    }
 
    paginateMessages(currentPage: number) : Cursor {

@@ -2,8 +2,9 @@
 
 import Database from "../../database";
 import Express from "express";
-import {sendStatus, getIP} from "../../util/utils";
+import {sendStatus, getIP, sendToSocket} from "../../util/utils";
 import { v4 as uuidv4 } from 'uuid';
+import WebSocketEvents from "../../util/websocketEvents";
 
 export default {
     method: "post",
@@ -16,7 +17,7 @@ export default {
         if (room.roomLocked) return sendStatus(res, "This room is locked!", 401);
         if (room.maxParticipants === room.participants.size) return sendStatus(res, "Room is full!", 401);
         const id = uuidv4();
-        await room.addParticipant({
+        const participant = await room.addParticipant({
             name: body.name,
             id: id,
             admin: false,
@@ -24,6 +25,9 @@ export default {
             muted: false,
             banned: false
         });
+        for (let socket of room.sockets) {
+             sendToSocket(socket, WebSocketEvents.PARTICIPANT_JOIN, {name: participant.name, color: participant.color});
+        }
         res.cookie(room.id, id, {maxAge: 2147483647, httpOnly: true});
         res.status(204).end();
     }

@@ -3,7 +3,7 @@ import {Container, Row, Col, ListGroup, ListGroupItem, Badge, Spinner} from "rea
 import React from "react";
 import {WebSocketClient} from "../websocket/WebSocketClient";
 import {get} from "../util/fetch";
-import {handleSocketState} from "../websocket/handleSocketState";
+import {handleSocketState, EVENT_CODES} from "../websocket/handleSocketState";
 
 import {SettingsButton} from "../components/SettingsButton";
 
@@ -30,6 +30,8 @@ export class Room extends React.Component {
         this.ws.on("open", () => {
             this.setState({roomData: room});
             handleSocketState(this.ws as WebSocketClient);
+
+            this.ws?.on<any>(EVENT_CODES.PARTICIPANT_UPDATE, console.log);
         });
     }
 

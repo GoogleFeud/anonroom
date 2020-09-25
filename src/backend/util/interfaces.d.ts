@@ -2,7 +2,7 @@
 import WebSocket from "ws";
 import Database from "../database/index";
 import WebSocketServer from "../websocket/WebSocketServer";
-import Participant from "../database/models/Participant";
+import {Participant} from "../database/models/Participant";
 
 /** ICollectable is any object which has an id property*/
 interface ICollectable {

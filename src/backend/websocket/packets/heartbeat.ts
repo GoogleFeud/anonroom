@@ -5,8 +5,9 @@ import WebSocketEvents from "../../util/websocketEvents";
 import { ExtendedSocket } from "../../util/interfaces";
 
 export default {
-    name: "_close",
+    name: WebSocketEvents.HEARTBEAT,
     callback: async (db: CustomDatabase, WsServer: WebSocketServer, socket: ExtendedSocket) => {
-        // TBD
+        //console.log("Heartbeat received!");
+        socket.isAlive = true;
     }
 }

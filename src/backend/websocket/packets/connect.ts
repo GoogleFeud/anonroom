@@ -4,6 +4,7 @@ import http from "http";
 import url from "url";
 import { ConnectEventQuery, ExtendedSocket, IConfig } from "../../util/interfaces";
 import WebSocketServer from "../WebSocketServer";
+import WebSocketEvents from "../../util/websocketEvents";
 
 const config = require("../../../config.json") as IConfig;
 
@@ -16,9 +17,9 @@ export default {
         if (!room) return socket.close(1014);
         const participant = room.participants.get(query.participantId);
         if (!participant) return socket.close(1014);
-        participant.socket = socket;
         socket.isAlive = true;
         socket.participant = participant;
-        socket.send(JSON.stringify({e: 0, d: {heartbeatInterval: config.heartbeatInterval}}))
+        room.sockets.push(socket);
+        WsServer.send(socket, WebSocketEvents.HELLO, {e: 0, d: {heartbeatInterval: config.heartbeatInterval}});
     }
 }
