@@ -3,6 +3,7 @@ import {Container, Row, Col, ListGroup, ListGroupItem, Badge, Spinner} from "rea
 import React from "react";
 import {WebSocketClient} from "../util/WebSocketClient";
 import {get} from "../util/fetch";
+import {handleSocketState} from "../util/handleSocketState";
 
 import {SettingsButton} from "../components/SettingsButton";
 
@@ -19,14 +20,16 @@ export class Room extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.ws = new WebSocketClient("ws://localhost:4000/gateway");
-        this.ws.on("open", async () => {
-            const roomData = await get<RoomDetailsRes>(`/room/${this.props.roomId}/details`);
-            if ("error" in roomData) return;
-            const room = roomData.room;
-            this.thisParticipant = room.participants.find(p => p.id === roomData.requesterId);
+    async componentDidMount() {
+        const roomData = await get<RoomDetailsRes>(`/room/${this.props.roomId}/details`);
+        if ("error" in roomData) return;
+        const room = roomData.room;
+        this.thisParticipant = room.participants.find(p => p.id === roomData.requesterId);
+        if (!this.thisParticipant) return;
+        this.ws = new WebSocketClient(`ws://localhost:4000/gateway?roomId=${room.id}&participantId=${this.thisParticipant.id}`);
+        this.ws.on("open", () => {
             this.setState({roomData: room});
+            handleSocketState(this.ws as WebSocketClient);
         });
     }
 

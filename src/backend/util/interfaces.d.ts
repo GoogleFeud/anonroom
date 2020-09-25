@@ -24,7 +24,7 @@ interface IWebsocketPacket {
 }
 
 interface IWebsocketPacketData {
-    e: string,
+    e: string|number,
     d: IObject
 }
 
@@ -37,4 +37,9 @@ interface IConfig {
 
 interface IRequestWithBody extends Express.Request {
     body: IObject
+}
+
+interface ConnectEventQuery {
+    roomId?: string,
+    participantId?: string
 }
