@@ -15,7 +15,8 @@ export class Participant {
     /** If the participant has a socket property, then they are online! */
     socket?: WebSocket
     collection: CustomCollection<Room>
-    constructor(collection: CustomCollection<Room>, data: IParticipant) {
+    room: Room
+    constructor(collection: CustomCollection<Room>, data: IParticipant, room: Room) {
         this.name = data.name;
         this.id = data.id;
         this.color = data.color;
@@ -24,6 +25,7 @@ export class Participant {
         this.collection = collection;
         this.muted = data.muted;
         this.banned = data.banned;
+        this.room = room;
     }
 
 }

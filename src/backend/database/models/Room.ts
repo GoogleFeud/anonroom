@@ -21,7 +21,7 @@ export class Room {
        this.id = data.id;
        this.chatLocked = data.chatLocked;
        this.roomLocked = data.roomLocked;
-       this.participants = new Map(data.participants.map((obj: IParticipant) => [obj.id, new Participant(collection, obj)]));
+       this.participants = new Map(data.participants.map((obj: IParticipant) => [obj.id, new Participant(collection, obj, this)]));
        this.maxParticipants = data.maxParticipants;
        this.adminPassword = data.adminPassword;
        this.discordWebhook = data.discordWebhook;
@@ -38,7 +38,7 @@ export class Room {
    }
 
    async addParticipant(data: IParticipant) : Promise<Participant> {
-       const p = new Participant(this.collection, data);
+       const p = new Participant(this.collection, data, this);
        this.participants.set(data.id, p);
        await this.collection.collection.updateOne({id: this.id}, {$push: {participants: data} });
        return p;
