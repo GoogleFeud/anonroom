@@ -25,9 +25,7 @@ export default {
             muted: false,
             banned: false
         });
-        for (let socket of room.sockets) {
-             sendToSocket(socket, WebSocketEvents.PARTICIPANT_JOIN, {name: participant.name, color: participant.color});
-        }
+        room.sendToAllSockets(WebSocketEvents.PARTICIPANT_JOIN, {name: participant.name, id: participant.id});
         res.cookie(room.id, id, {maxAge: 2147483647, httpOnly: true});
         res.status(204).end();
     }

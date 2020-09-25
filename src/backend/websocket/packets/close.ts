@@ -11,6 +11,9 @@ export default {
     callback: async (db: CustomDatabase, WsServer: WebSocketServer, socket: ExtendedSocket) => {
         if (!socket.participant) return;
         const room = socket.participant.room;
-        // TBD
+        const allPSocket = room.sockets.get(socket.participant.id);
+        if (!allPSocket) return;
+        allPSocket.delete(socket.id);
+        if (!allPSocket.size) room.sendToAllSockets(WebSocketEvents.PARTICIPANT_OFFLINE, {participantId: socket.participant.id});
     }
 }

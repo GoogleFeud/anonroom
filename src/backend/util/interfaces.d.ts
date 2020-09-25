@@ -49,5 +49,6 @@ interface ConnectEventQuery {
 
 interface ExtendedSocket extends WebSocket {
     participant?: Participant,
+    id: string
     isAlive?: boolean
 }

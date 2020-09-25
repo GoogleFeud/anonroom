@@ -27,8 +27,10 @@ All events send out **packets**, or an object with data, in other words. Here's 
 | 4        | `{ chatLocked?: boolean, roomLocked?: boolean, maxParticipants?: number, discordWebhookLink?: string }` | room_update        | Sent to all clients when the room they are in is updated.     | server        |
 | 5        | `{ userId: string }`                                                                                    | participant_kick   | Sent to all clients when a participant gets kicked.           | server        |
 | 6        | `{ userId: string, banned?: boolean, color?: boolean, admin?: boolean, online?: boolean, muted?: boolean }`                                | participant_update | Sent to all clients when a participant has chaned a property. | server        |
-| 7        | `{}`                                                                                                    | room_close         | Sent to all clients when a room gets closed.                  | server        |
-
+| 7        | `{name: string, id: string}`                                                                                                    | participant_join  |   Sent to all sockets in the room when a participant joins.   | server        |
+| 8       | `{participantId: string}`                                                                                                    | participant_offline  |  Sent to all sockets in the room when a participant disconnects, aka goes offline.   | server |
+| 9        | `{participantId: string}`                                                                                                    | participant_online  |  Sent to all sockets in the room when a participant socket connects, aka goes online.   | server |
+| 10        | `{}`                                                                                                    | room_close         | Sent to all clients when a room gets closed.                  | server        |
 
 ## Connecting to the gateway
 

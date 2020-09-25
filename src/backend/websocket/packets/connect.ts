@@ -6,6 +6,8 @@ import { ConnectEventQuery, ExtendedSocket, IConfig } from "../../util/interface
 import WebSocketServer from "../WebSocketServer";
 import WebSocketEvents from "../../util/websocketEvents";
 
+import {v4} from "uuid";
+
 const config = require("../../../config.json") as IConfig;
 
 export default {
@@ -19,7 +21,8 @@ export default {
         if (!participant) return socket.close(1014);
         socket.isAlive = true;
         socket.participant = participant;
-        room.sockets.push(socket);
+        socket.id = v4();
+        room.addSocket(participant, socket);
         WsServer.send(socket, WebSocketEvents.HELLO, {e: 0, d: {heartbeatInterval: config.heartbeatInterval}});
     }
 }

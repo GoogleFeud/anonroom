@@ -18,7 +18,8 @@ db.connect().then(() => {
 
     setInterval(() => {
         let socket: ExtendedSocket;
-        for (socket of ws.server.clients) {
+        const clients = ws.server.clients as Set<ExtendedSocket>
+        for (socket of clients) {
             if (!socket.isAlive) {
                 socket.terminate();
             }else {

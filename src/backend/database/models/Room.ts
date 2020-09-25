@@ -5,6 +5,8 @@ import { IParticipant, Participant } from "./Participant";
 import CustomCollection from "../collections/CustomCollection";
 import { ExtendedSocket, ICollectable, IObject } from "../../util/interfaces";
 
+import {sendToSocket} from "../../util/utils";
+
 export const messagesPerPage = 20;
 
 export class Room {
@@ -16,7 +18,7 @@ export class Room {
    maxParticipants?: number
    adminPassword: string
    discordWebhook?: string
-   sockets: Array<ExtendedSocket>
+   sockets: Map<string, Map<string, ExtendedSocket>>
    constructor(collection: CustomCollection<Room>, data: ICollectable) {
        this.collection = collection;
        this.id = data.id;
@@ -26,7 +28,7 @@ export class Room {
        this.maxParticipants = data.maxParticipants;
        this.adminPassword = data.adminPassword;
        this.discordWebhook = data.discordWebhook;
-       this.sockets = [];
+       this.sockets = new Map();
    }
 
    paginateMessages(currentPage: number) : Cursor {
@@ -76,5 +78,27 @@ export class Room {
         }
         return res;
    }
+
+   addSocket(participant: Participant, socket: ExtendedSocket) : void {
+       const pSocketsMap = this.sockets.get(participant.id);
+       if (!pSocketsMap) this.sockets.set(participant.id, new Map([[socket.id, socket]]));
+       else {
+           pSocketsMap.set(socket.id, socket);
+       }
+   } 
+
+   removeSocket(socket: ExtendedSocket) : void {
+       if (!socket.participant) return;
+       this.sockets.get(socket.participant.id)?.delete(socket.id);
+   }
+
+   sendToAllSockets(event: string|number, data: any) : void {
+       for (let [, socketCollection] of this.sockets) {
+            for (let [, socket] of socketCollection) {
+                sendToSocket(socket, event, data);
+            }
+       }
+   }
+
  
 }
