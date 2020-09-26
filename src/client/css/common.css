@@ -123,3 +123,19 @@ margin-bottom: auto;
     border-radius: 50%;
     display: inline-block;
 }
+
+.dropdown {
+    position: relative;
+    background-color: #f1f1f1;
+    width: 110px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 5;
+  }
+  
+.dropdown div {
+    cursor: pointer;
+}
+
+.dropdown input[type="text"] {
+    width: 85px;
+}

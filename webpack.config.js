@@ -1,6 +1,7 @@
 
 const path = require('path');
 const CopyPlugin = require("copy-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   entry: './src/client/scripts/index.tsx',

@@ -15,7 +15,7 @@ export enum EVENT_CODES {
 
 export function handleSocketState(socket: WebSocketClient) {
     let heartbeatInterval: number;
-    let heartbeatTimeout: NodeJS.Timeout;
+    //let heartbeatTimeout: NodeJS.Timeout;
 
     socket.on<any>(EVENT_CODES.HELLO, (data: HelloEventData) => {
          socket.isAlive = true;
@@ -23,12 +23,12 @@ export function handleSocketState(socket: WebSocketClient) {
     });
 
     socket.on<any>(EVENT_CODES.HEARTBEAT, () => {
-        clearTimeout(heartbeatTimeout);
+       // clearTimeout(heartbeatTimeout);
         socket.send(EVENT_CODES.HEARTBEAT, {});
 
-        heartbeatTimeout = setTimeout(() => {
-            socket._ws.close();
-        }, heartbeatInterval);
+    //    heartbeatTimeout = setTimeout(() => {
+    //        socket._ws.close();
+    //    }, heartbeatInterval);
     });
 
 }
