@@ -7,9 +7,9 @@ import { EVENT_CODES } from "../../websocket/handleSocketState";
 import { Participant } from "../Participant";
 
 export class ParticipantPanel extends React.Component {
-    props: ParticipantPanelProps
-    state: ParticipantPanelState
-    constructor(props: ParticipantPanelProps) {
+    props: IParticipantPanelProps
+    state: IParticipantPanelState
+    constructor(props: IParticipantPanelProps) {
         super(props);
         this.props = props;
 
@@ -20,8 +20,8 @@ export class ParticipantPanel extends React.Component {
     }
 
     componentDidMount() {
-        this.props.ws.on<any>(EVENT_CODES.PARTICIPANT_UPDATE, (data: ParticipantUpdateEventData) => {
-            this.setState((state: ParticipantPanelState) => {
+        this.props.ws.on<any>(EVENT_CODES.PARTICIPANT_UPDATE, (data: IParticipantUpdateEventData) => {
+            this.setState((state: IParticipantPanelState) => {
                 const participant = state.participants.find(p => data.id === p.id);
                 if (!participant) return;
                 Object.assign(participant, data);
@@ -44,17 +44,17 @@ export class ParticipantPanel extends React.Component {
 }
 
 
-export interface ParticipantPanelProps {
+export interface IParticipantPanelProps {
     ws: WebSocketClient
     participants: Array<ParticipantData>
     thisParticipant: ParticipantData
 }
 
-export interface ParticipantPanelState {
+export interface IParticipantPanelState {
     participants: Array<ParticipantData>
 }
 
-export interface ParticipantUpdateEventData {
+export interface IParticipantUpdateEventData {
     id: string,
     banned?: boolean,
     color?: boolean,

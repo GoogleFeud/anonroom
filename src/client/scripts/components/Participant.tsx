@@ -13,7 +13,7 @@ function badgeResolver(participant: ParticipantData, thisParticipant: Participan
     return res;
 } 
 
-export function Participant(props: ParticipantProps) {
+export function Participant(props: IParticipantProps) {
     return(
         <ListGroupItem>
         <span style={{color: props.participant.color}}>{props.participant.name}</span>
@@ -23,7 +23,7 @@ export function Participant(props: ParticipantProps) {
 }
 
 
-export interface ParticipantProps {
+export interface IParticipantProps {
     participant: ParticipantData,
     thisParticipant: ParticipantData
 }

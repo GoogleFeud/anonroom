@@ -20,6 +20,7 @@ export default {
         const ip = getIP(req);
         const participant = await room.addParticipant({
             name: body.name,
+            color: body.color,
             id: id,
             admin: ip === room.ownerFirstIp,
             ips: [ip],
@@ -33,5 +34,6 @@ export default {
 }
 
 interface IRoomJoinBody {
-    name: string
+    name: string,
+    color?: string
 }

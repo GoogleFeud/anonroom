@@ -13,6 +13,7 @@ export default class JoinRoom extends React.Component {
         this.props = props;
         this.state = {
             username: "",
+            color: "",
             error: "",
             forceIn: false
         }
@@ -30,6 +31,11 @@ export default class JoinRoom extends React.Component {
         const value = event.target.value;
         if (value.length > 12) return this.setState({error: "Username cannot exceed 12 characters!"});
         this.setState({username: value, error: ""});
+    }
+
+    handleColorChange(event: ChangeEvent<HTMLInputElement>) {
+        if (!event.target) return;
+        this.setState({color: event.target.value, error: ""});
     }
 
     render() {
@@ -54,8 +60,12 @@ export default class JoinRoom extends React.Component {
                             <h1>Enter name:</h1>
                             <input type="text" value={this.state.username} onChange={this.handleUsernameChange.bind(this)}></input>
                             </div>
+                            <div className="formField">
+                            <h1>Color:</h1>
+                            <input type="color" value={this.state.color} onChange={this.handleColorChange.bind(this)}></input>
+                            </div>
                             <button className="joinBtn" onClick={async () => {
-                                const res = await post<undefined>(`/room/${(this.props.match.params as IJoinRoomParams).roomId}/join`, {name: this.state.username});
+                                const res = await post<undefined>(`/room/${(this.props.match.params as IJoinRoomParams).roomId}/join`, {name: this.state.username, color: this.state.color});
                                 if (res && "error" in res) return this.setState({error: res.error});
                                 this.setState({forceIn: true});
                             }}>Create</button>
@@ -79,7 +89,8 @@ interface IJoinRoomState {
     username: string,
     error: string,
     data?: IGetRoomRes|boolean,
-    forceIn: boolean
+    forceIn: boolean,
+    color: string
 }
 
 interface IGetRoomRes {

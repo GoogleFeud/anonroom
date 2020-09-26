@@ -7,7 +7,7 @@ A website for creating anonymous chat rooms. Written entirely in typescript.
 - node.js as a backend
   - Typescript is used to ensure type-safety and bug-free code.
   - The `express` npm package provides the web server.
-  - The `ws` npm packagage helps with creating a websocket server.
+  - The `ws` npm package helps with creating a websocket server.
   - The `mongodb` npm package is used to interact with the mongoDB database.
 - On the client-side:
   - Webpack is used to bundle all the files
