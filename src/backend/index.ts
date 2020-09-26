@@ -21,7 +21,7 @@ db.connect().then(() => {
         const clients = ws.server.clients as Set<ExtendedSocket>
         for (socket of clients) {
             if (!socket.isAlive) {
-                socket.terminate();
+                socket.close(4001);
             }else {
             socket.isAlive = false;
             ws.send(socket, WebSocketEvents.HEARTBEAT, {});

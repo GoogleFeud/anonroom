@@ -106,3 +106,22 @@ margin-bottom: auto;
 .badge-banned {
     color: black;
 }
+
+
+.badge-status-online {
+    height: 12px;
+    width: 12px;
+    background-color: lightgreen;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 2px 2px 2px 2px;
+}
+
+.badge-status-offline {
+    height: 12px;
+    width: 12px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 2px 2px 2px 2px;
+}

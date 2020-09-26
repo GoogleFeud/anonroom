@@ -25,12 +25,10 @@ All events send out **packets**, or an object with data, in other words. Here's 
 | 2        | `{}`                                                                                                    | heartbeat_ack      | Randomly send to confirm the client is alive.                 | client/server |
 | 3        | `{ authorId: string, content: string, sentAt: number }`                                                 | message_create     | Sent to all clients when a message is created.                | server        |
 | 4        | `{ chatLocked?: boolean, roomLocked?: boolean, maxParticipants?: number, discordWebhookLink?: string }` | room_update        | Sent to all clients when the room they are in is updated.     | server        |
-| 5        | `{ userId: string }`                                                                                    | participant_kick   | Sent to all clients when a participant gets kicked.           | server        |
-| 6        | `{ userId: string, banned?: boolean, color?: boolean, admin?: boolean, online?: boolean, muted?: boolean }`                                | participant_update | Sent to all clients when a participant has chaned a property. | server        |
+| 5        | `{ participantId: string }`                                                                                    | participant_kick   | Sent to all clients when a participant gets kicked.           | server        |
+| 6        | `{ id: string, banned?: boolean, color?: boolean, admin?: boolean, online?: boolean, muted?: boolean }`                                | participant_update | Sent to all clients when a participant has chaned a property. | server        |
 | 7        | `{name: string, id: string}`                                                                                                    | participant_join  |   Sent to all sockets in the room when a participant joins.   | server        |
-| 8       | `{participantId: string}`                                                                                                    | participant_offline  |  Sent to all sockets in the room when a participant disconnects, aka goes offline.   | server |
-| 9        | `{participantId: string}`                                                                                                    | participant_online  |  Sent to all sockets in the room when a participant socket connects, aka goes online.   | server |
-| 10        | `{}`                                                                                                    | room_close         | Sent to all clients when a room gets closed.                  | server        |
+| 8        | `{}`                                                                                                    | room_close         | Sent to all clients when a room gets closed.                  | server        |
 
 ## Connecting to the gateway
 
@@ -51,4 +49,4 @@ List of default error codes: (Those ARE used!): https://github.com/Luka967/webso
 
 **Custom error codes:** 
 
-TBD
+- 4001 - No heartbeat

@@ -22,6 +22,7 @@ export default {
         socket.isAlive = true;
         socket.participant = participant;
         socket.id = v4();
+        if (!participant.isOnline()) room.sendToAllSockets(WebSocketEvents.PARTICIPANT_UPDATE, {id: participant.id, online: true});
         room.addSocket(participant, socket);
         WsServer.send(socket, WebSocketEvents.HELLO, {e: 0, d: {heartbeatInterval: config.heartbeatInterval}});
     }

@@ -27,6 +27,7 @@ export class Room extends React.Component {
         const room = roomData.room;
         this.thisParticipant = room.participants.find(p => p.id === roomData.requesterId);
         if (!this.thisParticipant) return;
+        this.thisParticipant.online = true;
         this.ws = new WebSocketClient(`ws://localhost:4000/gateway?roomId=${room.id}&participantId=${this.thisParticipant.id}`);
         this.ws.on("open", () => {
             this.setState({roomData: room});
@@ -46,7 +47,7 @@ export class Room extends React.Component {
             <Container fluid>
                 <Row>
                     <ParticipantPanel ws={this.ws} participants={this.state.roomData.participants} thisParticipant={this.thisParticipant}></ParticipantPanel>
-                    
+
                 <Col sm="3">
                   <div>
                     <div className="room-messageList">
@@ -80,7 +81,8 @@ export interface ParticipantData {
     muted: boolean,
     banned: boolean,
     admin: boolean,
-    color?: string
+    color?: string,
+    online: boolean
 }
 
 export interface MessageData {

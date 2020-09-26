@@ -2,7 +2,7 @@
 
 import Database from "../../database";
 import Express from "express";
-import {sendStatus, getIP, sendToSocket} from "../../util/utils";
+import {sendStatus, getIP} from "../../util/utils";
 import { v4 as uuidv4 } from 'uuid';
 import WebSocketEvents from "../../util/websocketEvents";
 

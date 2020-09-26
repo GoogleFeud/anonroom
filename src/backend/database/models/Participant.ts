@@ -27,6 +27,10 @@ export class Participant {
         this.room = room;
     }
 
+    isOnline() {
+        return this.room.sockets.has(this.id);
+    }
+
 }
 
 export interface IParticipant {
