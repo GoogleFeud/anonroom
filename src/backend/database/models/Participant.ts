@@ -31,6 +31,18 @@ export class Participant {
         return this.room.sockets.has(this.id);
     }
 
+    asInDB() {
+        return {
+            id: this.id,
+            name: this.name,
+            color: this.color,
+            admin: this.admin,
+            ips: this.ips,
+            muted: this.muted,
+            banned: this.banned
+        }
+    }
+
 }
 
 export interface IParticipant {

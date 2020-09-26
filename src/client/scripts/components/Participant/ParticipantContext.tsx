@@ -9,15 +9,17 @@ export function ParticipantContext(props: IParticipantContextProps) {
         return (
             <div style={{ position: "relative", width: 0, height: 0 }}>
             <ListGroup className="dropdown" style={{ left: props.contextMenu.x, top: props.contextMenu.y }}>
-                <ListGroupItem>
+                {props.thisParticipant.admin && (
+                    <ListGroupItem>
                     <span>Name:</span>
-                    <input type="text" defaultValue={props.contextMenu.participant.name}
+                    <input type="text" maxLength={12} minLength={3} defaultValue={props.contextMenu.participant.name}
                         onFocus={props.onGeneralFocus}
                         onBlur={(e) => {
                             props.onBlurName(e.target.value);
                         }}
                     ></input>
                 </ListGroupItem>
+                )}
                 <ListGroupItem>
             <span>Color:</span>
             <input type="color" defaultValue={props.contextMenu.participant.color}
@@ -35,12 +37,12 @@ export function ParticipantContext(props: IParticipantContextProps) {
         return(
         <div style={{ position: "relative", width: 0, height: 0 }}>
             <ListGroup className="dropdown" style={{ left: props.contextMenu.x, top: props.contextMenu.y }}>
-            <ListGroupItem onClick={props.onClickMute}>Mute</ListGroupItem>
+        <ListGroupItem onClick={props.onClickMute}>{props.contextMenu.participant.muted ? "Unmute":"Mute"}</ListGroupItem>
             <ListGroupItem onClick={props.onClickKick}>Kick</ListGroupItem>
-           <ListGroupItem onClick={props.onClickBan}>Ban</ListGroupItem>
+           <ListGroupItem onClick={props.onClickBan}>{props.contextMenu.participant.banned ? "Unban":"Ban"}</ListGroupItem>
                 <ListGroupItem>
                     <span>Name:</span>
-                    <input type="text" defaultValue={props.contextMenu.participant.name}
+                    <input type="text" maxLength={12} minLength={3} defaultValue={props.contextMenu.participant.name}
                         onFocus={props.onGeneralFocus}
                         onBlur={(e) => {
                             props.onBlurName(e.target.value);

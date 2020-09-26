@@ -7,6 +7,8 @@ import { EVENT_CODES } from "../../websocket/handleSocketState";
 import { Participant } from "../Participant/Participant";
 import { ParticipantContext } from "../Participant/ParticipantContext";
 
+import {post} from "../../util/fetch";
+
 export class ParticipantPanel extends React.Component {
     props: IParticipantPanelProps
     state: IParticipantPanelState
@@ -51,22 +53,30 @@ export class ParticipantPanel extends React.Component {
                       onGeneralFocus={() => {
                           this.inOtherMenu = true
                       }}
-                      onBlurColor={(color) => {
+                      onBlurColor={async (color) => {
+                          if (!this.state.contextMenu) return;
                           this.inOtherMenu = false;
-                          console.log(`New color: ${color}`);
+                          const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {color, updatorId: this.props.thisParticipant.id});
+                          if (res && "error" in res) return alert(res.error);
                       }}
-                      onBlurName={(name) => {
+                      onBlurName={async (name) => {
+                        if (!this.state.contextMenu) return;
                           this.inOtherMenu = false;
-                          console.log(`New name: ${name}`);
+                          const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {name, updatorId: this.props.thisParticipant.id});
+                          if (res && "error" in res) return alert(res.error);
                       }}
-                      onClickBan={() => {
-                          console.log("Ban was clicked!");
+                      onClickBan={async () => {
+                        if (!this.state.contextMenu) return;
+                        const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {banned: !this.state.contextMenu.participant.banned, updatorId: this.props.thisParticipant.id});
+                        if (res && "error" in res) return alert(res.error);
                       }}
                       onClickKick={() => {
                           console.log("Kick was clicked!");
                       }}
-                      onClickMute={() => {
-                          console.log("Mute was clicked!");
+                      onClickMute={async () => {
+                        if (!this.state.contextMenu) return;
+                        const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {muted: !this.state.contextMenu.participant.muted, updatorId: this.props.thisParticipant.id});
+                        if (res && "error" in res) return alert(res.error);
                       }}> 
                     </ParticipantContext>
                 )}
@@ -85,6 +95,7 @@ export interface IParticipantPanelProps {
     ws: WebSocketClient
     participants: Array<ParticipantData>
     thisParticipant: ParticipantData
+    roomId: string
 }
 
 export interface IParticipantPanelState {

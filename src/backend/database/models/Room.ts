@@ -62,8 +62,9 @@ export class Room {
 
    updateParticipant(pId: string, newData: IObject) {
        const participant = this.participants.get(pId);
+       if (!participant) return;
        Object.assign(participant, newData);
-       return this.collection.collection.updateOne({id: this.id, "participants.id": pId}, {$set: newData });
+       return this.collection.collection.updateOne({"participants.id": pId}, {$set: {"participants.$": participant.asInDB()} });
    }
 
    findParicipant(pIdOrIP: string) : Participant|undefined {

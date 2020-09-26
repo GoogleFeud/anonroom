@@ -58,7 +58,7 @@ export default class JoinRoom extends React.Component {
                         <Col className="center align-self-center">
                             <div className="formField">
                             <h1>Enter name:</h1>
-                            <input type="text" value={this.state.username} onChange={this.handleUsernameChange.bind(this)}></input>
+                            <input type="text" maxLength={12} minLength={3} value={this.state.username} onChange={this.handleUsernameChange.bind(this)}></input>
                             </div>
                             <div className="formField">
                             <h1>Color:</h1>

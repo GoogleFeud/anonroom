@@ -46,7 +46,7 @@ export class Room extends React.Component {
         return(
             <Container fluid>
                 <Row>
-                    <ParticipantPanel ws={this.ws} participants={this.state.roomData.participants} thisParticipant={this.thisParticipant}></ParticipantPanel>
+                    <ParticipantPanel roomId={this.state.roomData.id} ws={this.ws} participants={this.state.roomData.participants} thisParticipant={this.thisParticipant}></ParticipantPanel>
 
                 <Col sm="3">
                   <div>
