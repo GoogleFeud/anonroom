@@ -1,7 +1,7 @@
 import Database from "../../database";
 import Express from "express";
 import { IConfig, IRequestWithBody } from "../../util/interfaces";
-import {generateRoomID, sendStatus} from "../../util/utils";
+import {generateRoomID, sendStatus, getIP } from "../../util/utils";
 
 const config = require("../../../../config.json") as IConfig;
 
@@ -23,7 +23,8 @@ export default {
             participants: [],
             chatLocked: body.lockChat,
             roomLocked: false,
-            discordWebhookLink: body.discordWebhookLink
+            discordWebhookLink: body.discordWebhookLink,
+            ownerFirstIp: getIP(req as Express.Request)
         });
         res.send({link: `${config.websiteURL}/room/${roomId}/`});
     }

@@ -94,3 +94,15 @@ margin-bottom: auto;
     border-width: 2px;
     border-color: black;
 }
+
+.badge-admin {
+    color: red;
+}
+
+.badge-muted {
+    color: darkgrey;
+}
+
+.badge-banned {
+    color: black;
+}

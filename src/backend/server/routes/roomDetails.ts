@@ -23,7 +23,7 @@ export default {
             roomLocked: room.roomLocked,
             maxParticipants: room.maxParticipants,
             discordWebhook: room.discordWebhook,
-            participants: room.mapParticipants(p => ({id: p.id, muted: p.muted, banned: p.banned, admin: p.admin, color: p.color})),
+            participants: room.mapParticipants(p => ({id: p.id, muted: p.muted, banned: p.banned, admin: p.admin, color: p.color, name: p.name})),
             messagesPage: 1,
             messages: await room.paginateMessages(1).toArray()
             }

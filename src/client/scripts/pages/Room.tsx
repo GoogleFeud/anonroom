@@ -6,6 +6,7 @@ import {get} from "../util/fetch";
 import {handleSocketState, EVENT_CODES} from "../websocket/handleSocketState";
 
 import {SettingsButton} from "../components/SettingsButton";
+import {ParticipantPanel} from "../components/Panels/ParticipantPanel";
 
 export class Room extends React.Component {
     state: RoomState
@@ -36,7 +37,7 @@ export class Room extends React.Component {
     }
 
     render() {
-        if (!this.state.roomData || !this.ws) return(
+        if (!this.state.roomData || !this.ws || !this.thisParticipant) return(
         <Spinner animation="border" role="status">
          <span className="sr-only">Loading...</span>
         </Spinner>
@@ -44,26 +45,9 @@ export class Room extends React.Component {
         return(
             <Container fluid>
                 <Row>
-                    <Col sm="3">
-                 <div className="room-ParticipantList"> 
-                      <ListGroup>
-                      <ListGroupItem>
-                          GoogleFeud
-                      <Badge style={{color: "red"}}>admin</Badge>
-                      </ListGroupItem>
-                      <ListGroupItem>name</ListGroupItem>
-                      <ListGroupItem>name</ListGroupItem>
-                      <ListGroupItem>name</ListGroupItem>
-                      <ListGroupItem>name</ListGroupItem>
-                      <ListGroupItem>name</ListGroupItem>
-                      <ListGroupItem>name</ListGroupItem>
-                      <ListGroupItem>name</ListGroupItem>
-                      <ListGroupItem>name</ListGroupItem>
-                      <ListGroupItem>name</ListGroupItem>
-                  </ListGroup>
-                  </div> 
-                  </Col>
-                  <Col sm="3">
+                    <ParticipantPanel ws={this.ws} participants={this.state.roomData.participants} thisParticipant={this.thisParticipant}></ParticipantPanel>
+                    
+                <Col sm="3">
                   <div>
                     <div className="room-messageList">
                         <p>This is a long-ass chat message that you will have to scroll to see or I dunno this message is fummary!!</p>
@@ -91,6 +75,7 @@ export class Room extends React.Component {
 }
 
 export interface ParticipantData {
+    name: string,
     id: string,
     muted: boolean,
     banned: boolean,

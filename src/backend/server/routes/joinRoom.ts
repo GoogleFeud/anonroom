@@ -17,11 +17,12 @@ export default {
         if (room.roomLocked) return sendStatus(res, "This room is locked!", 401);
         if (room.maxParticipants === room.participants.size) return sendStatus(res, "Room is full!", 401);
         const id = uuidv4();
+        const ip = getIP(req);
         const participant = await room.addParticipant({
             name: body.name,
             id: id,
-            admin: false,
-            ips: [getIP(req)],
+            admin: ip === room.ownerFirstIp,
+            ips: [ip],
             muted: false,
             banned: false
         });

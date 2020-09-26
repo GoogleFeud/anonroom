@@ -18,6 +18,7 @@ export class Room {
    maxParticipants?: number
    adminPassword: string
    discordWebhook?: string
+   ownerFirstIp: string
    sockets: Map<string, Map<string, ExtendedSocket>>
    constructor(collection: CustomCollection<Room>, data: ICollectable) {
        this.collection = collection;
@@ -28,6 +29,7 @@ export class Room {
        this.maxParticipants = data.maxParticipants;
        this.adminPassword = data.adminPassword;
        this.discordWebhook = data.discordWebhook;
+       this.ownerFirstIp = data.ownerFirstIp;
        this.sockets = new Map();
    }
 
