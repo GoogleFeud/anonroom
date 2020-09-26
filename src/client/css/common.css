@@ -114,7 +114,6 @@ margin-bottom: auto;
     background-color: lightgreen;
     border-radius: 50%;
     display: inline-block;
-    margin: 2px 2px 2px 2px;
 }
 
 .badge-status-offline {
@@ -123,5 +122,4 @@ margin-bottom: auto;
     background-color: red;
     border-radius: 50%;
     display: inline-block;
-    margin: 2px 2px 2px 2px;
 }
