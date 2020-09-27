@@ -15,6 +15,7 @@ export class Room {
    chatLocked: boolean
    roomLocked: boolean
    participants: Map<string, Participant>
+   participantsBySecret: Map<string, Participant>
    maxParticipants?: number
    adminPassword: string
    discordWebhook?: string
@@ -26,6 +27,7 @@ export class Room {
        this.chatLocked = data.chatLocked;
        this.roomLocked = data.roomLocked;
        this.participants = new Map(data.participants.map((obj: IParticipant) => [obj.id, new Participant(collection, obj, this)]));
+       this.participantsBySecret = new Map(data.participants.map((obj: IParticipant) => [obj.secret, this.participants.get(obj.id)]));
        this.maxParticipants = data.maxParticipants;
        this.adminPassword = data.adminPassword;
        this.discordWebhook = data.discordWebhook;
@@ -46,12 +48,16 @@ export class Room {
    async addParticipant(data: IParticipant) : Promise<Participant> {
        const p = new Participant(this.collection, data, this);
        this.participants.set(data.id, p);
+       this.participantsBySecret.set(data.secret, p);
        await this.collection.collection.updateOne({id: this.id}, {$push: {participants: data} });
        return p;
    }
 
    async removeParticipant(id: string) : Promise<void> {
+       const p = this.participants.get(id);
+       if (!p) return;
        this.participants.delete(id);
+       this.participantsBySecret.delete(p.secret);
        await this.collection.collection.updateOne({id: this.id}, {$pull: { participants: {id: id} } })
    }
 
@@ -67,11 +73,24 @@ export class Room {
        return this.collection.collection.updateOne({"participants.id": pId}, {$set: {"participants.$": participant.asInDB()} });
    }
 
-   findParicipant(pIdOrIP: string) : Participant|undefined {
-        if (this.participants.has(pIdOrIP)) return this.participants.get(pIdOrIP);
+   findParicipant(SecretOrIP: string) : Participant|undefined {
+        if (this.participantsBySecret.has(SecretOrIP)) return this.participantsBySecret.get(SecretOrIP);
         for (let [, p] of this.participants) {
-            if (p.ips.includes(pIdOrIP)) return p;
+            if (p.ips.includes(SecretOrIP)) return p;
         }
+   }
+
+   findParticipantBySecret(secret: string) : Participant|undefined {
+       for (let [, p] of this.participants) {
+           if (p.secret === secret) return p;
+       }
+   } 
+   
+   nameExists(name: string) : boolean {
+       for (let [, p] of this.participants) {
+           if (p.name === name) return true;
+       } 
+       return false;
    }
 
    mapParticipants(mapFn: (participant: Participant) => any) : Array<any> {

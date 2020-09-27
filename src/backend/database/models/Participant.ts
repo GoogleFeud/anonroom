@@ -15,6 +15,7 @@ export class Participant {
     /** If the participant has a socket property, then they are online! */
     collection: CustomCollection<Room>
     room: Room
+    secret: string
     constructor(collection: CustomCollection<Room>, data: IParticipant, room: Room) {
         this.name = data.name;
         this.id = data.id;
@@ -25,6 +26,7 @@ export class Participant {
         this.muted = data.muted;
         this.banned = data.banned;
         this.room = room;
+        this.secret = data.secret;
     }
 
     isOnline() {
@@ -39,7 +41,8 @@ export class Participant {
             admin: this.admin,
             ips: this.ips,
             muted: this.muted,
-            banned: this.banned
+            banned: this.banned,
+            secret: this.secret
         }
     }
 
@@ -52,5 +55,6 @@ export interface IParticipant {
     admin: boolean,
     ips: Array<string>
     muted: boolean,
-    banned: boolean
+    banned: boolean,
+    secret: string
 }
