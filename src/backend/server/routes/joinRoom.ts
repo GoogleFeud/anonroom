@@ -5,6 +5,9 @@ import Express from "express";
 import {sendStatus, getIP} from "../../util/utils";
 import { v4 as uuidv4 } from 'uuid';
 import WebSocketEvents from "../../util/websocketEvents";
+import { IConfig } from "../../util/interfaces";
+
+const config = require("../../../../config.json") as IConfig;
 
 export default {
     method: "post",
@@ -16,8 +19,11 @@ export default {
         if (!room) return sendStatus(res, "This room doesn't exist!", 400);
         if (room.roomLocked) return sendStatus(res, "This room is locked!", 401);
         if (room.maxParticipants === room.participants.size) return sendStatus(res, "Room is full!", 401);
-        const id = uuidv4();
         const ip = getIP(req);
+        /** The following 2 lines make it impossible to create multiple participants on the same IP address. Comment them out for testing. */
+        //const doesExist = room.findParicipant(req.cookies[room.id] || ip);
+        //if (doesExist) return sendStatus(res, `You are already in the room as ${doesExist.name}! Join here: ${config.websiteURL}/room/${room.id}`, 400);
+        const id = uuidv4();
         const participant = await room.addParticipant({
             name: body.name,
             color: body.color,
@@ -25,7 +31,8 @@ export default {
             admin: ip === room.ownerFirstIp,
             ips: [ip],
             muted: false,
-            banned: false
+            banned: false,
+            secretToken: uuidv4()
         });
         room.sendToAllSockets(WebSocketEvents.PARTICIPANT_JOIN, {name: participant.name, id: participant.id});
         res.cookie(room.id, id, {maxAge: 2147483647, httpOnly: true});
