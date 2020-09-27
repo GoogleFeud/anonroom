@@ -21,7 +21,7 @@ export function Settings(props: ISettingsProps) {
                 <span>Discord webhook link:</span> 
                 <input type="text" className="room-controls-input" defaultValue={props.room.discordWebhook} onChange={e => {
                     if (!e.target) return;
-                    props.onDiscordWebhookLinkChange(e.target.value);
+                    props.onDiscordWebhookChange(e.target.value);
                 }}></input>
             </div>
         </div>
@@ -33,5 +33,5 @@ export interface ISettingsProps {
   onLockChatClick: () => void
   onLockRoomClick: () => void
   onMaxParticipantsChange: (newVal: number) => void
-  onDiscordWebhookLinkChange: (newVal: string) => void
+  onDiscordWebhookChange: (newVal: string) => void
 }

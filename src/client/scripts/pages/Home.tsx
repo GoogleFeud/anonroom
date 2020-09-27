@@ -14,7 +14,7 @@ export default class Home extends React.Component {
             maxParticipants: 0,
             error: "",
             message: "",
-            discordWebhookLink: "",
+            discordWebhook: "",
             lockChat: false
         }
     }
@@ -33,9 +33,9 @@ export default class Home extends React.Component {
         this.setState({maxParticipants: value, error: ""});
     }
 
-    handleDiscordWebhookLink(event: ChangeEvent<HTMLInputElement>) {
+    handleDiscordWebhook(event: ChangeEvent<HTMLInputElement>) {
         if (!event.target) return;
-        this.setState({discordWebhookLink: event.target.value, error: ""});
+        this.setState({discordWebhook: event.target.value, error: ""});
     }
 
     handleLockChat(event: ChangeEvent<HTMLInputElement>) {
@@ -57,7 +57,7 @@ export default class Home extends React.Component {
                   <span>Max Participants: </span> <input type="number" value={this.state.maxParticipants} onChange={this.handleMaxParticipantsChange.bind(this)}></input>
                   </div>
                   <div className="formField">
-                      <span>Discord webhook link:</span> <input type="text" value={this.state.discordWebhookLink} onChange={this.handleDiscordWebhookLink.bind(this)}></input>
+                      <span>Discord webhook link:</span> <input type="text" value={this.state.discordWebhook} onChange={this.handleDiscordWebhook.bind(this)}></input>
                   </div>
                   <div className="formField" style={{marginBottom: "15px"}}>
                       <span>Lock chat?:</span> <input type="checkbox" checked={this.state.lockChat} onChange={this.handleLockChat.bind(this)}></input>
@@ -70,7 +70,7 @@ export default class Home extends React.Component {
                       {
                         adminPassword: this.state.adminPassword, 
                         maxParticipants: this.state.maxParticipants,
-                        discordWebhookLink: this.state.discordWebhookLink,
+                        discordWebhook: this.state.discordWebhook,
                         lockChat: this.state.lockChat
                     });
                       if (!res) return this.setState({error: "Something went wrong!"});
@@ -96,6 +96,6 @@ interface IHomeState {
     maxParticipants: number,
     error: string,
     message: string,
-    discordWebhookLink: string,
+    discordWebhook: string,
     lockChat: boolean,
    }

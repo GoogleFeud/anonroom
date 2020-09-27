@@ -34,8 +34,8 @@ export class SettingsButton extends React.Component {
                onMaxParticipantsChange={() => {
 
                }}
-               onDiscordWebhookLinkChange={() => {
-                   
+               onDiscordWebhookChange={() => {
+
                }}
                ></Settings>
                )
