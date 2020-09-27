@@ -21,7 +21,7 @@ export default {
         delete body.updatorId;
         room.updateParticipant(participant.id, body);
         room.sendToAllSockets(WebSocketEvents.PARTICIPANT_UPDATE, {id: participant.id, ...body});
-        res.end();
+        res.status(204).end();
     }
 }
 
