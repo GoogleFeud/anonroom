@@ -35,7 +35,9 @@ export default class Home extends React.Component {
 
     handleDiscordWebhook(event: ChangeEvent<HTMLInputElement>) {
         if (!event.target) return;
-        this.setState({discordWebhook: event.target.value, error: ""});
+        const value = event.target.value;
+        if (!/discordapp.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/.test(value)) return this.setState({error: "Invalid discord webhook URL!"});
+        this.setState({discordWebhook: value, error: ""});
     }
 
     handleLockChat(event: ChangeEvent<HTMLInputElement>) {

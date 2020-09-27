@@ -12,14 +12,14 @@ export function Settings(props: ISettingsProps) {
             <button className="room-controls-button" onClick={props.onLockRoomClick}>{props.room.roomLocked ? "Unlock":"Lock"} Room</button>
             <div className="formField">
                 <span>Max participants:</span> 
-                <input type="number" className="room-controls-input" defaultValue={props.room.maxParticipants} onChange={e => {
+                <input type="number" className="room-controls-input" defaultValue={props.room.maxParticipants || 0} onBlur={e => {
                     if (!e.target) return;
                     props.onMaxParticipantsChange(Number(e.target.value));
                 }}></input>
             </div>
             <div className="formField">
                 <span>Discord webhook link:</span> 
-                <input type="text" className="room-controls-input" defaultValue={props.room.discordWebhook} onChange={e => {
+                <input type="text" className="room-controls-input" defaultValue={props.room.discordWebhook} onBlur={e => {
                     if (!e.target) return;
                     props.onDiscordWebhookChange(e.target.value);
                 }}></input>

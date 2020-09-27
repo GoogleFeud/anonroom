@@ -17,11 +17,12 @@ export default {
         if (body.discordWebhook != undefined) {
             if (body.discordWebhook === "") body.discordWebhook = undefined;
             else if (!/discordapp.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/.test(body.discordWebhook)) return sendStatus(res, "Invalid discord webhook URL!", 400);
+            else body.discordWebhook = body.discordWebhook.trim();
         }
         const roomId = generateRoomID(18);
         await database.rooms.create({
             id: roomId,
-            adminPassword: body.adminPassword,
+            adminPassword: body.adminPassword.trim(),
             maxParticipants: body.maxParticipants,
             participants: [],
             chatLocked: body.lockChat,

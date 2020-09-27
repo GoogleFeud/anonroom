@@ -3,12 +3,11 @@ import {Container, Row, Col, Spinner} from "react-bootstrap";
 import React from "react";
 import {WebSocketClient} from "../websocket/WebSocketClient";
 import {get} from "../util/fetch";
-import {handleSocketState} from "../websocket/handleSocketState";
+import {handleSocketState, EVENT_CODES} from "../websocket/handleSocketState";
 
 import {SettingsButton} from "../components/Settings/SettingsButton";
 import {ParticipantPanel} from "../components/Participant/ParticipantPanel";
 
-import {RouteComponentProps} from "react-router";
 
 export class Room extends React.Component {
     state: IRoomState
@@ -32,8 +31,17 @@ export class Room extends React.Component {
         this.thisParticipant.online = true;
         this.ws = new WebSocketClient(`ws://localhost:4000/gateway?roomId=${room.id}&participantId=${this.thisParticipant.id}`, this.props.history);
         this.ws.on("open", () => {
+            if (!this.ws) return;
             this.setState({roomData: room});
             handleSocketState(this.ws as WebSocketClient);
+
+            this.ws.on<any>(EVENT_CODES.ROOM_UPDATE, (data) => {
+                this.setState((state: IRoomState) => {
+                    if (!state.roomData) return;
+                    Object.assign(state.roomData, data);
+                    return state;
+                })
+            })
         });
     }
 
@@ -58,14 +66,14 @@ export class Room extends React.Component {
                         <p>This is a chat message!</p>
                         <p>This is a chat message!</p>
                     </div>
-                    <input type="text" className="room-chatbox"></input>
+                    <input type="text" className="room-chatbox" disabled={this.state.roomData.chatLocked}></input>
                     </div>
                     </Col>
                     {
                         this.thisParticipant && this.thisParticipant.admin && (
                             <Col sm="2">
                             <SettingsButton room={this.state.roomData}></SettingsButton>
-                         </Col>
+                            </Col>
                         )
                     }
                 </Row>
