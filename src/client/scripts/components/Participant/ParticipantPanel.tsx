@@ -70,8 +70,10 @@ export class ParticipantPanel extends React.Component {
                         const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {banned: !this.state.contextMenu.participant.banned, updatorId: this.props.thisParticipant.id});
                         if (res && "error" in res) return alert(res.error);
                       }}
-                      onClickKick={() => {
-                          console.log("Kick was clicked!");
+                      onClickKick={async () => {
+                        if (!this.state.contextMenu) return;
+                        const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}/kick`, {kickerId: this.props.thisParticipant.id});
+                        if (res && "error" in res) return alert(res.error);
                       }}
                       onClickMute={async () => {
                         if (!this.state.contextMenu) return;
@@ -110,7 +112,8 @@ export interface IParticipantUpdateEventData {
     color?: boolean,
     admin?: boolean,
     online?: boolean,
-    muted?: boolean
+    muted?: boolean,
+    kicked?: boolean
 }
 
 export interface IParticipantCustomContextMenuData {

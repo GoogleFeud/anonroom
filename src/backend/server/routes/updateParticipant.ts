@@ -2,7 +2,7 @@
 
 import Database from "../../database";
 import Express from "express";
-import {generateRoomID, sendStatus, getIP } from "../../util/utils";
+import {sendStatus} from "../../util/utils";
 import WebSocketEvents from "../../util/websocketEvents";
 
 export default {
@@ -16,7 +16,9 @@ export default {
         const updator = room.participants.get(body.updatorId);
         if (!updator) return sendStatus(res, "Invalid updator!", 400);
         const participant = room.participants.get(req.params.participantId);
+        if (!updator.admin && ("banned" in body || "muted" in body || "name" in body)) return sendStatus(res, "Invalid updator!", 400);
         if (!participant) return sendStatus(res, "Invalid participant!", 400);
+        if (participant.admin && updator.admin && participant.id !== updator.id) return sendStatus(res, "Invalid participant!", 400);
         if (body.name === "" || (body.name && (body.name.length > 12 || body.name.length < 2))) return sendStatus(res, "Your username must be between 3 and 12 characters long!", 400);
         delete body.updatorId;
         let newStatus = participant.isOnline();
