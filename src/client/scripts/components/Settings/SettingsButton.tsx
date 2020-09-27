@@ -1,10 +1,14 @@
 
 import React from "react";
+import { RoomData } from "../../pages/Room";
+import {Settings} from "./Settings";
 
 export class SettingsButton extends React.Component {
-    state: SettingsButtonState
-    constructor(props: Readonly<{}>) {
+    state: ISettingsButtonState
+    props: ISettingsButtonProps
+    constructor(props: ISettingsButtonProps) {
         super(props);
+        this.props = props;
         this.state = {
             open: false
         }
@@ -14,27 +18,37 @@ export class SettingsButton extends React.Component {
         return(
             <div className="room-controls">
                 <button onClick={() => {
-                    this.setState((state: SettingsButtonState) => {
+                    this.setState((state: ISettingsButtonState) => {
                         this.setState({open: !state.open});
                     });
                 }}>Settings</button>
                {
-               this.state.open && (<div className="room-controls-modal">
-                        <button className="room-controls-button">Lock Chat</button>
-                        <button className="room-controls-button">Lock Room</button>
-                        <div className="formField">
-                        <span>Max participants:</span> <input type="number" className="room-controls-input"></input>
-                       </div>
-                       <div className="formField">
-                        <span>Discord webhook link:</span> <input type="text" className="room-controls-input"></input>
-                       </div> 
-                       </div>)
+               this.state.open && (
+               <Settings room={this.props.room} 
+               onLockChatClick={() => {
+
+               }}
+               onLockRoomClick={() => {
+
+               }}
+               onMaxParticipantsChange={() => {
+
+               }}
+               onDiscordWebhookLinkChange={() => {
+                   
+               }}
+               ></Settings>
+               )
                 }
             </div>
         )
     }
 }
 
-interface SettingsButtonState {
+export interface ISettingsButtonState {
      open: boolean
+}
+
+export interface ISettingsButtonProps {
+    room: RoomData
 }

@@ -64,7 +64,7 @@ export class Room extends React.Component {
                     {
                         this.thisParticipant && this.thisParticipant.admin && (
                             <Col sm="2">
-                            <SettingsButton></SettingsButton>
+                            <SettingsButton room={this.state.roomData}></SettingsButton>
                          </Col>
                         )
                     }
