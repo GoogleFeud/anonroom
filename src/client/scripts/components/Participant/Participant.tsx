@@ -1,7 +1,7 @@
 import React from "react";
 import { ParticipantData } from "../../pages/Room";
 import {ListGroupItem, Badge} from "react-bootstrap";
-import { IParticipantCustomContextMenuData } from "../Panels/ParticipantPanel";
+import { IParticipantCustomContextMenuData } from "./ParticipantPanel";
 
 function badgeResolver(participant: ParticipantData, thisParticipant: ParticipantData) : Array<JSX.Element> {
     const res = []
@@ -24,7 +24,7 @@ export function Participant(props: IParticipantProps) {
             if (!props.thisParticipant.admin && props.participant.id !== props.thisParticipant.id) return;
             mouseDownTimeout = setTimeout(() => {
                 props.onContextMenu({participant: props.participant, x: event.pageX, y: event.pageY});
-            }, 1500);
+            }, 1000);
         }}
         onMouseUp={() => {
             if (!props.thisParticipant.admin && props.participant.id !== props.thisParticipant.id) return;

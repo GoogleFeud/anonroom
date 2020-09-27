@@ -49,4 +49,4 @@ List of default error codes: (Those ARE used!): https://github.com/Luka967/webso
 
 **Custom error codes:** 
 
-- 4001 - No heartbeat
+- 4001 - Forcefully closed because of the actions of an admin (kick/ban)

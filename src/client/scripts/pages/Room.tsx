@@ -1,19 +1,21 @@
 
-import {Container, Row, Col, ListGroup, ListGroupItem, Badge, Spinner} from "react-bootstrap";
+import {Container, Row, Col, Spinner} from "react-bootstrap";
 import React from "react";
 import {WebSocketClient} from "../websocket/WebSocketClient";
 import {get} from "../util/fetch";
-import {handleSocketState, EVENT_CODES} from "../websocket/handleSocketState";
+import {handleSocketState} from "../websocket/handleSocketState";
 
 import {SettingsButton} from "../components/SettingsButton";
-import {ParticipantPanel} from "../components/Panels/ParticipantPanel";
+import {ParticipantPanel} from "../components/Participant/ParticipantPanel";
+
+import {RouteComponentProps} from "react-router";
 
 export class Room extends React.Component {
-    state: RoomState
+    state: IRoomState
     ws?: WebSocketClient
-    props: RoomProps
+    props: IRoomProps
     thisParticipant?: ParticipantData
-    constructor(props: RoomProps) {
+    constructor(props: IRoomProps) {
         super(props);
         this.props = props;
         this.state = {
@@ -22,18 +24,16 @@ export class Room extends React.Component {
     }
 
     async componentDidMount() {
-        const roomData = await get<RoomDetailsRes>(`/room/${this.props.roomId}/details`);
+        const roomData = await get<IRoomDetailsRes>(`/room/${this.props.roomId}/details`);
         if ("error" in roomData) return;
         const room = roomData.room;
         this.thisParticipant = room.participants.find(p => p.id === roomData.requesterId);
         if (!this.thisParticipant) return;
         this.thisParticipant.online = true;
-        this.ws = new WebSocketClient(`ws://localhost:4000/gateway?roomId=${room.id}&participantId=${this.thisParticipant.id}`);
+        this.ws = new WebSocketClient(`ws://localhost:4000/gateway?roomId=${room.id}&participantId=${this.thisParticipant.id}`, this.props.history);
         this.ws.on("open", () => {
             this.setState({roomData: room});
             handleSocketState(this.ws as WebSocketClient);
-
-            this.ws?.on<any>(EVENT_CODES.PARTICIPANT_UPDATE, console.log);
         });
     }
 
@@ -46,7 +46,7 @@ export class Room extends React.Component {
         return(
             <Container fluid>
                 <Row>
-                    <ParticipantPanel roomId={this.state.roomData.id} ws={this.ws} participants={this.state.roomData.participants} thisParticipant={this.thisParticipant}></ParticipantPanel>
+                    <ParticipantPanel history={this.props.history} roomId={this.state.roomData.id} ws={this.ws} participants={this.state.roomData.participants} thisParticipant={this.thisParticipant}></ParticipantPanel>
 
                 <Col sm="3">
                   <div>
@@ -102,16 +102,17 @@ export interface RoomData {
    messagesPage: number,
 }
 
-export interface RoomDetailsRes {
+export interface IRoomDetailsRes {
     room: RoomData,
     requesterId: string
 }
 
 
-interface RoomState {
+interface IRoomState {
     roomData?: RoomData,
 }
 
-interface RoomProps {
-    roomId: string
+interface IRoomProps {
+    roomId: string,
+    history: any
 }

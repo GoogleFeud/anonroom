@@ -1,6 +1,6 @@
 import React from "react";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
-import { IParticipantCustomContextMenuData } from "../Panels/ParticipantPanel";
+import { IParticipantCustomContextMenuData } from "./ParticipantPanel";
 
 import { ParticipantData } from "../../pages/Room";
 

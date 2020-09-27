@@ -1,11 +1,11 @@
 import React from "react";
-import { Col, ListGroup } from "react-bootstrap";
+import {Col, ListGroup} from "react-bootstrap";
 import { ParticipantData } from "../../pages/Room";
 import { WebSocketClient } from "../../websocket/WebSocketClient";
 import { EVENT_CODES } from "../../websocket/handleSocketState";
 
-import { Participant } from "../Participant/Participant";
-import { ParticipantContext } from "../Participant/ParticipantContext";
+import { Participant } from "./Participant";
+import { ParticipantContext } from "./ParticipantContext";
 
 import {post} from "../../util/fetch";
 
@@ -95,7 +95,8 @@ export interface IParticipantPanelProps {
     ws: WebSocketClient
     participants: Array<ParticipantData>
     thisParticipant: ParticipantData
-    roomId: string
+    roomId: string,
+    history: any
 }
 
 export interface IParticipantPanelState {

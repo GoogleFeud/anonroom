@@ -19,8 +19,16 @@ export default {
         if (!participant) return sendStatus(res, "Invalid participant!", 400);
         if (body.name === "" || (body.name && (body.name.length > 12 || body.name.length < 2))) return sendStatus(res, "Your username must be between 3 and 12 characters long!", 400);
         delete body.updatorId;
+        let newStatus = participant.isOnline();
+        if (body.banned) {
+            const allParticipantSockets = room.sockets.get(participant.id);
+            if (!allParticipantSockets) return;
+            for (let [, socket] of allParticipantSockets) socket.close(4001);
+            room.sockets.delete(participant.id);
+            newStatus = false;
+        }
         room.updateParticipant(participant.id, body);
-        room.sendToAllSockets(WebSocketEvents.PARTICIPANT_UPDATE, {id: participant.id, ...body});
+        room.sendToAllSockets(WebSocketEvents.PARTICIPANT_UPDATE, {id: participant.id, ...body, online: newStatus});
         res.status(204).end();
     }
 }
@@ -30,5 +38,5 @@ interface IParticipantUpdateBody {
     color?: string,
     name?: string,
     muted?: boolean,
-    banned?: boolean
+    banned?: boolean,
 }

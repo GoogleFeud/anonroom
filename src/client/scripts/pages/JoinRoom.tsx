@@ -75,7 +75,7 @@ export default class JoinRoom extends React.Component {
                 </Container>
             )
         } else {
-            return <Room roomId={(this.props.match.params as IJoinRoomParams).roomId}></Room>
+            return <Room history={this.props.history} roomId={(this.props.match.params as IJoinRoomParams).roomId}></Room>
         }
     }
 }
