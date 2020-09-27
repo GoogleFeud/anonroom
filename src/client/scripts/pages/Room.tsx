@@ -5,7 +5,7 @@ import {WebSocketClient} from "../websocket/WebSocketClient";
 import {get} from "../util/fetch";
 import {handleSocketState} from "../websocket/handleSocketState";
 
-import {SettingsButton} from "../components/SettingsButton";
+import {SettingsButton} from "../components/Settings/SettingsButton";
 import {ParticipantPanel} from "../components/Participant/ParticipantPanel";
 
 import {RouteComponentProps} from "react-router";
