@@ -14,7 +14,10 @@ export default {
         if (body.adminPassword.length < 6 || body.adminPassword.length > 16) return sendStatus(res, "Password must be between 6 and 16 characters long!", 400);
         if (body.maxParticipants != undefined && body.maxParticipants < 1) body.maxParticipants = undefined; 
         if (body.lockChat != undefined && typeof body.lockChat !== "boolean") return sendStatus(res, "lockChat property must be a boolean!", 400);
-        if (body.discordWebhookLink != undefined && body.discordWebhookLink === "") body.discordWebhookLink = undefined;
+        if (body.discordWebhookLink != undefined) {
+            if (body.discordWebhookLink === "") body.discordWebhookLink = undefined;
+            else if (!/discordapp.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/.test(body.discordWebhookLink)) return sendStatus(res, "Invalid discord webhook URL!", 400);
+        }
         const roomId = generateRoomID(18);
         await database.rooms.create({
             id: roomId,
