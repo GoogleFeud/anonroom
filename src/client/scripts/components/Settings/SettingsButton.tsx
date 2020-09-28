@@ -4,6 +4,7 @@ import { RoomData } from "../../pages/Room";
 import {Settings} from "./Settings";
 
 import {post} from "../../util/fetch";
+import e from "express";
 
 export class SettingsButton extends React.Component {
     state: ISettingsButtonState
@@ -35,15 +36,21 @@ export class SettingsButton extends React.Component {
                 const res = await post<undefined>(`/room/${this.props.room.id}`, {roomLocked: !this.props.room.roomLocked});
                 if (res && "error" in res) alert(res.error);
                }}
-               onMaxParticipantsChange={async (value) => {
+               onMaxParticipantsChange={async (value, e) => {
                 if (value < 0) return alert("Max participants must be a positive number, or 0 for unlimited participants.");
                 const res = await post<undefined>(`/room/${this.props.room.id}`, {maxParticipants: value});
-                if (res && "error" in res) alert(res.error);
+                if (res && "error" in res) {
+                    alert(res.error);
+                    e.value = this.props.room.maxParticipants?.toString() || "";
+                }
                }}
-               onDiscordWebhookChange={async (value) => {
+               onDiscordWebhookChange={async (value, e) => {
                 if (value && !/discordapp.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/.test(value)) return alert("Invalid discord webhook URL!");
                 const res = await post<undefined>(`/room/${this.props.room.id}`, {discordWebhook: value});
-                if (res && "error" in res) alert(res.error);
+                if (res && "error" in res) {
+                    alert(res.error);
+                    e.value = this.props.room.discordWebhook || "";
+                }
                }}
                ></Settings>
                )

@@ -12,17 +12,31 @@ export function Settings(props: ISettingsProps) {
             <button className="room-controls-button" onClick={props.onLockRoomClick}>{props.room.roomLocked ? "Unlock":"Lock"} Room</button>
             <div className="formField">
                 <span>Max participants:</span> 
-                <input type="number" className="room-controls-input" defaultValue={props.room.maxParticipants || 0} onBlur={e => {
+                <input type="text" className="room-controls-input" defaultValue={props.room.maxParticipants || 0} onBlur={e => {
                     if (!e.target) return;
-                    props.onMaxParticipantsChange(Number(e.target.value));
+                    const value = Number(e.target.value);
+                    if (value === props.room.maxParticipants) return;
+                    props.onMaxParticipantsChange(Number(e.target.value), e.target);
+                }} onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === "Enter") {
+                        const target = e.target as HTMLInputElement;
+                        props.onMaxParticipantsChange(Number(target.value), target);
+                        target.blur();
+                    }
                 }}></input>
             </div>
             <div className="formField">
                 <span>Discord webhook link:</span> 
                 <input type="text" className="room-controls-input" defaultValue={props.room.discordWebhook} onBlur={e => {
                     if (!e.target) return;
-                    props.onDiscordWebhookChange(e.target.value);
-                }}></input>
+                    props.onDiscordWebhookChange(e.target.value, e.target);
+                }} onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === "Enter") {
+                        const target = e.target as HTMLInputElement;
+                        props.onDiscordWebhookChange(target.value, target);
+                        target.blur();
+                }
+            }}></input>
             </div>
         </div>
     )
@@ -32,6 +46,6 @@ export interface ISettingsProps {
   room: RoomData
   onLockChatClick: () => void
   onLockRoomClick: () => void
-  onMaxParticipantsChange: (newVal: number) => void
-  onDiscordWebhookChange: (newVal: string) => void
+  onMaxParticipantsChange: (newVal: number, e: HTMLInputElement) => void
+  onDiscordWebhookChange: (newVal: string, e: HTMLInputElement) => void
 }
