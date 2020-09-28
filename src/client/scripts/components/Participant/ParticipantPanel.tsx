@@ -36,6 +36,13 @@ export class ParticipantPanel extends React.Component {
                 return state;
             });
         });
+
+        this.props.ws.on<any>(EVENT_CODES.PARTICIPANT_JOIN, (data: ParticipantData) => {
+            this.setState((state: IParticipantPanelState) => {
+                state.participants.push(data);
+                return state;
+            });
+        });
     }
 
     onParticipantContextMenu(data: IParticipantCustomContextMenuData) {
@@ -121,3 +128,4 @@ export interface IParticipantCustomContextMenuData {
     x: number,
     y: number
 }
+

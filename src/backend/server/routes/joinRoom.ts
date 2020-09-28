@@ -37,7 +37,7 @@ export default {
             banned: false,
             secret: secret
         });
-        room.sendToAllSockets(WebSocketEvents.PARTICIPANT_JOIN, {name: participant.name, id: participant.id});
+        room.sendToAllSockets(WebSocketEvents.PARTICIPANT_JOIN, {name: participant.name, id: participant.id, color: participant.color, admin: participant.admin, online: true});
         res.cookie(room.id, secret, {maxAge: 2147483647, httpOnly: true});
         res.status(204).end();
     }
