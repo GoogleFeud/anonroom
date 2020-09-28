@@ -1,6 +1,7 @@
 
 import { Cursor } from "mongodb";
 
+import WebSocket from "ws";
 import { IParticipant, Participant } from "./Participant";
 import CustomCollection from "../collections/CustomCollection";
 import { ExtendedSocket, ICollectable, IObject } from "../../util/interfaces";
@@ -8,8 +9,7 @@ import { ExtendedSocket, ICollectable, IObject } from "../../util/interfaces";
 import {sendToSocket} from "../../util/utils";
 
 import WebSocketEvents from "../../util/websocketEvents";
-import { IMessage, Message } from "./Message";
-import messageCreate from "../../server/routes/messageCreate";
+import { IMessage } from "./Message";
 
 export const messagesPerPage = 20;
 
@@ -136,6 +136,14 @@ export class Room {
                 sendToSocket(socket, event, data);
             }
        }
+   }
+
+   forAllSockets(fn: (socket: WebSocket) => void) : void {
+    for (let [, socketCollection] of this.sockets) {
+        for (let [, socket] of socketCollection) {
+            fn(socket);
+        }
+   }
    }
 
  
