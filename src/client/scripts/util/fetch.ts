@@ -23,3 +23,9 @@ export async function post<T>(path: string, body: IBody, settings: RequestInit =
     if (res.status === 204) return;
     return res.json();
 }
+
+export async function del(path: string, settings: RequestInit = {}) : Promise<IFetchError|void> {
+    const res = await fetch(path, Object.assign(settings, {method: "DELETE"}));
+    if (!res.ok) return {error: res.statusText, code: res.status};
+    return;
+}

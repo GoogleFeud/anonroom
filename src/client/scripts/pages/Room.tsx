@@ -41,7 +41,11 @@ export class Room extends React.Component {
                     Object.assign(state.roomData, data);
                     return state;
                 })
-            })
+            });
+
+            this.ws.on<any>(EVENT_CODES.ROOM_CLOSE, () => {
+                this.props.history.push("/");
+            });
         });
     }
 
@@ -114,7 +118,6 @@ export interface IRoomDetailsRes {
     room: RoomData,
     requesterId: string
 }
-
 
 interface IRoomState {
     roomData?: RoomData,

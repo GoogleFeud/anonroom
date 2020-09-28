@@ -38,6 +38,7 @@ export function Settings(props: ISettingsProps) {
                 }
             }}></input>
             </div>
+            <button className="room-controls-button" onClick={props.onRoomDeleteClick}>Delete Room</button>
         </div>
     )
 }
@@ -46,6 +47,7 @@ export interface ISettingsProps {
   room: RoomData
   onLockChatClick: () => void
   onLockRoomClick: () => void
+  onRoomDeleteClick: () => void
   onMaxParticipantsChange: (newVal: number, e: HTMLInputElement) => void
   onDiscordWebhookChange: (newVal: string, e: HTMLInputElement) => void
 }

@@ -11,9 +11,10 @@ export default {
         const room = await database.rooms.get(req.params.roomId);
         if (!room) return sendStatus(res, "This room doesn't exist!", 400);
         const kicker = room.participantsBySecret.get(req.cookies[room.id]);
-        if (!kicker || !kicker.admin) return sendStatus(res, "Invalid kicker!", 400);
+        if (!kicker) return sendStatus(res, "Invalid kicker!", 400);
+        if (!kicker.admin) return sendStatus(res, "Unauthorized", 401);
         const participant = room.participants.get(req.params.participantId);
-        if (!participant) return sendStatus(res, "Invalid participant!", 400);
+        if (!participant || participant.admin) return sendStatus(res, "Invalid participant!", 400);
         const allParticipantSockets = room.sockets.get(participant.id);
         if (allParticipantSockets) {
             for (let [, socket] of allParticipantSockets) socket.close(4001);

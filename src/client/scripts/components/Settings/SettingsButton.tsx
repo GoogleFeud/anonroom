@@ -3,8 +3,7 @@ import React from "react";
 import { RoomData } from "../../pages/Room";
 import {Settings} from "./Settings";
 
-import {post} from "../../util/fetch";
-import e from "express";
+import {post, del} from "../../util/fetch";
 
 export class SettingsButton extends React.Component {
     state: ISettingsButtonState
@@ -34,6 +33,10 @@ export class SettingsButton extends React.Component {
                }}
                onLockRoomClick={async () => {
                 const res = await post<undefined>(`/room/${this.props.room.id}`, {roomLocked: !this.props.room.roomLocked});
+                if (res && "error" in res) alert(res.error);
+               }}
+               onRoomDeleteClick={async () => {
+                const res = await del(`/room/${this.props.room.id}`);
                 if (res && "error" in res) alert(res.error);
                }}
                onMaxParticipantsChange={async (value, e) => {

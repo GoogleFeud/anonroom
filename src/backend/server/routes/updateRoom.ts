@@ -15,6 +15,7 @@ export default {
         if (!room) return sendStatus(res, "This room doesn't exist!", 400);
         const updator = room.participantsBySecret.get(req.cookies[room.id]);
         if (!updator) return sendStatus(res, "Invalid updator!", 400);
+        if (!updator.admin) return sendStatus(res, "Unauthorized", 401);
         if (body.discordWebhook != undefined) {
             if (body.discordWebhook === "") body.discordWebhook = undefined;
             else if (!/discordapp.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/.test(body.discordWebhook)) return sendStatus(res, "Invalid discord webhook URL!", 400);

@@ -15,9 +15,9 @@ export default {
         const updator = room.participantsBySecret.get(req.cookies[room.id]);
         if (!updator) return sendStatus(res, "Invalid updator!", 400);
         const participant = room.participants.get(req.params.participantId);
-        if (!updator.admin && ("banned" in body || "muted" in body || "name" in body)) return sendStatus(res, "Invalid updator!", 400);
+        if (!updator.admin && ("banned" in body || "muted" in body || "name" in body)) return sendStatus(res, "Unauthorized", 401);
         if (!participant) return sendStatus(res, "Invalid participant!", 400);
-        if (participant.admin && updator.admin && participant.id !== updator.id) return sendStatus(res, "Invalid participant!", 400);
+        if (participant.admin && updator.admin && participant.id !== updator.id) return sendStatus(res, "Unauthorized", 400);
         if (body.name) {
             body.name = body.name.trim();
             if (body.name === "" || (body.name && (body.name.length > 12 || body.name.length < 2))) return sendStatus(res, "Your username must be between 3 and 12 characters long!", 400);
