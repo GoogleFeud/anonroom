@@ -61,7 +61,7 @@ export class Room extends React.Component {
                 <Row>
                     <ParticipantPanel history={this.props.history} roomId={this.state.roomData.id} ws={this.ws} participants={this.state.roomData.participants} thisParticipant={this.thisParticipant}></ParticipantPanel>
 
-                    <ChatPanel room={this.state.roomData}></ChatPanel>
+                    <ChatPanel room={this.state.roomData} ws={this.ws}></ChatPanel>
                     {
                         this.thisParticipant && this.thisParticipant.admin && (
                             <Col sm="2">
@@ -87,9 +87,10 @@ export interface ParticipantData {
 }
 
 export interface MessageData {
-    authorName?: string,
+    authorId?: string,
     content: string,
-    sentAt: number
+    sentAt: number,
+    roomId: string
 }
 
 export interface RoomData {

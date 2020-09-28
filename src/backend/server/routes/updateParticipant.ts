@@ -19,7 +19,7 @@ export default {
         if (!participant) return sendStatus(res, "Invalid participant!", 400);
         if (participant.admin && updator.admin && participant.id !== updator.id) return sendStatus(res, "Unauthorized", 400);
         if (body.name) {
-            body.name = body.name.trim();
+            body.name = body.name.replace(/\s+/g,' ').trim();
             if (body.name === "" || (body.name && (body.name.length > 12 || body.name.length < 2))) return sendStatus(res, "Your username must be between 3 and 12 characters long!", 400);
         }
         let newStatus = participant.isOnline();

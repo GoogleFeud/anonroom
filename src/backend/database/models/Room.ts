@@ -7,6 +7,10 @@ import { ExtendedSocket, ICollectable, IObject } from "../../util/interfaces";
 
 import {sendToSocket} from "../../util/utils";
 
+import WebSocketEvents from "../../util/websocketEvents";
+import { IMessage, Message } from "./Message";
+import messageCreate from "../../server/routes/messageCreate";
+
 export const messagesPerPage = 20;
 
 export class Room {
@@ -39,6 +43,18 @@ export class Room {
       if (currentPage === 1) return this.collection.database.messages.collection.find({roomId: this.id}).limit(messagesPerPage);
       else return this.collection.database.messages.collection.find({roomId: this.id}).skip((messagesPerPage * currentPage - 1)).limit(messagesPerPage);
    }
+
+   async createMessage(data: IObject, emitToSockets: boolean = false) : Promise<IMessage> {
+       const messageData = {
+        content: data.content,
+        authorId: data.authorId,
+        roomId: this.id,
+        sentAt: Date.now()
+       }
+       await this.collection.database.messages.create(messageData);
+       if (emitToSockets) this.sendToAllSockets(WebSocketEvents.MESSAGE_CREATE, messageData);
+       return messageData;
+   } 
 
    async delete() : Promise<void> {
        await this.collection.delete(this.id);
