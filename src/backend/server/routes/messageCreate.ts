@@ -3,7 +3,7 @@
 
 import Database from "../../database";
 import Express from "express";
-import {sendStatus} from "../../util/utils";
+import {sendStatus, getIP} from "../../util/utils";
 
 export default {
     method: "post",
@@ -12,7 +12,7 @@ export default {
         const body = req.body as IMessageCreateBody;
         const room = await database.rooms.get(req.params.roomId);
         if (!room) return sendStatus(res, "This room doesn't exist!", 400);
-        const creator = room.participantsBySecret.get(req.cookies[room.id]);
+        const creator = room.findParicipant(req.cookies[room.id] || getIP(req));
         if (!creator) return sendStatus(res, "Invalid creator!", 400);
         if (!creator.admin && (creator.muted || room.chatLocked || creator.banned)) return sendStatus(res, "Unauthorized!", 401);
         if (typeof body.content !== "string") return sendStatus(res, "Message must be a string!", 400); 

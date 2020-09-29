@@ -2,7 +2,7 @@
 
 import Database from "../../database";
 import Express from "express";
-import {sendStatus} from "../../util/utils";
+import {sendStatus, getIP} from "../../util/utils";
 
 import WebSocketEvents from "../../util/websocketEvents";
 
@@ -13,7 +13,7 @@ export default {
         const body = req.body as IRoomUpdateBody;
         const room = await database.rooms.get(req.params.roomId);
         if (!room) return sendStatus(res, "This room doesn't exist!", 400);
-        const updator = room.participantsBySecret.get(req.cookies[room.id]);
+        const updator = room.findParicipant(req.cookies[room.id] || getIP(req));
         if (!updator) return sendStatus(res, "Invalid updator!", 400);
         if (!updator.admin) return sendStatus(res, "Unauthorized", 401);
         if (body.discordWebhook != undefined) {

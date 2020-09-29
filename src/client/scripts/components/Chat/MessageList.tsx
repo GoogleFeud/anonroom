@@ -27,7 +27,7 @@ export class MessageList extends React.Component {
             if (!e.target) return;
             const target  = e.target as HTMLDivElement;
             if (target.scrollTop === 0) {
-                console.log("new messages incoming!");
+                this.props.onScrollTop();
             }
         }}>
             {this.props.messages.map(m => <Message author={this.props.room.participants.find(p => p.id === m.authorId)} raw={m}></Message>)}
@@ -40,4 +40,5 @@ export class MessageList extends React.Component {
 export interface IMessageListProps {
     messages: Array<MessageData>,
     room: RoomData,
+    onScrollTop: () => void
 }

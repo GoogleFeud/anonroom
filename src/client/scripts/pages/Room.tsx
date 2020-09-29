@@ -102,7 +102,6 @@ export interface RoomData {
     roomLocked: boolean,
     maxParticipants?: number,
     discordWebhook?: string,
-    page: number,
 }
 
 export interface IRoomDetailsRes {

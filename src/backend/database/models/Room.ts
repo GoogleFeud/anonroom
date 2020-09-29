@@ -39,9 +39,9 @@ export class Room {
        this.sockets = new Map();
    }
 
-   paginateMessages(currentPage: number) : Cursor {
-      if (currentPage === 1) return this.collection.database.messages.collection.find({roomId: this.id}).sort({sentAt: -1}).limit(messagesPerPage);
-      else return this.collection.database.messages.collection.find({roomId: this.id}).sort({sentAt: -1}).limit(messagesPerPage).skip((messagesPerPage * currentPage - 1))
+   paginateMessages(lastFetchedDate: number = 0) : Cursor {
+      if (!lastFetchedDate) return this.collection.database.messages.collection.find({roomId: this.id}).sort({sentAt: -1}).limit(messagesPerPage);
+      return this.collection.database.messages.collection.find({roomId: this.id, sentAt: {$lt: lastFetchedDate}}).sort({sentAt: 1}).limit(messagesPerPage);
    }
 
    async createMessage(data: IObject, emitToSockets: boolean = false) : Promise<IMessage> {
@@ -95,12 +95,6 @@ export class Room {
             if (p.ips.includes(SecretOrIP)) return p;
         }
    }
-
-   findParticipantBySecret(secret: string) : Participant|undefined {
-       for (let [, p] of this.participants) {
-           if (p.secret === secret) return p;
-       }
-   } 
    
    nameExists(name: string) : boolean {
        for (let [, p] of this.participants) {

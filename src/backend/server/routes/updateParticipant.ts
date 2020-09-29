@@ -2,7 +2,7 @@
 
 import Database from "../../database";
 import Express from "express";
-import {sendStatus, sendToSocket} from "../../util/utils";
+import {sendStatus, sendToSocket, getIP} from "../../util/utils";
 import WebSocketEvents from "../../util/websocketEvents";
 
 export default {
@@ -12,7 +12,7 @@ export default {
         const body = req.body as IParticipantUpdateBody;
         const room = await database.rooms.get(req.params.roomId);
         if (!room) return sendStatus(res, "This room doesn't exist!", 400);
-        const updator = room.participantsBySecret.get(req.cookies[room.id]);
+        const updator = room.findParicipant(req.cookies[room.id] || getIP(req));
         if (!updator) return sendStatus(res, "Invalid updator!", 400);
         const participant = room.participants.get(req.params.participantId);
         if (!updator.admin && ("banned" in body || "muted" in body || "name" in body)) return sendStatus(res, "Unauthorized", 401);

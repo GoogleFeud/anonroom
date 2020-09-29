@@ -24,8 +24,7 @@ export default {
             maxParticipants: room.maxParticipants,
             discordWebhook: room.discordWebhook,
             participants: room.mapParticipants(p => ({id: p.id, muted: p.muted, banned: p.banned, admin: p.admin, color: p.color, name: p.name, online: p.isOnline()})),
-            page: 1,
-            messages: await room.paginateMessages(1).toArray()
+            messages: await room.paginateMessages().toArray()
             }
         });
     }
