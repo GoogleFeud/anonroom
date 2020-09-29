@@ -3,6 +3,8 @@ import Express from "express";
 
 import fs from "fs";
 import WebSocket from "ws";
+import http from "http";
+import { IObject } from "./interfaces";
 
 export function getFilesFromDir(dir: string, folderName?: string) : Array<string> {
     const things = fs.readdirSync(dir);
@@ -37,4 +39,15 @@ export function getIP(req: Express.Request) : string {
 
 export function sendToSocket(socket: WebSocket, event: string|number, data: any) {
     return socket.send(JSON.stringify({e: event, d: data}));
+}
+
+export function parseCookies(req: http.IncomingMessage) : IObject {
+    const cookies: IObject = {};
+    if (!req.headers.cookie) return cookies;
+    const rawCookies = req.headers.cookie.split(";");
+    for (let cookie of rawCookies) {
+        const [name, val]: Array<string> = cookie.split("=");
+        cookies[name.trim()] = decodeURI(val.trim());
+    }
+    return cookies;
 }

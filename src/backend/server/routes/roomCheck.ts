@@ -13,7 +13,6 @@ export default {
         if (room.roomLocked) return sendStatus(res, "This room is locked!", 401);
         const visitorIp = getIP(req);
         let participant = room.findParicipant(req.cookies[room.id] || visitorIp);
-        console.log("Check", participant);
         if (!participant) return res.send({id: room.id, in: false});
         if (participant.banned) return sendStatus(res, "You are banned from this room!", 401);
         if (!participant.ips.includes(visitorIp)) room.updateParticipant(participant.id, {ips: [...participant.ips, visitorIp]});
