@@ -14,7 +14,7 @@ export default {
         if (!room) return sendStatus(res, "This room doesn't exist!", 400);
         const creator = room.participantsBySecret.get(req.cookies[room.id]);
         if (!creator) return sendStatus(res, "Invalid creator!", 400);
-        if (creator.muted || room.chatLocked || creator.banned) return sendStatus(res, "Unauthorized!", 401);
+        if (!creator.admin && (creator.muted || room.chatLocked || creator.banned)) return sendStatus(res, "Unauthorized!", 401);
         if (typeof body.content !== "string") return sendStatus(res, "Message must be a string!", 400); 
         body.content = body.content.replace(/\s+/g,' ').trim();
         if (!body.content.length || body.content.length > 2048) return sendStatus(res, "Message length must be between 1 and 2048 characters!", 400); 

@@ -40,8 +40,8 @@ export class Room {
    }
 
    paginateMessages(currentPage: number) : Cursor {
-      if (currentPage === 1) return this.collection.database.messages.collection.find({roomId: this.id}).limit(messagesPerPage);
-      else return this.collection.database.messages.collection.find({roomId: this.id}).skip((messagesPerPage * currentPage - 1)).limit(messagesPerPage);
+      if (currentPage === 1) return this.collection.database.messages.collection.find({roomId: this.id}).sort({sentAt: -1}).limit(messagesPerPage);
+      else return this.collection.database.messages.collection.find({roomId: this.id}).sort({sentAt: -1}).limit(messagesPerPage).skip((messagesPerPage * currentPage - 1))
    }
 
    async createMessage(data: IObject, emitToSockets: boolean = false) : Promise<IMessage> {

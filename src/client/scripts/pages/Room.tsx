@@ -27,6 +27,7 @@ export class Room extends React.Component {
         const roomData = await get<IRoomDetailsRes>(`/room/${this.props.roomId}/details`);
         if ("error" in roomData) return;
         const room = roomData.room;
+        room.messages = room.messages.reverse();
         this.thisParticipant = room.participants.find(p => p.id === roomData.requesterId);
         if (!this.thisParticipant) return;
         this.thisParticipant.online = true;
@@ -61,7 +62,7 @@ export class Room extends React.Component {
                 <Row>
                     <ParticipantPanel history={this.props.history} roomId={this.state.roomData.id} ws={this.ws} participants={this.state.roomData.participants} thisParticipant={this.thisParticipant}></ParticipantPanel>
 
-                    <ChatPanel room={this.state.roomData} ws={this.ws}></ChatPanel>
+                    <ChatPanel thisParticipant={this.thisParticipant} room={this.state.roomData} ws={this.ws}></ChatPanel>
                     {
                         this.thisParticipant && this.thisParticipant.admin && (
                             <Col sm="2">

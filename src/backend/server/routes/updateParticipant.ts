@@ -32,10 +32,7 @@ export default {
             }
         }
         room.updateParticipant(participant.id, body);
-        room.forAllSockets(socket => {
-            sendToSocket(socket, WebSocketEvents.PARTICIPANT_UPDATE, {id: participant.id, online: false, kicked: true});
-            sendToSocket(socket, WebSocketEvents.MESSAGE_CREATE, room.createMessage({content: `${participant.name} has been updated by ${updator.name}`}));
-        });
+        room.sendToAllSockets(WebSocketEvents.PARTICIPANT_UPDATE, {id: participant.id, ...body, online: newStatus});
         res.status(204).end();
     }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { MessageData, RoomData } from "../../pages/Room";
+import { MessageData, ParticipantData, Room, RoomData } from "../../pages/Room";
 import { Col } from "react-bootstrap";
 import { WebSocketClient } from "../../websocket/WebSocketClient";
 import { ChatBox } from "./ChatBox";
@@ -22,7 +22,7 @@ export class ChatPanel extends React.Component {
     componentDidMount() {
         this.props.ws.on<any>(EVENT_CODES.MESSAGE_CREATE, (msg: MessageData) => {
             this.setState((state: IChatPanelState) => {
-                state.messages.unshift(msg);
+                state.messages.push(msg);
                 return state;
             })
         });
@@ -34,7 +34,7 @@ export class ChatPanel extends React.Component {
                 <div>
                     <MessageList room={this.props.room} messages={this.state.messages}></MessageList>
 
-                    <ChatBox isChatLocked={this.props.room.chatLocked} onSend={async (content: string, input: HTMLInputElement) => {
+                    <ChatBox isChatLocked={this.props.room.chatLocked && !this.props.thisParticipant.admin} onSend={async (content: string, input: HTMLInputElement) => {
                         content = content.replace(/\s+/g,' ').trim();
                         if (!content.length) return;
                         if (content.length > 2048) return alert("Message too long!");
@@ -51,7 +51,8 @@ export class ChatPanel extends React.Component {
 
 export interface IChatPanelProps {
     room: RoomData,
-    ws: WebSocketClient
+    ws: WebSocketClient,
+    thisParticipant: ParticipantData
 }
 
 export interface IChatPanelState {

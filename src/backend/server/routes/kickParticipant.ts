@@ -21,7 +21,7 @@ export default {
             room.sockets.delete(participant.id);
             room.forAllSockets(socket => {
                 sendToSocket(socket, WebSocketEvents.PARTICIPANT_UPDATE, {id: participant.id, online: false, kicked: true});
-                sendToSocket(socket, WebSocketEvents.MESSAGE_CREATE, room.createMessage({content: `${participant.name} has been kicked by ${kicker.id}`}));
+                sendToSocket(socket, WebSocketEvents.MESSAGE_CREATE, room.createMessage({content: `${participant.name} has been kicked by ${kicker.name}`}));
             });
         }
 
