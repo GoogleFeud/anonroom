@@ -18,7 +18,6 @@ export default {
         const page = Number(req.query.lastMessageSentAt);
         if (!page || isNaN(page)) return sendStatus(res, "Invalid page!", 400);
         const messages = await room.paginateMessages(page).toArray();
-        console.log(messages.length, page);
         return res.json(messages).end();
     }
 }
