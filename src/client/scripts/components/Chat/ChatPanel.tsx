@@ -44,9 +44,11 @@ export class ChatPanel extends React.Component {
                         const messages = await get<Array<MessageData>>(`/room/${this.props.room.id}/messages/page?lastMessageSentAt=${this.lastMessageSentAt}`);
                         if ("error" in messages) return alert(messages.error);
                         if (!messages.length) return this.reachedTheEnd = true;
-                        this.lastMessageSentAt = messages[0].sentAt;
+                        /** For SOME reason, mongoDB returns the results in reverse, so we need to reverse them again to get the right results. Weird. */
+                        const reversedMsgs = messages.reverse(); 
+                        this.lastMessageSentAt = reversedMsgs[0].sentAt;
                         this.setState((state: IChatPanelState) => {
-                            this.state.messages = [...messages, ...this.state.messages];
+                            this.state.messages = [...reversedMsgs, ...this.state.messages];
                             this.messageFetchCooldown = true;
                             setTimeout(() => this.messageFetchCooldown = false, 3000);
                             return state;

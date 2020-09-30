@@ -41,7 +41,7 @@ export class Room {
 
    paginateMessages(lastFetchedDate: number = 0) : Cursor {
       if (!lastFetchedDate) return this.collection.database.messages.collection.find({roomId: this.id}).sort({sentAt: -1}).limit(messagesPerPage);
-      return this.collection.database.messages.collection.find({roomId: this.id, sentAt: {$lt: lastFetchedDate}}).sort({sentAt: 1}).limit(messagesPerPage);
+      return this.collection.database.messages.collection.find({roomId: this.id, sentAt: {$lt: lastFetchedDate}}).sort({sentAt: -1}).limit(messagesPerPage);
    }
 
    async createMessage(data: IObject, emitToSockets: boolean = false) : Promise<IMessage> {
