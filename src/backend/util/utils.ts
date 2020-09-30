@@ -54,6 +54,19 @@ export function parseCookies(req: http.IncomingMessage) : IObject {
     return cookies;
 }
 
-export async function sendToDiscordWebhook(room: Room, authorName: string, content: string) : void {
-    const res = await 
+export async function sendToDiscordWebhook(room: Room, authorName: string, sentAt: number, content: string, authorColor?: string) : Promise<void> {
+    if (!room.discordWebhook) return;
+    const res = await fetch(room.discordWebhook, {
+        method: "POST",
+        body: JSON.stringify({username: authorName, embeds: [
+            {
+                author: {name: authorName},
+                color: parseInt(authorColor?.replace("#", "0x") || "", 16),
+                description: content,
+                timestamp: new Date(sentAt).toISOString()
+            }
+        ]}),
+        headers: {"Content-Type": "application/json"}
+    });
+    if (!res.ok) room.update({discordWebhook: null});
 }

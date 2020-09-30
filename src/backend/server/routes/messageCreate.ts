@@ -3,7 +3,7 @@
 
 import Database from "../../database";
 import Express from "express";
-import {sendStatus, getIP} from "../../util/utils";
+import {sendStatus, getIP, sendToDiscordWebhook, sendToSocket} from "../../util/utils";
 
 export default {
     method: "post",
@@ -18,7 +18,8 @@ export default {
         if (typeof body.content !== "string") return sendStatus(res, "Message must be a string!", 400); 
         body.content = body.content.replace(/\s+/g,' ').trim();
         if (!body.content.length || body.content.length > 2048) return sendStatus(res, "Message length must be between 1 and 2048 characters!", 400); 
-        await room.createMessage({content: body.content, authorId: creator.id}, true);
+        const msg = await room.createMessage({content: body.content, authorId: creator.id}, true);
+        if (room.discordWebhook) sendToDiscordWebhook(room, creator.name, msg.sentAt, body.content, creator.color);
         res.status(204).end();
     }
 }
