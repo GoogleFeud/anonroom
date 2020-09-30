@@ -1,7 +1,7 @@
 {
-  "name": "not-discord",
+  "name": "anonroom",
   "version": "1.0.0",
-  "description": "A forum, built from scratch. At first I wanted to build a blog... but those are a little overdone.",
+  "description": "A website for creating anonymous chat rooms. Written entirely in typescript.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
