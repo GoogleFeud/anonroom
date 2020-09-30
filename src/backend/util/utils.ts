@@ -5,6 +5,8 @@ import fs from "fs";
 import WebSocket from "ws";
 import http from "http";
 import { IObject } from "./interfaces";
+import {Room} from "../database/models/Room";
+import fetch from "node-fetch";
 
 export function getFilesFromDir(dir: string, folderName?: string) : Array<string> {
     const things = fs.readdirSync(dir);
@@ -50,4 +52,8 @@ export function parseCookies(req: http.IncomingMessage) : IObject {
         cookies[name.trim()] = decodeURI(val.trim());
     }
     return cookies;
+}
+
+export async function sendToDiscordWebhook(room: Room, authorName: string, content: string) : void {
+    const res = await 
 }
