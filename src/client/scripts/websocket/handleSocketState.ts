@@ -18,12 +18,12 @@ export function handleSocketState(socket: WebSocketClient) {
     //let heartbeatTimeout: NodeJS.Timeout;
 
     socket.on<any>(EVENT_CODES.HELLO, (data: HelloEventData) => {
-         socket.isAlive = true;
-         heartbeatInterval = data.heartbeatInterval;
+        socket.isAlive = true;
+        heartbeatInterval = data.heartbeatInterval;
     });
 
     socket.on<any>(EVENT_CODES.HEARTBEAT, () => {
-       // clearTimeout(heartbeatTimeout);
+        // clearTimeout(heartbeatTimeout);
         socket.send(EVENT_CODES.HEARTBEAT, {});
 
     //    heartbeatTimeout = setTimeout(() => {

@@ -1,7 +1,5 @@
 
-import { Collection } from "mongodb";
-import { stringify } from "uuid";
-import { ICollectable } from "../../util/interfaces";
+
 import { Participant } from "./Participant";
 import {Room} from "./Room";
 

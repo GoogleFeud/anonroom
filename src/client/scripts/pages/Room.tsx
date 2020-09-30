@@ -19,7 +19,7 @@ export class Room extends React.Component {
         this.props = props;
         this.state = {
             roomData: undefined,
-        }
+        };
     }
 
     async componentDidMount() {
@@ -41,7 +41,7 @@ export class Room extends React.Component {
                     if (!state.roomData) return;
                     Object.assign(state.roomData, data);
                     return state;
-                })
+                });
             });
 
             this.ws.on<any>(EVENT_CODES.ROOM_CLOSE, () => {
@@ -53,9 +53,9 @@ export class Room extends React.Component {
                     this.setState((state: IRoomState) => {
                         Object.assign(state.thisParticipant || {}, participant);
                         return state;
-                    })
+                    });
                 }
-            })
+            });
         });
     }
 
@@ -64,7 +64,7 @@ export class Room extends React.Component {
             <Spinner animation="border" role="status">
                 <span className="sr-only">Loading...</span>
             </Spinner>
-        )
+        );
         return (
             <Container fluid>
                 <Row>
@@ -80,7 +80,7 @@ export class Room extends React.Component {
                     }
                 </Row>
             </Container>
-        )
+        );
     }
 
 }

@@ -29,5 +29,5 @@ export default {
         room.addSocket(participant, socket);
         WsServer.send(socket, WebSocketEvents.HELLO, {e: 0, d: {heartbeatInterval: config.heartbeatInterval}});
     }
-}
+};
 

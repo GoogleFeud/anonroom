@@ -21,4 +21,4 @@ export default {
         room.sendToAllSockets(WebSocketEvents.PARTICIPANT_UPDATE, {id: updator.id, admin: true});
         res.status(204).end();
     }
-}
+};

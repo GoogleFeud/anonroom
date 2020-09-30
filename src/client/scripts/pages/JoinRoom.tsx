@@ -16,7 +16,7 @@ export default class JoinRoom extends React.Component {
             color: "",
             error: "",
             forceIn: false
-        }
+        };
     }
     
     async componentDidMount() {
@@ -41,28 +41,28 @@ export default class JoinRoom extends React.Component {
     render() {
         if (this.state.data == undefined  && !this.state.forceIn) return(
             <Spinner animation="border" role="status">
-                 <span className="sr-only">Loading...</span>
+                <span className="sr-only">Loading...</span>
             </Spinner>
-        )
+        );
         else if ((this.state.data === false || this.state.data === true) && !this.state.forceIn) {
             return(
-            <div className="center align-self-center">
-            <h1>Room doesn't exist.</h1>
-            </div>
-        )
-            }
+                <div className="center align-self-center">
+                    <h1>Room doesn't exist.</h1>
+                </div>
+            );
+        }
         else if (typeof this.state.data === "object" && !this.state.data.in && !this.state.forceIn) {
             return(
                 <Container>
                     <Row  style={{height: "100vh"}}>
                         <Col className="center align-self-center">
                             <div className="formField">
-                            <h1>Enter name:</h1>
-                            <input type="text" maxLength={12} minLength={3} value={this.state.username} onChange={this.handleUsernameChange.bind(this)}></input>
+                                <h1>Enter name:</h1>
+                                <input type="text" maxLength={12} minLength={3} value={this.state.username} onChange={this.handleUsernameChange.bind(this)}></input>
                             </div>
                             <div className="formField">
-                            <h1>Color:</h1>
-                            <input type="color" value={this.state.color} onChange={this.handleColorChange.bind(this)}></input>
+                                <h1>Color:</h1>
+                                <input type="color" value={this.state.color} onChange={this.handleColorChange.bind(this)}></input>
                             </div>
                             <button className="joinBtn" onClick={async () => {
                                 const res = await post<undefined>(`/room/${(this.props.match.params as IJoinRoomParams).roomId}/join`, {name: this.state.username, color: this.state.color});
@@ -73,9 +73,9 @@ export default class JoinRoom extends React.Component {
                         </Col>
                     </Row>
                 </Container>
-            )
+            );
         } else {
-            return <Room history={this.props.history} roomId={(this.props.match.params as IJoinRoomParams).roomId}></Room>
+            return <Room history={this.props.history} roomId={(this.props.match.params as IJoinRoomParams).roomId}></Room>;
         }
     }
 }

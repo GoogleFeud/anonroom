@@ -19,7 +19,7 @@ export default {
         if (!participant) return sendStatus(res, "Invalid participant!", 400);
         if (participant.admin && updator.admin && participant.id !== updator.id) return sendStatus(res, "Unauthorized", 400);
         if (body.name) {
-            body.name = body.name.replace(/\s+/g,' ').trim();
+            body.name = body.name.replace(/\s+/g," ").trim();
             if (body.name === "" || (body.name && (body.name.length > 12 || body.name.length < 2))) return sendStatus(res, "Your username must be between 3 and 12 characters long!", 400);
             if (room.nameExists(body.name)) return sendStatus(res, "This name is taken!", 400);
         }
@@ -27,16 +27,16 @@ export default {
         if (body.banned) {
             const allParticipantSockets = room.sockets.get(participant.id);
             if (allParticipantSockets) {
-            for (let [, socket] of allParticipantSockets) socket.close(4001);
-            room.sockets.delete(participant.id);
-            newStatus = false;
+                for (const [, socket] of allParticipantSockets) socket.close(4001);
+                room.sockets.delete(participant.id);
+                newStatus = false;
             }
         }
         room.updateParticipant(participant.id, body);
         room.sendToAllSockets(WebSocketEvents.PARTICIPANT_UPDATE, {id: participant.id, ...body, online: newStatus});
         res.status(204).end();
     }
-}
+};
 
 interface IParticipantUpdateBody {
     color?: string,

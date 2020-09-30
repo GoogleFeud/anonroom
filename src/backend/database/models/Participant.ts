@@ -1,8 +1,6 @@
 
-import { IObject } from "../../util/interfaces";
 import CustomCollection from "../collections/CustomCollection";
 import {Room} from "./Room";
-import WebSocket from "ws";
 
 export class Participant {
     name: string
@@ -43,7 +41,7 @@ export class Participant {
             muted: this.muted,
             banned: this.banned,
             secret: this.secret
-        }
+        };
     }
 
 }

@@ -15,13 +15,13 @@ export function getFilesFromDir(dir: string, folderName?: string) : Array<string
         thing = `/${thing}`;
         const stats = fs.statSync(dir + thing);
         if (stats.isDirectory()) files.push(...getFilesFromDir(dir + thing, (folderName) ? folderName + thing:thing));
-        else files.push((folderName) ? folderName + thing:thing)
+        else files.push((folderName) ? folderName + thing:thing);
     }
     return files;
 }
 
-export function generateRoomID(length: number = 12) : string {
-    return '_' + Math.random().toString(36).substr(2, length);
+export function generateRoomID(length = 12) : string {
+    return "_" + Math.random().toString(36).substr(2, length);
 }
 
 export function sendStatus(res: Express.Response, statusMsg: string, statusCode: number) {
@@ -30,7 +30,7 @@ export function sendStatus(res: Express.Response, statusMsg: string, statusCode:
 }
 
 export function getIP(req: Express.Request) : string {
-    const forwarded = req.headers['x-forwarded-for'];
+    const forwarded = req.headers["x-forwarded-for"];
     let ip = req.headers["x-real-ip"];
     if (!ip && forwarded) {
         if (Array.isArray(forwarded) && forwarded[0] != undefined) ip = forwarded[0];
@@ -47,7 +47,7 @@ export function parseCookies(req: http.IncomingMessage) : IObject {
     const cookies: IObject = {};
     if (!req.headers.cookie) return cookies;
     const rawCookies = req.headers.cookie.split(";");
-    for (let cookie of rawCookies) {
+    for (const cookie of rawCookies) {
         const [name, val]: Array<string> = cookie.split("=");
         cookies[name.trim()] = decodeURI(val.trim());
     }

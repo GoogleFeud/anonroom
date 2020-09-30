@@ -2,6 +2,8 @@
 
 // This should start up the server
 import { ExtendedSocket, IConfig } from "./util/interfaces";
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const config = require("../../config.json") as IConfig;
 
 import startServer from "./server/index";
@@ -18,13 +20,13 @@ db.connect().then(() => {
 
     setInterval(() => {
         let socket: ExtendedSocket;
-        const clients = ws.server.clients as Set<ExtendedSocket>
+        const clients = ws.server.clients as Set<ExtendedSocket>;
         for (socket of clients) {
             if (!socket.isAlive) {
                 socket.close(4001);
             }else {
-            socket.isAlive = false;
-            ws.send(socket, WebSocketEvents.HEARTBEAT, {});
+                socket.isAlive = false;
+                ws.send(socket, WebSocketEvents.HEARTBEAT, {});
             }
         }
     }, config.heartbeatInterval);

@@ -20,4 +20,4 @@ export default {
         const messages = await room.paginateMessages(page).toArray();
         return res.json(messages).end();
     }
-}
+};

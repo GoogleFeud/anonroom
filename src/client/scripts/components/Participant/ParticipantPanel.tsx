@@ -19,7 +19,7 @@ export class ParticipantPanel extends React.Component {
 
         this.state = {
             participants: this.props.participants
-        }
+        };
         this.inOtherMenu = false;
     }
 
@@ -27,7 +27,7 @@ export class ParticipantPanel extends React.Component {
         document.addEventListener("click", () => {
             if (!this.state.contextMenu || this.inOtherMenu) return;
             this.setState({contextMenu: undefined});
-        })
+        });
         this.props.ws.on<any>(EVENT_CODES.PARTICIPANT_UPDATE, (data: IParticipantUpdateEventData) => {
             this.setState((state: IParticipantPanelState) => {
                 const participant = state.participants.find(p => data.id === p.id);
@@ -55,38 +55,38 @@ export class ParticipantPanel extends React.Component {
             <Col sm="3">
                 {this.state.contextMenu && (
                     <ParticipantContext
-                      thisParticipant={this.props.thisParticipant}
-                      contextMenu={this.state.contextMenu}
-                      onGeneralFocus={() => {
-                          this.inOtherMenu = true
-                      }}
-                      onBlurColor={async (color) => {
-                          if (!this.state.contextMenu) return;
-                          this.inOtherMenu = false;
-                          const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {color});
-                          if (res && "error" in res) return alert(res.error);
-                      }}
-                      onBlurName={async (name) => {
-                        if (!this.state.contextMenu) return;
-                          this.inOtherMenu = false;
-                          const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {name});
-                          if (res && "error" in res) return alert(res.error);
-                      }}
-                      onClickBan={async () => {
-                        if (!this.state.contextMenu) return;
-                        const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {banned: !this.state.contextMenu.participant.banned});
-                        if (res && "error" in res) return alert(res.error);
-                      }}
-                      onClickKick={async () => {
-                        if (!this.state.contextMenu) return;
-                        const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}/kick`, {});
-                        if (res && "error" in res) return alert(res.error);
-                      }}
-                      onClickMute={async () => {
-                        if (!this.state.contextMenu) return;
-                        const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {muted: !this.state.contextMenu.participant.muted});
-                        if (res && "error" in res) return alert(res.error);
-                      }}> 
+                        thisParticipant={this.props.thisParticipant}
+                        contextMenu={this.state.contextMenu}
+                        onGeneralFocus={() => {
+                            this.inOtherMenu = true;
+                        }}
+                        onBlurColor={async (color) => {
+                            if (!this.state.contextMenu) return;
+                            this.inOtherMenu = false;
+                            const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {color});
+                            if (res && "error" in res) return alert(res.error);
+                        }}
+                        onBlurName={async (name) => {
+                            if (!this.state.contextMenu) return;
+                            this.inOtherMenu = false;
+                            const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {name});
+                            if (res && "error" in res) return alert(res.error);
+                        }}
+                        onClickBan={async () => {
+                            if (!this.state.contextMenu) return;
+                            const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {banned: !this.state.contextMenu.participant.banned});
+                            if (res && "error" in res) return alert(res.error);
+                        }}
+                        onClickKick={async () => {
+                            if (!this.state.contextMenu) return;
+                            const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}/kick`, {});
+                            if (res && "error" in res) return alert(res.error);
+                        }}
+                        onClickMute={async () => {
+                            if (!this.state.contextMenu) return;
+                            const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {muted: !this.state.contextMenu.participant.muted});
+                            if (res && "error" in res) return alert(res.error);
+                        }}> 
                     </ParticipantContext>
                 )}
                 <div className="room-ParticipantList">
@@ -95,7 +95,7 @@ export class ParticipantPanel extends React.Component {
                     </ListGroup>
                 </div>
             </Col>
-        )
+        );
     }
 }
 

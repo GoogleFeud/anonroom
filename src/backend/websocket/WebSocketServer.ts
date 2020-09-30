@@ -20,7 +20,7 @@ export default class WebSocketServer extends EventEmitter {
             socket.on("close", (code, reason) => {
                 this.emit("_close", socket, code, reason);
             });
-         });
+        });
 
     }
 

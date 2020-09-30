@@ -9,4 +9,4 @@ export default {
     callback: async (db: CustomDatabase, WsServer: WebSocketServer, socket: ExtendedSocket) => {
         socket.isAlive = true;
     }
-}
+};

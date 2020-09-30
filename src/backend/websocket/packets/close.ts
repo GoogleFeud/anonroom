@@ -19,4 +19,4 @@ export default {
             room.sendToAllSockets(WebSocketEvents.PARTICIPANT_UPDATE, {id: socket.participant.id, online: false});
         }
     }
-}
+};

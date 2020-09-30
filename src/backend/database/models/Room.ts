@@ -39,18 +39,18 @@ export class Room {
        this.sockets = new Map();
    }
 
-   paginateMessages(lastFetchedDate: number = 0) : Cursor {
-      if (!lastFetchedDate) return this.collection.database.messages.collection.find({roomId: this.id}).sort({sentAt: -1}).limit(messagesPerPage);
-      return this.collection.database.messages.collection.find({roomId: this.id, sentAt: {$lt: lastFetchedDate}}).sort({sentAt: -1}).limit(messagesPerPage);
+   paginateMessages(lastFetchedDate = 0) : Cursor {
+       if (!lastFetchedDate) return this.collection.database.messages.collection.find({roomId: this.id}).sort({sentAt: -1}).limit(messagesPerPage);
+       return this.collection.database.messages.collection.find({roomId: this.id, sentAt: {$lt: lastFetchedDate}}).sort({sentAt: -1}).limit(messagesPerPage);
    }
 
-   async createMessage(data: IObject, emitToSockets: boolean = false) : Promise<IMessage> {
+   async createMessage(data: IObject, emitToSockets = false) : Promise<IMessage> {
        const messageData = {
-        content: data.content,
-        authorId: data.authorId,
-        roomId: this.id,
-        sentAt: Date.now()
-       }
+           content: data.content,
+           authorId: data.authorId,
+           roomId: this.id,
+           sentAt: Date.now()
+       };
        await this.collection.database.messages.create(messageData);
        if (emitToSockets) this.sendToAllSockets(WebSocketEvents.MESSAGE_CREATE, messageData);
        return messageData;
@@ -74,7 +74,7 @@ export class Room {
        if (!p) return;
        this.participants.delete(id);
        this.participantsBySecret.delete(p.secret);
-       await this.collection.collection.updateOne({id: this.id}, {$pull: { participants: {id: id} } })
+       await this.collection.collection.updateOne({id: this.id}, {$pull: { participants: {id: id} } });
    }
 
    update(newData: IObject) {
@@ -90,25 +90,25 @@ export class Room {
    }
 
    findParicipant(SecretOrIP: string) : Participant|undefined {
-        if (this.participantsBySecret.has(SecretOrIP)) return this.participantsBySecret.get(SecretOrIP);
-        for (let [, p] of this.participants) {
-            if (p.ips.includes(SecretOrIP)) return p;
-        }
+       if (this.participantsBySecret.has(SecretOrIP)) return this.participantsBySecret.get(SecretOrIP);
+       for (const [, p] of this.participants) {
+           if (p.ips.includes(SecretOrIP)) return p;
+       }
    }
    
    nameExists(name: string) : boolean {
-       for (let [, p] of this.participants) {
+       for (const [, p] of this.participants) {
            if (p.name === name) return true;
        } 
        return false;
    }
 
    mapParticipants(mapFn: (participant: Participant) => any) : Array<any> {
-        const res = [];
-        for (let [, p] of this.participants) {
-            res.push(mapFn(p));
-        }
-        return res;
+       const res = [];
+       for (const [, p] of this.participants) {
+           res.push(mapFn(p));
+       }
+       return res;
    }
 
    addSocket(participant: Participant, socket: ExtendedSocket) : void {
@@ -125,19 +125,19 @@ export class Room {
    }
 
    sendToAllSockets(event: string|number, data: any) : void {
-       for (let [, socketCollection] of this.sockets) {
-            for (let [, socket] of socketCollection) {
-                sendToSocket(socket, event, data);
-            }
+       for (const [, socketCollection] of this.sockets) {
+           for (const [, socket] of socketCollection) {
+               sendToSocket(socket, event, data);
+           }
        }
    }
 
    forAllSockets(fn: (socket: WebSocket) => void) : void {
-    for (let [, socketCollection] of this.sockets) {
-        for (let [, socket] of socketCollection) {
-            fn(socket);
-        }
-   }
+       for (const [, socketCollection] of this.sockets) {
+           for (const [, socket] of socketCollection) {
+               fn(socket);
+           }
+       }
    }
 
  

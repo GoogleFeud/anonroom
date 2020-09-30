@@ -1,6 +1,6 @@
 
 
-import { MongoClient, Db, MongoCallback } from "mongodb";
+import { MongoClient, Db} from "mongodb";
 import CacheCollection from "./collections/CacheCollection";
 import CustomCollection from "./collections/CustomCollection";
 
@@ -14,7 +14,7 @@ export default class Database extends MongoClient {
      _dbname: string
      rooms: CacheCollection<Room>
      messages: CustomCollection<Message>
-     constructor(username: string, password: string, dbName: string = "anonroom") {
+     constructor(username: string, password: string, dbName = "anonroom") {
          super(`mongodb+srv://${username}:${password}@cluster0.grxvc.mongodb.net/${dbName}?retryWrites=true&w=majority`, { useUnifiedTopology: true });
          this._dbname = dbName;
          
@@ -25,11 +25,11 @@ export default class Database extends MongoClient {
      }
 
      async connect() : Promise<MongoClient> {
-        await super.connect();
-        this._db = this.db(this._dbname);
-        this.messages = new CustomCollection(this._db.collection("messages"), Message, this);
-        this.rooms = new CacheCollection(this._db.collection("rooms"), this, Room, new Map<string, Room>());
-        return this;
+         await super.connect();
+         this._db = this.db(this._dbname);
+         this.messages = new CustomCollection(this._db.collection("messages"), Message, this);
+         this.rooms = new CacheCollection(this._db.collection("rooms"), this, Room, new Map<string, Room>());
+         return this;
      }
 
 }

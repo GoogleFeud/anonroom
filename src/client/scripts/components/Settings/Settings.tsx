@@ -35,12 +35,12 @@ export function Settings(props: ISettingsProps) {
                         const target = e.target as HTMLInputElement;
                         props.onDiscordWebhookChange(target.value, target);
                         target.blur();
-                }
-            }}></input>
+                    }
+                }}></input>
             </div>
             <button className="room-controls-button" onClick={props.onRoomDeleteClick}>Delete Room</button>
         </div>
-    )
+    );
 }
 
 export interface ISettingsProps {

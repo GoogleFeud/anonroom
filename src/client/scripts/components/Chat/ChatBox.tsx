@@ -11,7 +11,7 @@ export function ChatBox(props: IChatBoxProps) {
                 props.onSend(input.value, input);
             }
         }}></input>
-    )
+    );
 }
 
 export interface IChatBoxProps {

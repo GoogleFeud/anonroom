@@ -27,9 +27,9 @@ export default {
         }
         room.update(body);
         room.sendToAllSockets(WebSocketEvents.ROOM_UPDATE, body);
-        res.status(204).end()
+        res.status(204).end();
     }
-}
+};
 
 interface IRoomUpdateBody {
     maxParticipants?: number,

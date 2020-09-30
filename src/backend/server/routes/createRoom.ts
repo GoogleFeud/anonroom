@@ -3,6 +3,7 @@ import Express from "express";
 import { IConfig, IRequestWithBody } from "../../util/interfaces";
 import {generateRoomID, sendStatus, getIP } from "../../util/utils";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const config = require("../../../../config.json") as IConfig;
 
 export default {
@@ -17,7 +18,7 @@ export default {
         if (body.lockChat != undefined && typeof body.lockChat !== "boolean") return sendStatus(res, "lockChat property must be a boolean!", 400);
         if (body.discordWebhook != undefined) {
             if (body.discordWebhook === "") body.discordWebhook = undefined;
-            else if (!/discordapp.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/.test(body.discordWebhook)) return sendStatus(res, "Invalid discord webhook URL!", 400);
+            else if (!/discordapp.com\/api\/webhooks\/([^/]+)\/([^/]+)/.test(body.discordWebhook)) return sendStatus(res, "Invalid discord webhook URL!", 400);
             else body.discordWebhook = body.discordWebhook.trim();
         }
         const roomId = generateRoomID(18);
@@ -33,7 +34,7 @@ export default {
         });
         res.send({link: `${config.websiteURL}/room/${roomId}/`});
     }
-}
+};
 
 
 interface IRoomCreationBody {

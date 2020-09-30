@@ -4,7 +4,7 @@ import {ListGroupItem, Badge} from "react-bootstrap";
 import { IParticipantCustomContextMenuData } from "./ParticipantPanel";
 
 function badgeResolver(participant: ParticipantData, thisParticipant: ParticipantData) : Array<JSX.Element> {
-    const res = []
+    const res = [];
     if (participant.id === thisParticipant.id) res.push(<Badge>you</Badge>);
     if (participant.admin) res.push(<Badge className="badge-admin">admin</Badge>);
     if (participant.muted) res.push(<Badge className="badge-muted">muted</Badge>);
@@ -31,11 +31,11 @@ export function Participant(props: IParticipantProps) {
             clearTimeout(mouseDownTimeout);
         }}
         >
-        <span className={`badge-status-${props.participant.online ? "online":"offline"}`}></span>
-        <span style={{color: props.participant.color}}>{props.participant.name}</span>
+            <span className={`badge-status-${props.participant.online ? "online":"offline"}`}></span>
+            <span style={{color: props.participant.color}}>{props.participant.name}</span>
         {...badgeResolver(props.participant, props.thisParticipant)}
-       </ListGroupItem>
-    )
+        </ListGroupItem>
+    );
 }
 
 

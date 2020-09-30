@@ -17,7 +17,7 @@ export default {
         if (!participant || participant.admin) return sendStatus(res, "Invalid participant!", 400);
         const allParticipantSockets = room.sockets.get(participant.id);
         if (allParticipantSockets) {
-            for (let [, socket] of allParticipantSockets) socket.close(4001);
+            for (const [, socket] of allParticipantSockets) socket.close(4001);
             room.sockets.delete(participant.id);
             room.forAllSockets(socket => {
                 sendToSocket(socket, WebSocketEvents.PARTICIPANT_UPDATE, {id: participant.id, online: false, kicked: true});
@@ -27,4 +27,4 @@ export default {
 
         res.status(204).end();
     }
-}
+};

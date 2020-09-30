@@ -14,12 +14,12 @@ export class WebSocketClient extends EventEmitter {
             this._ws.onmessage = (data: MessageEvent<string>) => {
                 const jsData = JSON.parse(data.data) as IWebsocketPacketData;
                 this.emit<any>(jsData.e, jsData.d);
-            }
+            };
             this._ws.onclose = (e: CloseEvent) => {
                 if (e.code === 4001) return history.push("/");
                 console.log(`WEBSOCKET ERROR ${e.code}`);
-            }
-        }
+            };
+        };
     }
 
     close(code?: number) {

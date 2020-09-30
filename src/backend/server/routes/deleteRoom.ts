@@ -2,7 +2,7 @@
 
 import Database from "../../database";
 import Express from "express";
-import {generateRoomID, sendStatus, getIP } from "../../util/utils";
+import {sendStatus} from "../../util/utils";
 
 
 import WebSocketEvents from "../../util/websocketEvents";
@@ -19,4 +19,4 @@ export default {
         await room.delete();
         room.sendToAllSockets(WebSocketEvents.ROOM_CLOSE, {});
     }
-}
+};

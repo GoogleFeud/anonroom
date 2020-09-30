@@ -1,7 +1,6 @@
 
 import React from "react";
 import { MessageData, RoomData } from "../../pages/Room";
-import { WebSocketClient } from "../../websocket/WebSocketClient";
 import { Message } from "./Message";
 
 
@@ -23,16 +22,16 @@ export class MessageList extends React.Component {
 
     render() {
         return(
-        <div ref={this.listRef} className="room-messageList" onScroll={(e) => {
-            if (!e.target) return;
-            const target  = e.target as HTMLDivElement;
-            if (target.scrollTop === 0) {
-                this.props.onScrollTop();
-            }
-        }}>
-            {this.props.messages.map(m => <Message author={this.props.room.participants.find(p => p.id === m.authorId)} raw={m}></Message>)}
-        </div>
-        )
+            <div ref={this.listRef} className="room-messageList" onScroll={(e) => {
+                if (!e.target) return;
+                const target  = e.target as HTMLDivElement;
+                if (target.scrollTop === 0) {
+                    this.props.onScrollTop();
+                }
+            }}>
+                {this.props.messages.map(m => <Message author={this.props.room.participants.find(p => p.id === m.authorId)} raw={m}></Message>)}
+            </div>
+        );
     }
 }
 
