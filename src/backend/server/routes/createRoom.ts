@@ -22,7 +22,7 @@ export default {
         const roomId = generateRoomID(18);
         await database.rooms.create({
             id: roomId,
-            adminPassword: body.adminPassword.trim(),
+            adminPassword: encodeURI(body.adminPassword.trim()),
             maxParticipants: body.maxParticipants,
             participants: [],
             chatLocked: body.lockChat,

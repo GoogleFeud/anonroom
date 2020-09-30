@@ -7,6 +7,7 @@ import {EVENT_CODES} from "../../websocket/handleSocketState";
 import {post, get} from "../../util/fetch";
 
 import {MessageList} from "./MessageList";
+import CommandHandler from "../../util/commandHandler";
 
 export class ChatPanel extends React.Component {
     props: IChatPanelProps
@@ -50,7 +51,7 @@ export class ChatPanel extends React.Component {
                         this.setState((state: IChatPanelState) => {
                             this.state.messages = [...reversedMsgs, ...this.state.messages];
                             this.messageFetchCooldown = true;
-                            setTimeout(() => this.messageFetchCooldown = false, 3000);
+                            setTimeout(() => this.messageFetchCooldown = false, 500);
                             return state;
                         });
 
@@ -59,6 +60,10 @@ export class ChatPanel extends React.Component {
                         content = content.replace(/\s+/g,' ').trim();
                         if (!content.length) return;
                         if (content.length > 2048) return alert("Message too long!");
+                        if (content.startsWith("/")) {
+                            await CommandHandler(content, "/", this.props.ws, this.props.room, this.props.thisParticipant);
+                            return input.value = "";
+                        }
                         const res = await post<undefined>(`/room/${this.props.room.id}/messages`, {content});
                         if (res && "error" in res) return alert(res.error);
                         input.value = "";
