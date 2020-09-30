@@ -12,6 +12,7 @@ export default {
         const body = req.body as IRoomCreationBody;
         if (!body.adminPassword) return sendStatus(res, "You must provide an admin password!", 400);
         if (body.adminPassword.length < 6 || body.adminPassword.length > 16) return sendStatus(res, "Password must be between 6 and 16 characters long!", 400);
+        if (/\s/.test(body.adminPassword)) return sendStatus(res, "Admin password cannot contain any white spaces!", 400);
         if (body.maxParticipants != undefined && body.maxParticipants < 1) body.maxParticipants = undefined; 
         if (body.lockChat != undefined && typeof body.lockChat !== "boolean") return sendStatus(res, "lockChat property must be a boolean!", 400);
         if (body.discordWebhook != undefined) {
