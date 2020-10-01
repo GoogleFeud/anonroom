@@ -2,16 +2,15 @@ import React from "react";
 import { MessageData, ParticipantData, RoomData } from "../../pages/Room";
 import { Col } from "react-bootstrap";
 import { WebSocketClient } from "../../websocket/WebSocketClient";
-import { ChatBox } from "./ChatBox";
 import {EVENT_CODES} from "../../websocket/handleSocketState";
-import {post, get} from "../../util/fetch";
+import {get} from "../../util/fetch";
 
 import {MessageList} from "./MessageList";
-import CommandHandler from "../../util/commandHandler";
 import MarkdownParser from "../../util/markdown";
 
-export class ChatPanel extends React.Component {
-    props: IChatPanelProps
+import {ChatBoxArea} from "./ChatBoxArea/ChatBoxArea";
+
+export class ChatPanel extends React.Component<IChatPanelProps, IChatPanelState> {
     state: IChatPanelState
     lastMessageSentAt?: number
     messageFetchCooldown: boolean
@@ -19,7 +18,6 @@ export class ChatPanel extends React.Component {
     markdownParser: (str: string) => any
     constructor(props: IChatPanelProps) {
         super(props);
-        this.props = props;
         this.state = {
             messages: this.props.room.messages
         };
@@ -32,7 +30,6 @@ export class ChatPanel extends React.Component {
     componentDidMount() {
         this.props.ws.on<any>(EVENT_CODES.MESSAGE_CREATE, (msg: MessageData) => {
             this.setState((state: IChatPanelState) => {
-                
                 state.messages.push(msg);
                 return state;
             });
@@ -60,18 +57,7 @@ export class ChatPanel extends React.Component {
                             });
 
                         }}></MessageList>
-                    <ChatBox isChatLocked={this.props.room.chatLocked && !this.props.thisParticipant.admin} onSend={async (content: string, input: HTMLInputElement) => {
-                        content = content.replace(/\s+/g," ").trim();
-                        if (!content.length) return;
-                        if (content.length > 2048) return alert("Message too long!");
-                        if (content.startsWith("/")) {
-                            await CommandHandler(content, "/", this.props.ws, this.props.room, this.props.thisParticipant);
-                            return input.value = "";
-                        }
-                        const res = await post<undefined>(`/room/${this.props.room.id}/messages`, {content});
-                        if (res && "error" in res) return alert(res.error);
-                        input.value = "";
-                    }}></ChatBox>
+                    <ChatBoxArea {...this.props}></ChatBoxArea>
                 </div>
             </Col>
         );

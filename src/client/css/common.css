@@ -138,3 +138,17 @@ input:focus {
 .dropdown input[type="text"] {
     width: 85px;
 }
+
+.suggestionBox {
+    position: fixed;
+    background-color: #f1f1f1;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    outline: none;
+    bottom: 45px;
+    width: 38%;
+    z-index: 5;
+}
+
+.suggestionBox .list-group-item {
+    padding: 1px 1px 1px 5px;
+}

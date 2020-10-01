@@ -3,7 +3,7 @@ import {EVENT_CODES} from "../websocket/handleSocketState";
 import {post} from "./fetch";
 import { ParticipantData, RoomData } from "../pages/Room";
 
-export default async (message: string, prefix: string, ws: WebSocketClient, room: RoomData, you: ParticipantData) => {
+export async function Handler(message: string, prefix: string, ws: WebSocketClient, room: RoomData, you: ParticipantData) {
     //   if (!message.startsWith("/")) return; <------ This should get checked in the ChatPanel component.
     const [command, ...args] = message.slice(prefix.length).replace(/\s+/g, " ").trim().split(/ +/);
     switch(command.toLowerCase()) {
@@ -15,11 +15,17 @@ export default async (message: string, prefix: string, ws: WebSocketClient, room
         if (password.length > 16) return sendClientMessage(ws, "Password length cannot exceed 16 characters!");
         const res = await post<undefined>(`/room/${room.id}/participants/${you.id}/admin?password=${encodeURI(password)}`, {});
         if (res && "error" in res) return sendClientMessage(ws, res.error);
+        break;
+    }
+    default: {
+        alert("Invalid command!");
     }
     }
-};
+}
 
-function sendClientMessage(ws: WebSocketClient, content: string) : boolean {
+export function sendClientMessage(ws: WebSocketClient, content: string) : boolean {
     ws.emit<any>(EVENT_CODES.MESSAGE_CREATE, {content, sentAt: Date.now()});
     return true;
 }
+
+export const ALL_COMMANDS = ["admin", "reee", "oop"];
