@@ -14,6 +14,7 @@ export default {
         if (!body.name) return sendStatus(res, "Your username must be between 3 and 12 characters long!", 400);
         body.name = body.name.replace(/\s+/g," ").trim();
         if (body.name === "" || body.name.length > 12 || body.name.length < 2) return sendStatus(res, "Your username must be between 3 and 12 characters long!", 400);
+        if (/\s/.test(body.name)) return sendStatus(res, "Usernames cannot contain empty spaces!", 400);
         const room = await database.rooms.get(req.params.roomId);
         if (!room) return sendStatus(res, "This room doesn't exist!", 400);
         if (room.roomLocked) return sendStatus(res, "This room is locked!", 401);

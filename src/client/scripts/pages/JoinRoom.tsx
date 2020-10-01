@@ -30,6 +30,7 @@ export default class JoinRoom extends React.Component {
         if (!event.target) return;
         const value = event.target.value;
         if (value.length > 12) return this.setState({error: "Username cannot exceed 12 characters!"});
+        if (/\s/.test(value)) return this.setState({error: "Usernames cannot contan spaces!"});
         this.setState({username: value, error: ""});
     }
 
