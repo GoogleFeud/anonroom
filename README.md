@@ -17,7 +17,6 @@ A website for creating anonymous chat rooms. Written entirely in typescript.
   - Bootstrap is used to make the page responsive
 - The MongoDB database is used
 
-
 ## Features
 
 - Create chat rooms, with an unlimited amount of participants

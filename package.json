@@ -53,6 +53,7 @@
     "express": "^4.17.1",
     "mongodb": "^3.6.2",
     "node-fetch": "^2.6.1",
+    "simple-markdown": "^0.7.2",
     "uuid": "^8.3.0",
     "ws": "^7.3.1"
   }
