@@ -5,9 +5,6 @@ import Express from "express";
 import {sendStatus, getIP} from "../../util/utils";
 import { v4 } from "uuid";
 import WebSocketEvents from "../../util/websocketEvents";
-import { IConfig } from "../../util/interfaces";
-
-const config = require("../../../../config.json") as IConfig;
 
 export default {
     method: "post",

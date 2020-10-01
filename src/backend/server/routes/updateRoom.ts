@@ -18,7 +18,7 @@ export default {
         if (!updator.admin) return sendStatus(res, "Unauthorized", 401);
         if (body.discordWebhook != undefined) {
             if (body.discordWebhook === "") body.discordWebhook = undefined;
-            else if (!/discordapp.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/.test(body.discordWebhook)) return sendStatus(res, "Invalid discord webhook URL!", 400);
+            else if (!/discordapp.com\/api\/webhooks\/([^/]+)\/([^/]+)/.test(body.discordWebhook)) return sendStatus(res, "Invalid discord webhook URL!", 400);
             else body.discordWebhook = body.discordWebhook.trim();
         }
         if (body.maxParticipants != undefined) {

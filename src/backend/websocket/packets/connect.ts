@@ -10,6 +10,7 @@ import {parseCookies} from "../../util/utils";
 
 import {v4} from "uuid";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const config = require("../../../config.json") as IConfig;
 
 export default {

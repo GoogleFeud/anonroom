@@ -29,7 +29,7 @@ export class MessageList extends React.Component {
                     this.props.onScrollTop();
                 }
             }}>
-                {this.props.messages.map(m => <Message author={this.props.room.participants.find(p => p.id === m.authorId)} raw={m}></Message>)}
+                {this.props.messages.map(m => <Message author={this.props.room.participants.find(p => p.id === m.authorId)} raw={m} markdownParser={this.props.markdownParser}></Message>)}
             </div>
         );
     }
@@ -39,5 +39,6 @@ export class MessageList extends React.Component {
 export interface IMessageListProps {
     messages: Array<MessageData>,
     room: RoomData,
-    onScrollTop: () => void
+    onScrollTop: () => void,
+    markdownParser: (msg: string) => any
 }

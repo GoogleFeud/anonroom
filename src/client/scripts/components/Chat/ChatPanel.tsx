@@ -1,5 +1,5 @@
 import React from "react";
-import { MessageData, ParticipantData, Room, RoomData } from "../../pages/Room";
+import { MessageData, ParticipantData, RoomData } from "../../pages/Room";
 import { Col } from "react-bootstrap";
 import { WebSocketClient } from "../../websocket/WebSocketClient";
 import { ChatBox } from "./ChatBox";
@@ -8,6 +8,7 @@ import {post, get} from "../../util/fetch";
 
 import {MessageList} from "./MessageList";
 import CommandHandler from "../../util/commandHandler";
+import MarkdownParser from "../../util/markdown";
 
 export class ChatPanel extends React.Component {
     props: IChatPanelProps
@@ -15,6 +16,7 @@ export class ChatPanel extends React.Component {
     lastMessageSentAt?: number
     messageFetchCooldown: boolean
     reachedTheEnd: boolean
+    markdownParser: (str: string) => any
     constructor(props: IChatPanelProps) {
         super(props);
         this.props = props;
@@ -24,11 +26,13 @@ export class ChatPanel extends React.Component {
         if (this.props.room.messages.length) this.lastMessageSentAt = this.props.room.messages[0].sentAt;
         this.messageFetchCooldown = false;
         this.reachedTheEnd = false;
+        this.markdownParser = MarkdownParser(this.props.room);
     }
 
     componentDidMount() {
         this.props.ws.on<any>(EVENT_CODES.MESSAGE_CREATE, (msg: MessageData) => {
             this.setState((state: IChatPanelState) => {
+                
                 state.messages.push(msg);
                 return state;
             });
@@ -39,7 +43,7 @@ export class ChatPanel extends React.Component {
         return (
             <Col sm="3">
                 <div>
-                    <MessageList room={this.props.room} messages={this.state.messages}
+                    <MessageList room={this.props.room} messages={this.state.messages} markdownParser={this.markdownParser}
                         onScrollTop={async () => {
                             if (this.messageFetchCooldown || this.reachedTheEnd) return;
                             const messages = await get<Array<MessageData>>(`/room/${this.props.room.id}/messages/page?lastMessageSentAt=${this.lastMessageSentAt}`);

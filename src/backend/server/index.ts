@@ -19,6 +19,7 @@ export default (port = 4000, db: Database, callback?: () => void) => {
     const routes = getFilesFromDir(__dirname + "/routes");
     let defaultRoute;
     for (const route of routes) {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const routeObj = require(`./routes/${route}`).default as IExpressRoute;
         if (routeObj.path === "*") {
             defaultRoute = routeObj;

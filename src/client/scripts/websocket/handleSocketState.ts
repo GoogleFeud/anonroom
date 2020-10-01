@@ -1,4 +1,4 @@
-import { createWebSocketStream } from "ws";
+
 import { WebSocketClient } from "./WebSocketClient";
 
 export enum EVENT_CODES {
@@ -14,21 +14,21 @@ export enum EVENT_CODES {
 }
 
 export function handleSocketState(socket: WebSocketClient) {
-    let heartbeatInterval: number;
+    // let heartbeatInterval: number;
     //let heartbeatTimeout: NodeJS.Timeout;
 
-    socket.on<any>(EVENT_CODES.HELLO, (data: HelloEventData) => {
+    socket.on<any>(EVENT_CODES.HELLO, () => {
         socket.isAlive = true;
-        heartbeatInterval = data.heartbeatInterval;
+        // heartbeatInterval = data.heartbeatInterval;
     });
 
     socket.on<any>(EVENT_CODES.HEARTBEAT, () => {
         // clearTimeout(heartbeatTimeout);
         socket.send(EVENT_CODES.HEARTBEAT, {});
 
-    //    heartbeatTimeout = setTimeout(() => {
-    //        socket._ws.close();
-    //    }, heartbeatInterval);
+        //    heartbeatTimeout = setTimeout(() => {
+        //        socket._ws.close();
+        //    }, heartbeatInterval);
     });
 
 }

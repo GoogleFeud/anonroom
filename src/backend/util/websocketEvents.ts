@@ -1,5 +1,3 @@
-import WebSocketServer from "../websocket/WebSocketServer";
-
 
 enum WebSocketEvents {
     HELLO,

@@ -3,7 +3,7 @@
 
 import Database from "../../database";
 import Express from "express";
-import {sendStatus, getIP, sendToDiscordWebhook, sendToSocket} from "../../util/utils";
+import {sendStatus, getIP, sendToDiscordWebhook} from "../../util/utils";
 
 export default {
     method: "post",
