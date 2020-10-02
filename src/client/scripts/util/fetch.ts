@@ -9,9 +9,8 @@ export interface IBody {
     [key: string]: any;
 }
 
-export async function get<T>(path: string, settings?: RequestInit, c?: boolean) : Promise<T|IFetchError> {
+export async function get<T>(path: string, settings?: RequestInit) : Promise<T|IFetchError> {
     const res = await fetch(path, settings);
-    if (c) console.log(await res.text());
     if (!res.ok) return {error: res.statusText, code: res.status};
     return res.json();
 }

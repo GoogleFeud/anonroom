@@ -3,7 +3,7 @@ import React from "react";
 import Markdown from "simple-markdown";
 import { RoomData } from "../pages/Room";
 
-import {Mention} from "../components/Chat/Mention";
+import { Mention } from "../components/Chat/Mention";
 
 export default function getOutputter(room: RoomData): (msg: string) => any {
     const rules: IRules = {
@@ -37,8 +37,15 @@ export default function getOutputter(room: RoomData): (msg: string) => any {
         // eslint-disable-next-line no-useless-escape
         match: (source: string) => /^!!([\s\S]+?)!!(?!\!)/.exec(source),
         parse: (capture: Markdown.Capture, parse: any, state: Markdown.State) => ({ content: parse(capture[1], state) }),
-        react: (node: any, output: any) => <span style={{color: "orange", fontWeight: "bold"}}>{output(node.content)}</span>
+        react: (node: any, output: any) => <span style={{ color: "orange", fontWeight: "bold" }}>{output(node.content)}</span>
     };
+
+    /**   rules.image = {
+           order: rules.underline.order - 0.5,
+           match: (source: string) => /(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/.exec(source),
+           parse: (capture: Markdown.Capture, parse: any, state: Markdown.State) => ({ content: parse(capture[1], state) }),
+           react: (node: any, output: any) => <span style={{color: "orange", fontWeight: "bold"}}>{output(node.content)}</span>
+       }; **/
 
     const parser = Markdown.parserFor(rules, { inline: true });
     const reactOutput = Markdown.outputFor(rules, "react");

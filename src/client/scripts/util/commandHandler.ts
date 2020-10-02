@@ -28,4 +28,4 @@ export function sendClientMessage(ws: WebSocketClient, content: string) : boolea
     return true;
 }
 
-export const ALL_COMMANDS = ["admin", "reee", "oop"];
+export const ALL_COMMANDS = ["admin", "announce"];

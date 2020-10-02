@@ -3,6 +3,7 @@ import React from "react";
 import { ISuggestion, SuggestionBox } from "./SuggestionBox";
 import { ChatBox } from "./ChatBox";
 import { ParticipantData, RoomData } from "../../../pages/Room";
+import {SuggestionManager} from "../../../util/SuggestionManager";
 
 import { post } from "../../../util/fetch";
 import { Handler, ALL_COMMANDS } from "../../../util/commandHandler";
@@ -10,12 +11,42 @@ import { WebSocketClient } from "../../../websocket/WebSocketClient";
 
 export class ChatBoxArea extends React.Component<IChatBoxAreaProps, IChatBoxAreaState> {
     messageBoxRef: React.RefObject<ChatBox>
+    suggestionManager: SuggestionManager
     constructor(props: IChatBoxAreaProps) {
         super(props);
         this.state = {
             suggestions: []
         };
         this.messageBoxRef = React.createRef();
+        this.suggestionManager = new SuggestionManager((suggestions) => this.setState({suggestions}));
+    }
+
+    componentDidMount() {
+        this.suggestionManager.add("commands", {
+            match: (value) => {
+                if (!value.startsWith("/") || /\s/.test(value)) return null;
+                if (value === "/") return true;
+                // Removes the / from the string
+                return value.slice(1);
+            },
+            getSuggestions: (value: string|true) => {
+                if (value === true) return ALL_COMMANDS.map(c => ({ name: c }));
+                return ALL_COMMANDS.filter(c => calculateStringDifference(value, c) <= 4).map(c => ({ name: c }));
+            }
+        });
+
+        this.suggestionManager.add("mentions", {
+            match: (value) => {
+                if (value.endsWith("@")) return true;
+                const matchData = value.match(/@(.([^\s]+)*)$/);
+                if (!matchData || !matchData[1]) return;
+                return matchData[1];
+            },
+            getSuggestions: (value: string|true) => {
+                if (value === true) return this.props.room.participants.map(p => ({name: p.name}));
+                return this.props.room.participants.filter(p => calculateStringDifference(value, p.name) <= 5).map(p => ({name: p.name}));
+            }
+        });
     }
 
     render() {
@@ -23,7 +54,9 @@ export class ChatBoxArea extends React.Component<IChatBoxAreaProps, IChatBoxArea
             <React.Fragment>
 
                 <SuggestionBox suggestions={this.state.suggestions} onSuggestionClick={(suggestion) => {
-                    this.messageBoxRef.current?.addToValue(suggestion.name + " ");
+                    let value = suggestion.name;
+                    if (typeof this.suggestionManager.lastMatchedValue === "string") value = value.replace(this.suggestionManager.lastMatchedValue, "");
+                    this.messageBoxRef.current?.addToValue(value);
                     /** The suggestions gets cleared a little bit later, because if the user uses the enter key to select the suggestion, then it gets automatically sent */
                     setTimeout(() => this.setState({suggestions: []}), 50);
                 }}></SuggestionBox>
@@ -44,18 +77,8 @@ export class ChatBoxArea extends React.Component<IChatBoxAreaProps, IChatBoxArea
 
 
                 onChange={(value: string) => {
-                    if (value.startsWith("/")) {
-                        if (value === "/") this.setState({suggestions: ALL_COMMANDS.map(c => ({ name: c }))});
-                        else this.setState({ suggestions: ALL_COMMANDS.filter(c => calculateStringDifference(value, c) <= 4).map(c => ({ name: c })) });
-                    } else if (value.endsWith("@")) this.setState({suggestions: this.props.room.participants.map(p => ({name: p.name}))});
-                    /** Check if the last word in the sentance starts with @ */
-                    else if (/@(.([^\s]+)*)$/.test(value)) {
-                        const matchData = value.match(/@(.([^\s]+)*)$/);
-                        if (!matchData) return;
-                        const match = matchData[1];
-                        if (!match) return;
-                        return this.setState({suggestions: this.props.room.participants.filter(p => calculateStringDifference(match, p.name) <= 5).map(p => ({name: p.name}))});
-                    } else this.setState({ suggestions: [] });
+                    const mentionsMatch = this.suggestionManager.test(value);
+                    if (!mentionsMatch && this.state.suggestions.length) this.setState({ suggestions: [] });
                 }}></ChatBox>
             </React.Fragment>
         );
