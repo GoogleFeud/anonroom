@@ -36,8 +36,12 @@ export class SuggestionBox extends React.Component<ISuggestionBoxProps, ISuggest
             <div>
                 <ListGroup className="suggestionBox">
                     {this.props.suggestions.map((s, i) =>
-                        <ListGroupItem style={{ backgroundColor: i === this.state.currentSuggestionIndex ? "grey" : "white" }} onClick={() => {
+                        <ListGroupItem className="suggestionBox-item" style={{ backgroundColor: i === this.state.currentSuggestionIndex ? "grey" : "white" }} onClick={() => {
                             this.props.onSuggestionClick(s);
+                        }} onMouseOver={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                            if (!e.target) return;
+                            const suggestionIndex = this.props.suggestions.findIndex(s => s.name === (e.target as HTMLAnchorElement).innerText);
+                            this.setState({currentSuggestionIndex: suggestionIndex});
                         }}>{s.name}</ListGroupItem>
                     )}
                 </ListGroup>

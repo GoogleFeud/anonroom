@@ -152,3 +152,7 @@ input:focus {
 .suggestionBox .list-group-item {
     padding: 1px 1px 1px 5px;
 }
+
+.suggestionBox-item {
+    cursor: pointer;
+}
