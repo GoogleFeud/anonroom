@@ -32,6 +32,14 @@ export default function getOutputter(room: RoomData): (msg: string) => any {
         }
     };
 
+    rules.important = {
+        order: rules.underline.order - 0.5,
+        // eslint-disable-next-line no-useless-escape
+        match: (source: string) => /^!!([\s\S]+?)!!(?!\!)/.exec(source),
+        parse: (capture: Markdown.Capture, parse: any, state: Markdown.State) => ({ content: parse(capture[1], state) }),
+        react: (node: any, output: any) => <span style={{color: "orange", fontWeight: "bold"}}>{output(node.content)}</span>
+    };
+
     const parser = Markdown.parserFor(rules, { inline: true });
     const reactOutput = Markdown.outputFor(rules, "react");
     return (msg: string) => {
