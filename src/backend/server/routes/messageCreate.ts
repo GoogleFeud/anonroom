@@ -15,15 +15,17 @@ export default {
         const creator = room.findParicipant(req.cookies[room.id] || getIP(req));
         if (!creator) return sendStatus(res, "Invalid creator!", 400);
         if (!creator.admin && (creator.muted || room.chatLocked || creator.banned)) return sendStatus(res, "Unauthorized!", 401);
+        if (body.system && !creator.admin) return sendStatus(res, "Unauthorized!", 401); 
         if (typeof body.content !== "string") return sendStatus(res, "Message must be a string!", 400); 
         body.content = body.content.replace(/\s+/g," ").trim();
-        if (!body.content.length || body.content.length > 2048) return sendStatus(res, "Message length must be between 1 and 2048 characters!", 400); 
-        const msg = await room.createMessage({content: body.content, authorId: creator.id}, true);
+        if (!body.content.length || body.content.length > 2048) return sendStatus(res, "Message length must be between 1 and 2048 characters!", 400);
+        const msg = await room.createMessage({content: body.content, authorId: body.system ? undefined:creator.id}, true);
         if (room.discordWebhook) sendToDiscordWebhook(room, creator.name, msg.sentAt, body.content, creator.color);
         res.status(204).end();
     }
 };
 
 interface IMessageCreateBody {
-    content?: string
+    content?: string,
+    system?: boolean
 }

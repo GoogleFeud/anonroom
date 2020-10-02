@@ -17,6 +17,16 @@ export async function Handler(message: string, prefix: string, ws: WebSocketClie
         if (res && "error" in res) return sendClientMessage(ws, res.error);
         break;
     }
+    case "announce": {
+        if (!args.length) return sendClientMessage(ws, "Please provide a message!");
+        if (!you.admin) return sendClientMessage(ws, "You must be an admin to use this command!");
+        const res = await post<undefined>(`/room/${room.id}/messages`, {
+            content: args.join(" "),
+            system: true
+        });
+        if (res && "error" in res) return sendClientMessage(ws, res.error);
+        break;
+    }
     default: {
         alert("Invalid command!");
     }
