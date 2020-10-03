@@ -1,7 +1,7 @@
 import { WebSocketClient } from "../websocket/WebSocketClient";
-import {EVENT_CODES} from "../websocket/handleSocketState";
 import {post} from "./fetch";
 import { ParticipantData, RoomData } from "../pages/Room";
+import { sendClientMessage } from "./util";
 
 export async function Handler(message: string, prefix: string, ws: WebSocketClient, room: RoomData, you: ParticipantData) {
     //   if (!message.startsWith("/")) return; <------ This should get checked in the ChatPanel component.
@@ -31,11 +31,6 @@ export async function Handler(message: string, prefix: string, ws: WebSocketClie
         alert("Invalid command!");
     }
     }
-}
-
-export function sendClientMessage(ws: WebSocketClient, content: string) : boolean {
-    ws.emit<any>(EVENT_CODES.MESSAGE_CREATE, {content, sentAt: Date.now()});
-    return true;
 }
 
 export const ALL_COMMANDS = ["admin", "announce"];

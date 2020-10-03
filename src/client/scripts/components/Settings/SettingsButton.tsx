@@ -4,6 +4,8 @@ import { RoomData } from "../../pages/Room";
 import {Settings} from "./Settings";
 
 import {post, del} from "../../util/fetch";
+import {sendClientMessage} from "../../util/util";
+import { WebSocketClient } from "../../websocket/WebSocketClient";
 
 export class SettingsButton extends React.Component {
     state: ISettingsButtonState
@@ -29,30 +31,30 @@ export class SettingsButton extends React.Component {
                         <Settings room={this.props.room} 
                             onLockChatClick={async () => {
                                 const res = await post<undefined>(`/room/${this.props.room.id}`, {chatLocked: !this.props.room.chatLocked});
-                                if (res && "error" in res) alert(res.error);
+                                if (res && "error" in res) sendClientMessage(this.props.ws, res.error);
                             }}
                             onLockRoomClick={async () => {
                                 const res = await post<undefined>(`/room/${this.props.room.id}`, {roomLocked: !this.props.room.roomLocked});
-                                if (res && "error" in res) alert(res.error);
+                                if (res && "error" in res) sendClientMessage(this.props.ws, res.error);
                             }}
                             onRoomDeleteClick={async () => {
                                 const res = await del(`/room/${this.props.room.id}`);
-                                if (res && "error" in res) alert(res.error);
+                                if (res && "error" in res) sendClientMessage(this.props.ws, res.error);
                             }}
                             onMaxParticipantsChange={async (value, e) => {
-                                if (value < 0) return alert("Max participants must be a positive number, or 0 for unlimited participants.");
+                                if (value < 0) return sendClientMessage(this.props.ws, "Max participants must be a positive number, or 0 for unlimited participants.");
                                 const res = await post<undefined>(`/room/${this.props.room.id}`, {maxParticipants: value});
                                 if (res && "error" in res) {
-                                    alert(res.error);
+                                    sendClientMessage(this.props.ws, res.error);
                                     e.value = this.props.room.maxParticipants?.toString() || "";
                                 }
                             }}
                             onDiscordWebhookChange={async (value, e) => {
                                 // eslint-disable-next-line no-useless-escape
-                                if (value && /discord.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/.test(value) === false) return alert("Invalid discord webhook URL!");
+                                if (value && /discord.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/.test(value) === false) return sendClientMessage(this.props.ws, "Invalid discord webhook URL!");
                                 const res = await post<undefined>(`/room/${this.props.room.id}`, {discordWebhook: value});
                                 if (res && "error" in res) {
-                                    alert(res.error);
+                                    sendClientMessage(this.props.ws, res.error);
                                     e.value = this.props.room.discordWebhook || "";
                                 }
                             }}
@@ -69,5 +71,6 @@ export interface ISettingsButtonState {
  }
 
 export interface ISettingsButtonProps {
-    room: RoomData
+    room: RoomData,
+    ws: WebSocketClient
 }

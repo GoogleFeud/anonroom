@@ -1,3 +1,5 @@
+import { EVENT_CODES } from "../websocket/handleSocketState";
+import { WebSocketClient } from "../websocket/WebSocketClient";
 
 
 export function calculateStringDifference(str1: string, str2: string) : number {
@@ -37,4 +39,9 @@ export function importCSS(path: string) : void {
         _LAST_IMPORTED_CSS_FILE.media = "screen,print";
         document.getElementsByTagName("head")[0].appendChild(_LAST_IMPORTED_CSS_FILE);
     }
+}
+
+export function sendClientMessage(ws: WebSocketClient, content: string) : boolean {
+    ws.emit<any>(EVENT_CODES.MESSAGE_CREATE, {content, sentAt: Date.now()});
+    return true;
 }

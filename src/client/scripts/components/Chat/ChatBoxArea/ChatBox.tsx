@@ -18,10 +18,6 @@ export class ChatBox extends React.Component<IChatBoxProps, IChatBoxState> {
         this.setState(state => ({value: state.value + value}));
     }
 
-    replaceSomeAndAddToValue(replace: string, value: string) : void {
-        this.setState(state => ({value: state.value.replace(replace, "") + value}));
-    }
-
     render() {
         return (
             <input type="text" className="room-chatbox" disabled={this.props.isChatLocked} value={this.state.value} onKeyPress={e => {

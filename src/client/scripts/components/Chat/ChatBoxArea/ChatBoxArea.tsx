@@ -9,7 +9,7 @@ import { post } from "../../../util/fetch";
 import { Handler, ALL_COMMANDS } from "../../../util/commandHandler";
 import { WebSocketClient } from "../../../websocket/WebSocketClient";
 
-import {calculateStringDifference} from "../../../util/util";
+import {calculateStringDifference, sendClientMessage} from "../../../util/util";
 
 export class ChatBoxArea extends React.Component<IChatBoxAreaProps, IChatBoxAreaState> {
     messageBoxRef: React.RefObject<ChatBox>
@@ -67,13 +67,13 @@ export class ChatBoxArea extends React.Component<IChatBoxAreaProps, IChatBoxArea
                     if (this.state.suggestions.length) return;
                     content = content.replace(/\s+/g, " ").trim();
                     if (!content.length) return;
-                    if (content.length > 2048) return alert("Message too long!");
+                    if (content.length > 2048) return sendClientMessage(this.props.ws, "Message too long!");
                     if (content.startsWith("/")) {
                         await Handler(content, "/", this.props.ws, this.props.room, this.props.thisParticipant);
                         return setValue("");
                     }
                     const res = await post<undefined>(`/room/${this.props.room.id}/messages`, { content });
-                    if (res && "error" in res) return alert(res.error);
+                    if (res && "error" in res) return sendClientMessage(this.props.ws, res.error);
                     setValue("");
                 }} 
 

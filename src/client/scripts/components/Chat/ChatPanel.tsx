@@ -7,8 +7,8 @@ import {get} from "../../util/fetch";
 
 import {MessageList} from "./MessageList";
 import MarkdownParser from "../../util/markdown";
-
 import {ChatBoxArea} from "./ChatBoxArea/ChatBoxArea";
+import {sendClientMessage} from "../../util/util";
 
 export class ChatPanel extends React.Component<IChatPanelProps, IChatPanelState> {
     state: IChatPanelState
@@ -44,7 +44,7 @@ export class ChatPanel extends React.Component<IChatPanelProps, IChatPanelState>
                         onScrollTop={async () => {
                             if (this.messageFetchCooldown || this.reachedTheEnd) return;
                             const messages = await get<Array<MessageData>>(`/room/${this.props.room.id}/messages/page?lastMessageSentAt=${this.lastMessageSentAt}`);
-                            if ("error" in messages) return alert(messages.error);
+                            if ("error" in messages) return sendClientMessage(this.props.ws, messages.error);
                             if (!messages.length) return this.reachedTheEnd = true;
                             /** For SOME reason, mongoDB returns the results in reverse, so we need to reverse them again to get the right results. Weird. */
                             const reversedMsgs = messages.reverse(); 
