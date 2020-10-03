@@ -63,12 +63,14 @@ export class ParticipantPanel extends React.Component {
                         onBlurColor={async (color) => {
                             if (!this.state.contextMenu) return;
                             this.inOtherMenu = false;
+                            if (color === this.state.contextMenu.participant.color) return;
                             const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {color});
                             if (res && "error" in res) return alert(res.error);
                         }}
                         onBlurName={async (name) => {
                             if (!this.state.contextMenu) return;
                             this.inOtherMenu = false;
+                            if (name === this.state.contextMenu.participant.name) return;
                             const res = await post<undefined>(`/room/${this.props.roomId}/participants/${this.state.contextMenu.participant.id}`, {name});
                             if (res && "error" in res) return alert(res.error);
                         }}

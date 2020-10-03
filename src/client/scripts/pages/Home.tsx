@@ -52,17 +52,21 @@ export default class Home extends React.Component {
                     <Col className="center align-self-center">
                         <h1>Create a room</h1>
                         <p>Create a room link. Give this link to everyone who you want to join the room. Rooms automatically get deleted after 72 hours of no activity. All you need to create a room is an admin password, all other fields are optional.</p>
-                        <div className="formField">
-                            <span>Admin Password*: </span> <input type="text" value={this.state.adminPassword} onChange={this.handleAdminPasswordChange.bind(this)}></input>
+                        <div className="form-field">
+                            <span className="form-field-title">Admin Password*: </span> 
+                            <input type="text" value={this.state.adminPassword} onChange={this.handleAdminPasswordChange.bind(this)}></input>
                         </div>
-                        <div className="formField">
-                            <span>Max Participants: </span> <input type="number" value={this.state.maxParticipants} onChange={this.handleMaxParticipantsChange.bind(this)}></input>
+                        <div className="form-field">
+                            <span className="form-field-title">Max Participants: </span> 
+                            <input type="number" value={this.state.maxParticipants} onChange={this.handleMaxParticipantsChange.bind(this)}></input>
                         </div>
-                        <div className="formField">
-                            <span>Discord webhook link:</span> <input type="text" value={this.state.discordWebhook} onChange={this.handleDiscordWebhook.bind(this)}></input>
+                        <div className="form-field">
+                            <span className="form-field-title" >Discord webhook link:</span> 
+                            <input type="text" value={this.state.discordWebhook} onChange={this.handleDiscordWebhook.bind(this)}></input>
                         </div>
-                        <div className="formField" style={{marginBottom: "15px"}}>
-                            <span>Lock chat?:</span> <input type="checkbox" checked={this.state.lockChat} onChange={this.handleLockChat.bind(this)}></input>
+                        <div className="form-field" style={{marginBottom: "15px"}}>
+                            <span className="form-field-title">Lock chat?:</span> 
+                            <input type="checkbox" checked={this.state.lockChat} onChange={this.handleLockChat.bind(this)}></input>
                         </div>
                         <button className="joinBtn" onClick={async () => {
                             if (this.created) return this.setState({error: this.created});

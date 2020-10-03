@@ -57,12 +57,12 @@ export default class JoinRoom extends React.Component {
                 <Container>
                     <Row  style={{height: "100vh"}}>
                         <Col className="center align-self-center">
-                            <div className="formField">
+                            <div className="form-field">
                                 <h1>Enter name:</h1>
                                 <input type="text" maxLength={12} minLength={3} value={this.state.username} onChange={this.handleUsernameChange.bind(this)}></input>
                             </div>
-                            <div className="formField">
-                                <h1>Color:</h1>
+                            <div className="form-field">
+                                <span className="form-field-title">Color:</span>
                                 <input type="color" value={this.state.color} onChange={this.handleColorChange.bind(this)}></input>
                             </div>
                             <button className="joinBtn" onClick={async () => {

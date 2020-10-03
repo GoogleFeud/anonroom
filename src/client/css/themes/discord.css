@@ -1,0 +1,95 @@
+@font-face {
+    font-family: uniSans;
+    src: url(../../media/discord_font.otf);
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #2C2F33;
+    z-index: 10;
+    color: white;
+}
+
+h1,
+.form-field-title {
+    font-family: uniSans;
+}
+
+.form-field-title {
+    font-weight: bold;
+}
+
+input[type=text],
+input[type=number] {
+    background-color: #23272a;
+    border-color: black;
+    border-width: 1px;
+    color: white;
+    transition: border-color .2s ease-in-out;
+    padding: 5px 5px 5px 5px;
+}
+
+input[type=text]:focus,
+input[type=number]:focus {
+    border-color: #7289da;
+}
+
+button {
+    color: white;
+    background-color: #7289da;
+    border: none;
+    outline: none;
+    padding: 5px 5px 5px 5px;
+    transition: background-color .2s ease-in-out;
+}
+
+button:hover {
+    background-color: #6a7ec9;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #363a3f;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #23272A;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.suggestionBox-item {
+    background-color: #323238;
+    color: white;
+}
+
+.suggestionBox-item.selected {
+    background-color: #7d8186;
+}
+
+.room-ParticipantList {
+    background: #2C2F33;
+}
+
+.list-group-item {
+    background: #2C2F33;
+}

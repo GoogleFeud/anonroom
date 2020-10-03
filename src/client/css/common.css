@@ -23,8 +23,14 @@ input:focus {
     background-color: none;
 }
 
-.formField {
+.form-field {
     margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.form-field-title {
+    display: block;
+    margin-bottom: 10px;
 }
 
 .room-ParticipantList {
@@ -126,7 +132,7 @@ input:focus {
 .dropdown {
     position: relative;
     background-color: #f1f1f1;
-    width: 110px;
+    width: 140px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 5;
 }
