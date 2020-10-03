@@ -1,7 +1,7 @@
 
 import Database from "../../database";
 import Express from "express";
-import {sendStatus, sendToSocket, getIP} from "../../util/utils";
+import {sendStatus, getIP} from "../../util/utils";
 import WebSocketEvents from "../../util/websocketEvents";
 
 export default {
@@ -19,10 +19,7 @@ export default {
         if (allParticipantSockets) {
             for (const [, socket] of allParticipantSockets) socket.close(4001);
             room.sockets.delete(participant.id);
-            room.forAllSockets(socket => {
-                sendToSocket(socket, WebSocketEvents.PARTICIPANT_UPDATE, {id: participant.id, online: false, kicked: true});
-                sendToSocket(socket, WebSocketEvents.MESSAGE_CREATE, room.createMessage({content: `${participant.name} has been kicked by ${kicker.name}`}));
-            });
+            room.sendToAllSockets(WebSocketEvents.PARTICIPANT_UPDATE, {id: participant.id, online: false, kicked: true});
         }
 
         res.status(204).end();

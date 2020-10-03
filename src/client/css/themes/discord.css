@@ -48,7 +48,7 @@ button {
     color: white;
     background-color: #7289da;
     border: none;
-    outline: none;
+    outline: none !important;
     padding: 5px 5px 5px 5px;
     transition: background-color .2s ease-in-out;
 }
@@ -77,6 +77,21 @@ button:hover {
     background: #555;
 }
 
+.room-chatbox {
+    background-color: #3e4449 !important;
+    border-color: transparent !important;
+    border-radius: 4px !important;
+    transition: none;
+}
+
+.room-messageList::-webkit-scrollbar {
+    margin-left: 10px;
+}
+
+.room-messageList::-webkit-scrollbar-track {
+    margin-bottom: -40px;
+}
+
 .suggestionBox-item {
     background-color: #323238;
     color: white;
@@ -92,4 +107,20 @@ button:hover {
 
 .list-group-item {
     background: #2C2F33;
+}
+
+.room-controls-modal {
+    background: #323238;
+}
+
+.room-controls-button {
+    background: #7289da;
+}
+
+.room-controls-input {
+    display: block;
+}
+
+.room-controls-input:last-of-type {
+    margin-bottom: 5px;
 }

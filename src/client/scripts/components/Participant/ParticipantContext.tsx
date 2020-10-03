@@ -22,7 +22,7 @@ export function ParticipantContext(props: IParticipantContextProps) {
                     )}
                     <ListGroupItem>
                         <span>Color:</span>
-                        <input type="color" defaultValue={props.contextMenu.participant.color}
+                        <input type="color" className="participant-context-color"  defaultValue={props.contextMenu.participant.color}
                             onFocus={props.onGeneralFocus}
                             onBlur={(e) => {
                                 props.onBlurColor(e.target.value);
@@ -51,7 +51,7 @@ export function ParticipantContext(props: IParticipantContextProps) {
                 </ListGroupItem>
                 <ListGroupItem>
                     <span>Color:</span>
-                    <input type="color" defaultValue={props.contextMenu.participant.color}
+                    <input type="color" className="participant-context-color" defaultValue={props.contextMenu.participant.color}
                         onFocus={props.onGeneralFocus}
                         onBlur={(e) => {
                             props.onBlurColor(e.target.value);

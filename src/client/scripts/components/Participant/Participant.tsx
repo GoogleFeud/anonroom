@@ -32,7 +32,7 @@ export function Participant(props: IParticipantProps) {
         }}
         >
             <span className={`badge-status-${props.participant.online ? "online":"offline"}`}></span>
-            <span style={{color: props.participant.color}}>{props.participant.name}</span>
+            <span style={{color: props.participant.color}} className="participant-list-name">{props.participant.name}</span>
         {...badgeResolver(props.participant, props.thisParticipant)}
         </ListGroupItem>
     );

@@ -22,7 +22,7 @@ export default class JoinRoom extends React.Component {
     async componentDidMount() {
         const roomId = (this.props.match.params as IJoinRoomParams).roomId;
         const room = await get<IGetRoomRes>(`/room/${roomId}/check`);
-        if ("error" in room || room.id !== roomId) return this.setState({data: false});
+        if ("error" in room) return this.setState({data: false, error: room.error});
         this.setState({data: room});
     }
 
@@ -48,7 +48,7 @@ export default class JoinRoom extends React.Component {
         else if ((this.state.data === false || this.state.data === true) && !this.state.forceIn) {
             return(
                 <div className="center align-self-center">
-                    <h1>Room doesn't exist.</h1>
+                    <h1>{this.state.error || "Room doesn't exist."}</h1>
                 </div>
             );
         }

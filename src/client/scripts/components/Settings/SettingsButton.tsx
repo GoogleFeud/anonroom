@@ -19,7 +19,7 @@ export class SettingsButton extends React.Component {
     render() {
         return(
             <div className="room-controls">
-                <button onClick={() => {
+                <button className="room-controls-access-btn" onClick={() => {
                     this.setState((state: ISettingsButtonState) => {
                         this.setState({open: !state.open});
                     });
@@ -48,7 +48,8 @@ export class SettingsButton extends React.Component {
                                 }
                             }}
                             onDiscordWebhookChange={async (value, e) => {
-                                if (value && !/discordapp.com\/api\/webhooks\/([^/]+)\/([^/]+)/.test(value)) return alert("Invalid discord webhook URL!");
+                                // eslint-disable-next-line no-useless-escape
+                                if (value && /discord.com\/api\/webhooks\/([^\/]+)\/([^\/]+)/.test(value) === false) return alert("Invalid discord webhook URL!");
                                 const res = await post<undefined>(`/room/${this.props.room.id}`, {discordWebhook: value});
                                 if (res && "error" in res) {
                                     alert(res.error);
