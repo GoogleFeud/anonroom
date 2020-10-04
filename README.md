@@ -2,6 +2,8 @@
 
 A website for creating anonymous chat rooms. Written entirely in typescript.
 
+WORKING DEMO: https://anonroom-test.glitch.me/
+
 ## Built with
 
 - node.js as a backend
@@ -31,6 +33,32 @@ A website for creating anonymous chat rooms. Written entirely in typescript.
 - If a discord webhook link is provided, all messages will also be sent via the webhook
 - Ability to download message history
 - Completely free and open source
+
+## How to run
+
+**Requirements:**
+- node.js version 10+ (Latest LTS recommended)
+- npm
+- A mongoDB cloud database (free tier works just fine)
+
+**Setup:**
+- Create the mongoDB cloud database
+- Clone the latest version of this repository
+- Execute the command `npm i` in the root directory 
+- Create a `config.json` file in the root directory, it should look like this:
+```
+{
+     "dbUsername": "user mongoDB cloud username",
+     "dbPassword": "user mongoDB cloud password",
+     "websiteURL": "The URL to your anonroom instace (http://localhost:port if running locally)",
+     "websocketPath": "/gateway",
+     "port": 4000,
+     "heartbeatInterval": 60000
+}
+```
+- Execute the commands `npm run f` and `npm run b` in the root directory
+- Start the server with the command `npm run start`
+- Open up your browser and go to the website url you gave in the `config.json` file. 
 
 ## Future plans
 
