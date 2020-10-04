@@ -15,7 +15,7 @@ import WebSocketEvents from "./util/websocketEvents";
 const db = new Database(config.dbUsername, config.dbPassword);
 
 db.connect().then(() => {
-    const server = startServer(4000, db, () => console.log("Server ready!"));
+    const server = startServer(config.port, db, () => console.log("Server ready!"));
     const ws = startWebSocketServer(server, db, config.websocketPath);
 
     setInterval(() => {

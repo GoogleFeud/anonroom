@@ -30,7 +30,7 @@ export class Room extends React.Component {
         const thisParticipant = room.participants.find(p => p.id === roomData.requesterId);
         if (!thisParticipant) return;
         thisParticipant.online = true;
-        this.ws = new WebSocketClient(`ws://localhost:4000/gateway?roomId=${room.id}&participantId=${thisParticipant.id}`, this.props.history);
+        this.ws = new WebSocketClient(`ws://${roomData.gatewayURL}?roomId=${room.id}&participantId=${thisParticipant.id}`, this.props.history);
         this.ws.on("open", () => {
             if (!this.ws) return;
             this.setState({ roomData: room, thisParticipant: thisParticipant });
@@ -114,7 +114,8 @@ export interface RoomData {
 
 export interface IRoomDetailsRes {
     room: RoomData,
-    requesterId: string
+    requesterId: string,
+    gatewayURL: string
 }
 
 interface IRoomState {

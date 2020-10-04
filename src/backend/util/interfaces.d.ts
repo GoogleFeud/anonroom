@@ -35,7 +35,8 @@ interface IConfig {
     dbPassword: string,
     websiteURL: string,
     websocketPath: string,
-    heartbeatInterval: number
+    heartbeatInterval: number,
+    port: number
 }
 
 interface IRequestWithBody extends Express.Request {
