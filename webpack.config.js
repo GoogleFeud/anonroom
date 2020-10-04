@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
     entry: "./src/client/scripts/index.tsx",
@@ -10,7 +11,7 @@ module.exports = {
             test: /\.tsx?$/,
             use: "ts-loader",
             include: path.resolve(__dirname, "src/client")
-        }, ],
+        }, ]
     },
     resolve: {
         extensions: [".tsx", ".ts", ".js"],
@@ -18,6 +19,12 @@ module.exports = {
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, "dist/client/scripts"),
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new CssMinimizerPlugin()
+        ]
     },
     plugins: [
         new CopyPlugin({

@@ -2,7 +2,7 @@
   "name": "anonroom",
   "version": "1.0.0",
   "description": "A website for creating anonymous chat rooms. Written entirely in typescript.",
-  "main": "index.js",
+  "main": "./dist/backend/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./dist/backend/index.js",
@@ -36,6 +36,7 @@
     "@typescript-eslint/parser": "^4.3.0",
     "bootstrap": "^4.5.2",
     "copy-webpack-plugin": "^6.1.0",
+    "css-minimizer-webpack-plugin": "^1.1.4",
     "eslint": "^7.10.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.3.0",
