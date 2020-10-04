@@ -5,10 +5,10 @@ import Express from "express";
 import {sendStatus, getIP} from "../../util/utils";
 import { v4 } from "uuid";
 import WebSocketEvents from "../../util/websocketEvents";
-//import { IConfig } from "../../util/interfaces";
+import { IConfig } from "../../util/interfaces";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-//const config = require("../../../../config.json") as IConfig;
+const config = require("../../../../config.json") as IConfig;
 
 export default {
     method: "post",
@@ -25,8 +25,8 @@ export default {
         if (room.maxParticipants === room.participants.size) return sendStatus(res, "Room is full!", 401);
         if (room.nameExists(body.name)) return sendStatus(res, "This name already exists!", 400);
         const ip = getIP(req);
-        ////const doesExist = room.findParicipant(req.cookies[room.id] || ip);
-        //if (doesExist) return sendStatus(res, `You are already in the room as ${doesExist.name}! Join here: ${config.websiteURL}/room/${room.id}`, 400);
+        const doesExist = room.findParicipant(req.cookies[room.id] || ip);
+        if (doesExist) return sendStatus(res, `You are already in the room as ${doesExist.name}! Join here: ${config.websiteURL}/room/${room.id}`, 400);
         const secret = v4();
         const participant = await room.addParticipant({
             name: body.name,
