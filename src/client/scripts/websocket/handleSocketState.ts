@@ -25,7 +25,6 @@ export function handleSocketState(socket: WebSocketClient) {
     socket.on<any>(EVENT_CODES.HEARTBEAT, () => {
         // clearTimeout(heartbeatTimeout);
         socket.send(EVENT_CODES.HEARTBEAT, {});
-
         //    heartbeatTimeout = setTimeout(() => {
         //        socket._ws.close();
         //    }, heartbeatInterval);

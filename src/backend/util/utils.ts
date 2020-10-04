@@ -8,6 +8,8 @@ import { IObject } from "./interfaces";
 import {Room} from "../database/models/Room";
 import fetch from "node-fetch";
 
+import requestIP from "request-ip";
+
 export function getFilesFromDir(dir: string, folderName?: string) : Array<string> {
     const things = fs.readdirSync(dir);
     const files = [];
@@ -30,13 +32,7 @@ export function sendStatus(res: Express.Response, statusMsg: string, statusCode:
 }
 
 export function getIP(req: Express.Request) : string {
-    const forwarded = req.headers["x-forwarded-for"];
-    let ip = req.headers["x-real-ip"];
-    if (!ip && forwarded) {
-        if (Array.isArray(forwarded) && forwarded[0] != undefined) ip = forwarded[0];
-        else ip = forwarded.toString();
-    } else ip = req.connection.remoteAddress;
-    return ip as string;
+    return requestIP.getClientIp(req) || "";
 }
 
 export function sendToSocket(socket: WebSocket, event: string|number, data: any) {
