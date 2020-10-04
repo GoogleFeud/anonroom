@@ -1,10 +1,10 @@
 
 
 
-import Database from "../../database";
+import Database from "../../../database";
 import Express from "express";
-import {sendStatus, getIP} from "../../util/utils";
-import { IConfig } from "../../util/interfaces";
+import {sendStatus, getIP} from "../../../util/utils";
+import { IConfig } from "../../../util/interfaces";
 import Url from "url";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

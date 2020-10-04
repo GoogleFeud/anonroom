@@ -2,10 +2,10 @@
 
 
 
-import Database from "../../database";
+import Database from "../../../database";
 import Express from "express";
-import {sendStatus, getIP} from "../../util/utils";
-import WebSocketEvents from "../../util/websocketEvents";
+import {sendStatus, getIP} from "../../../util/utils";
+import WebSocketEvents from "../../../util/websocketEvents";
 
 export default {
     method: "post",

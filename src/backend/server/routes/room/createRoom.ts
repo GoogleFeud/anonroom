@@ -1,7 +1,7 @@
-import Database from "../../database";
+import Database from "../../../database";
 import Express from "express";
-import { IConfig, IRequestWithBody } from "../../util/interfaces";
-import {generateRoomID, sendStatus, getIP } from "../../util/utils";
+import { IConfig, IRequestWithBody } from "../../../util/interfaces";
+import {generateRoomID, sendStatus, getIP } from "../../../util/utils";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const config = require("../../../../config.json") as IConfig;

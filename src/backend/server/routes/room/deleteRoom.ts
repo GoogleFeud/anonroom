@@ -1,11 +1,11 @@
 
 
-import Database from "../../database";
+import Database from "../../../database";
 import Express from "express";
-import {sendStatus} from "../../util/utils";
+import {sendStatus} from "../../../util/utils";
 
 
-import WebSocketEvents from "../../util/websocketEvents";
+import WebSocketEvents from "../../../util/websocketEvents";
 
 export default {
     method: "delete",
